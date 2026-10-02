@@ -1,0 +1,15 @@
+/*
+ * NVN January is not available on Google Fonts. Put the font file in frontend/public/fonts/
+ * (NVNJanuary.woff2, .woff or .ttf); until then headings fall back to Paytone One.
+ */
+@font-face {
+  font-family: 'NVN January';
+  src:
+    url('/fonts/NVNJanuary.woff2') format('woff2'),
+    url('/fonts/NVNJanuary.woff') format('woff'),
+    url('/fonts/NVNJanuary.ttf') format('truetype'),
+    url('/fonts/NVNJanuary.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}

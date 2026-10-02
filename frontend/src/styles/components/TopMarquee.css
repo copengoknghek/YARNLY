@@ -1,0 +1,34 @@
+.top-marquee {
+  height: var(--marquee-height);
+  overflow: hidden;
+  background-color: var(--color-cream);
+}
+
+.top-marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  height: 100%;
+  animation: top-marquee-scroll 40s linear infinite;
+}
+
+.top-marquee__item {
+  flex-shrink: 0;
+  width: 290px;
+  font-size: var(--font-size-2xs);
+  font-style: italic;
+  text-align: center;
+  color: var(--color-maroon);
+}
+
+@keyframes top-marquee-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top-marquee__track {
+    animation: none;
+  }
+}

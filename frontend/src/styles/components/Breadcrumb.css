@@ -1,0 +1,13 @@
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-10);
+  font-size: var(--font-size-xs);
+  color: var(--color-green);
+}
+
+.breadcrumb__link:hover {
+  text-decoration: underline;
+}

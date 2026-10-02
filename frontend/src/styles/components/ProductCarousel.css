@@ -1,0 +1,132 @@
+.product-carousel {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.product-carousel__arrow {
+  display: grid;
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  color: var(--color-green);
+  border: 1.5px solid var(--color-green);
+  border-radius: var(--radius-full);
+  place-items: center;
+  transition: background-color var(--transition);
+}
+
+.product-carousel__arrow:hover:not(:disabled) {
+  background-color: rgb(255 255 255 / 50%);
+}
+
+.product-carousel__track {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-16);
+  padding: var(--space-6) var(--space-8);
+  isolation: isolate;
+}
+
+.product-carousel__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 262px;
+  padding: var(--space-5) var(--space-4) var(--space-6);
+  text-align: center;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-green);
+  border-radius: var(--radius-lg);
+  transition: top var(--transition);
+  justify-self: center;
+  top: 0;
+}
+
+/* Two tilted sheets behind each card, as in the design. */
+.product-carousel__card::before,
+.product-carousel__card::after {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  content: '';
+  background-color: var(--color-white);
+  border: 1px solid var(--color-green);
+  border-radius: var(--radius-lg);
+}
+
+.product-carousel__card::before {
+  transform: translate(-18px, 10px) rotate(-8deg);
+}
+
+.product-carousel__card::after {
+  transform: translate(10px, 8px) rotate(-4deg);
+}
+
+/* Animate `top` rather than transform: a transform would create a stacking context and pull the sheets in front. */
+.product-carousel__card:hover {
+  top: -6px;
+}
+
+.product-carousel__price {
+  width: 100%;
+  padding-bottom: var(--space-3);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  color: var(--color-maroon);
+  border-bottom: 1px solid var(--color-green);
+}
+
+.product-carousel__media {
+  display: grid;
+  width: 100%;
+  height: 210px;
+  margin: var(--space-4) 0;
+  place-items: center;
+}
+
+.product-carousel__media img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-carousel__category {
+  font-size: var(--font-size-2xs);
+  text-transform: uppercase;
+  color: var(--color-green);
+}
+
+.product-carousel__name {
+  margin-top: var(--space-1);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  color: var(--color-maroon);
+}
+
+@media (max-width: 960px) {
+  .product-carousel__track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-10);
+  }
+
+  .product-carousel__card:nth-child(3) {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-carousel {
+    gap: var(--space-2);
+  }
+
+  .product-carousel__track {
+    grid-template-columns: 1fr;
+  }
+
+  .product-carousel__card:nth-child(2) {
+    display: none;
+  }
+}

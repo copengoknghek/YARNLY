@@ -1,0 +1,19 @@
+.buyer-layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* The header floats over each page's hero or banner, so pages reserve --header-zone at the top. */
+.buyer-layout__header {
+  position: absolute;
+  top: calc(var(--marquee-height) + var(--header-offset));
+  right: 0;
+  left: 0;
+  z-index: 20;
+}
+
+.buyer-layout__main {
+  flex: 1;
+}

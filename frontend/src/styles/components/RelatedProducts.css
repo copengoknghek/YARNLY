@@ -1,0 +1,9 @@
+.related-products {
+  padding-top: var(--space-20);
+  padding-bottom: var(--space-12);
+}
+
+.related-products__title {
+  margin-bottom: var(--space-12);
+  text-align: center;
+}
