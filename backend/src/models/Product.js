@@ -1,8 +1,11 @@
 /**
  * Product: { id, name, description, price, category, images[], stock, isBestSeller, createdAt,
- *            options?: { colors[], sizes[], leadTimes[] }, details: { material, care, shipping } }
+ *            options?, details,
+ *            sellerId?, sellerName?, approvalStatus: 'pending'|'approved'|'rejected', rejectionNote? }
  */
 const CATEGORIES = ['decoration', 'fashion', 'combo', 'blindbox'];
+const APPROVAL_STATUSES = ['pending', 'approved', 'rejected'];
+const LOW_STOCK_THRESHOLD = 5;
 
 const DEFAULT_DETAILS = {
   care: 'Giặt tay nhẹ nhàng với nước lạnh, không vắt mạnh. Phơi khô ở nơi thoáng mát, tránh ánh nắng trực tiếp.',
@@ -21,6 +24,7 @@ const products = [
     stock: 25,
     isBestSeller: false,
     createdAt: '2026-06-01T00:00:00.000Z',
+    approvalStatus: 'approved',
     details: { material: 'Sợi Milk Cotton, bông gòn kháng khuẩn, khoen móc kim loại.', ...DEFAULT_DETAILS },
   },
   {
@@ -34,6 +38,7 @@ const products = [
     stock: 12,
     isBestSeller: false,
     createdAt: '2026-06-05T00:00:00.000Z',
+    approvalStatus: 'approved',
     details: { material: 'Sợi Milk Cotton, giấy kraft, hộp carton cứng.', ...DEFAULT_DETAILS },
   },
   {
@@ -53,6 +58,7 @@ const products = [
     stock: 8,
     isBestSeller: true,
     createdAt: '2026-06-10T00:00:00.000Z',
+    approvalStatus: 'approved',
     options: {
       colors: ['Cam', 'Đỏ', 'Xanh', 'Hồng'],
       sizes: ['Size S', 'Size M', 'Size L', 'Size XL'],
@@ -70,6 +76,7 @@ const products = [
     stock: 30,
     isBestSeller: false,
     createdAt: '2026-06-12T00:00:00.000Z',
+    approvalStatus: 'approved',
     details: { material: 'Sợi Milk Cotton, bông gòn, hộp giấy in họa tiết.', ...DEFAULT_DETAILS },
   },
   {
@@ -82,6 +89,7 @@ const products = [
     stock: 15,
     isBestSeller: true,
     createdAt: '2026-06-15T00:00:00.000Z',
+    approvalStatus: 'approved',
     details: { material: 'Sợi Milk Cotton, khung thép bọc len, giỏ mây.', ...DEFAULT_DETAILS },
   },
   {
@@ -94,6 +102,7 @@ const products = [
     stock: 0,
     isBestSeller: true,
     createdAt: '2026-06-18T00:00:00.000Z',
+    approvalStatus: 'approved',
     details: { material: 'Sợi Milk Cotton, khung thép bọc len, giấy gói hoa.', ...DEFAULT_DETAILS },
   },
   {
@@ -106,6 +115,7 @@ const products = [
     stock: 50,
     isBestSeller: false,
     createdAt: '2026-06-20T00:00:00.000Z',
+    approvalStatus: 'approved',
     details: { material: 'Sợi Milk Cotton, bông gòn, hộp giấy in họa tiết.', ...DEFAULT_DETAILS },
   },
   {
@@ -118,6 +128,7 @@ const products = [
     stock: 40,
     isBestSeller: false,
     createdAt: '2026-06-20T00:00:00.000Z',
+    approvalStatus: 'approved',
     details: { material: 'Sợi Milk Cotton, bông gòn, hộp giấy in họa tiết.', ...DEFAULT_DETAILS },
   },
   {
@@ -130,6 +141,7 @@ const products = [
     stock: 20,
     isBestSeller: false,
     createdAt: '2026-06-20T00:00:00.000Z',
+    approvalStatus: 'approved',
     details: { material: 'Sợi Milk Cotton cao cấp, bông gòn, hộp quà cứng có nam châm.', ...DEFAULT_DETAILS },
   },
 ];
@@ -141,18 +153,107 @@ const SORTERS = {
   name: (a, b) => a.name.localeCompare(b.name, 'vi'),
 };
 
-const findAll = async ({ category, search, status, bestSeller, sort } = {}) => {
+const isApproved = (product) => product.approvalStatus === 'approved';
+
+const findAll = async ({ category, search, status, bestSeller, sort, sellerId, approvalStatus } = {}) => {
   const keyword = search?.trim().toLowerCase();
   const result = products.filter(
     (product) =>
       (!category || product.category === category) &&
       (!keyword || product.name.toLowerCase().includes(keyword)) &&
       (!status || (status === 'in-stock' ? product.stock > 0 : product.stock === 0)) &&
-      (!bestSeller || product.isBestSeller),
+      (!bestSeller || product.isBestSeller) &&
+      (!sellerId || product.sellerId === sellerId) &&
+      (!approvalStatus || product.approvalStatus === approvalStatus),
   );
   return sort && SORTERS[sort] ? [...result].sort(SORTERS[sort]) : result;
 };
 
 const findById = async (id) => products.find((product) => product.id === id) ?? null;
 
-module.exports = { CATEGORIES, SORT_OPTIONS: Object.keys(SORTERS), findAll, findById };
+const create = async (data) => {
+  const { generateId } = require('../utils/helpers');
+  const product = {
+    id: `sp-${generateId()}`,
+    isBestSeller: false,
+    createdAt: new Date().toISOString(),
+    approvalStatus: 'pending',
+    details: {
+      material: 'Sợi Milk Cotton',
+      ...DEFAULT_DETAILS,
+    },
+    ...data,
+  };
+  products.unshift(product);
+  return product;
+};
+
+const update = async (id, sellerId, patch) => {
+  const index = products.findIndex((product) => product.id === id && product.sellerId === sellerId);
+  if (index < 0) return null;
+  products[index] = {
+    ...products[index],
+    ...patch,
+    approvalStatus: 'pending',
+    rejectionNote: undefined,
+  };
+  return products[index];
+};
+
+const updateStock = async (id, sellerId, stock) => {
+  const index = products.findIndex((product) => product.id === id && product.sellerId === sellerId);
+  if (index < 0) return null;
+  products[index] = { ...products[index], stock };
+  return products[index];
+};
+
+const approve = async (id) => {
+  const index = products.findIndex((product) => product.id === id);
+  if (index < 0) return null;
+  products[index] = {
+    ...products[index],
+    approvalStatus: 'approved',
+    rejectionNote: undefined,
+  };
+  return products[index];
+};
+
+const reject = async (id, note) => {
+  const index = products.findIndex((product) => product.id === id);
+  if (index < 0) return null;
+  products[index] = {
+    ...products[index],
+    approvalStatus: 'rejected',
+    rejectionNote: note?.trim() || 'Sản phẩm chưa đạt yêu cầu.',
+  };
+  return products[index];
+};
+
+const countBySeller = async (sellerId) => {
+  const sellerProducts = products.filter((product) => product.sellerId === sellerId);
+  return {
+    pending: sellerProducts.filter((product) => product.approvalStatus === 'pending').length,
+    approved: sellerProducts.filter((product) => product.approvalStatus === 'approved').length,
+    rejected: sellerProducts.filter((product) => product.approvalStatus === 'rejected').length,
+    lowStock: sellerProducts.filter(
+      (product) => product.stock > 0 && product.stock <= LOW_STOCK_THRESHOLD,
+    ).length,
+  };
+};
+
+module.exports = {
+  CATEGORIES,
+  APPROVAL_STATUSES,
+  LOW_STOCK_THRESHOLD,
+  SORT_OPTIONS: Object.keys(SORTERS),
+  products,
+  isApproved,
+  findAll,
+  findById,
+  create,
+  update,
+  updateStock,
+  approve,
+  reject,
+  countBySeller,
+};

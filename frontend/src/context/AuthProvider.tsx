@@ -29,6 +29,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isAuthenticated: user !== null,
       login: async (payload) => saveSession(await authService.login(payload)),
       register: async (payload) => saveSession(await authService.register(payload)),
+      loginSeller: async (payload) => saveSession(await authService.login(payload)),
+      registerSeller: async (payload) => saveSession(await authService.registerSeller(payload)),
+      loginStaff: async (payload) => saveSession(await authService.login(payload)),
       logout: async () => {
         try {
           await authService.logout()

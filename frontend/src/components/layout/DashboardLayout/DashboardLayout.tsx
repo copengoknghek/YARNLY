@@ -28,7 +28,7 @@ function DashboardLayout({ title, navItems }: DashboardLayoutProps) {
             <NavLink
               key={item.to}
               to={item.to}
-              end
+              end={item.to === ROUTES.SELLER || item.to === ROUTES.ADMIN}
               className={({ isActive }) =>
                 `dashboard__link ${isActive ? 'dashboard__link--active' : ''}`
               }

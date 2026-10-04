@@ -3,10 +3,9 @@ const { generateId } = require('../utils/helpers');
 /**
  * Order: {
  *   id, code: 'Y1', status: 'placed' | 'crafting' | 'shipping' | 'delivered' | 'cancelled',
- *   items: [{ product, quantity, unitPrice, selectedOptions?, customDesign? }],
- *   shipping: { email, fullName, phone, address, province, district, ward },
- *   note, paymentMethod: 'momo' | 'zalopay' | 'cod',
- *   subtotal, shippingFee, total, estimatedDelivery, trackingCode, createdAt
+ *   buyerId?,
+ *   items: [{ product: { id, name, price, category, images, sellerId?, sellerName? }, quantity, unitPrice, ... }],
+ *   shipping, note, paymentMethod, subtotal, shippingFee, total, estimatedDelivery, trackingCode, createdAt
  * }
  */
 const ORDER_STATUSES = ['placed', 'crafting', 'shipping', 'delivered', 'cancelled'];
@@ -17,7 +16,7 @@ const orders = [];
 const create = async (data) => {
   const order = {
     id: generateId(),
-    code: `Y${orders.length + 1}`,
+    code: `Y${orders.length + 1001}`,
     status: 'placed',
     trackingCode: null,
     createdAt: new Date().toISOString(),
@@ -28,6 +27,18 @@ const create = async (data) => {
 };
 
 const findById = async (id) => orders.find((order) => order.id === id) ?? null;
+
+const findAll = async () => [...orders].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+
+const findByBuyerId = async (buyerId) =>
+  orders
+    .filter((order) => order.buyerId === buyerId)
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+
+const findBySellerId = async (sellerId) =>
+  orders
+    .filter((order) => order.items.some((item) => item.product.sellerId === sellerId))
+    .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
 const normalizePhone = (phone) => phone.replace(/\D/g, '').replace(/^84/, '0');
 
@@ -40,4 +51,14 @@ const findByContact = async ({ phone, email }) =>
     )
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
 
-module.exports = { ORDER_STATUSES, PAYMENT_METHODS, create, findById, findByContact };
+module.exports = {
+  ORDER_STATUSES,
+  PAYMENT_METHODS,
+  orders,
+  create,
+  findById,
+  findAll,
+  findByBuyerId,
+  findBySellerId,
+  findByContact,
+};

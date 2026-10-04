@@ -4,7 +4,7 @@ const { AppError } = require('../utils/helpers');
 const DEFAULT_PAGE_SIZE = 12;
 
 const listProducts = async ({ page = 1, pageSize = DEFAULT_PAGE_SIZE, ...filters } = {}) => {
-  const all = await Product.findAll(filters);
+  const all = await Product.findAll({ ...filters, approvalStatus: 'approved' });
   const totalPages = Math.max(1, Math.ceil(all.length / pageSize));
   const start = (page - 1) * pageSize;
   return {
@@ -18,7 +18,7 @@ const listProducts = async ({ page = 1, pageSize = DEFAULT_PAGE_SIZE, ...filters
 
 const getProductById = async (id) => {
   const product = await Product.findById(id);
-  if (!product) {
+  if (!product || !Product.isApproved(product)) {
     throw new AppError(404, 'Không tìm thấy sản phẩm');
   }
   return product;

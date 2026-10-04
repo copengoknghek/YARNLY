@@ -13,11 +13,19 @@ before(async () => {
 
 after(() => server.close());
 
-const post = (path, body) =>
+const post = (path, body, token) =>
   fetch(`${baseUrl}${path}`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
     body: JSON.stringify(body),
+  });
+
+const get = (path, token) =>
+  fetch(`${baseUrl}${path}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
 
 describe('Auth API', () => {
@@ -36,13 +44,44 @@ describe('Auth API', () => {
     );
   });
 
-  it('POST /auth/login reports the feature as not implemented yet', async () => {
-    const res = await post('/auth/login', { email: 'a@yarnly.vn', password: 'secret1' });
-    assert.equal(res.status, 501);
+  it('POST /auth/login works for seeded admin', async () => {
+    const res = await post('/auth/login', { email: 'staff@yarnly.vn', password: 'yarnly-staff' });
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.equal(body.data.user.role, 'admin');
+    assert.ok(body.data.token);
+  });
+
+  it('POST /auth/login works for seeded seller', async () => {
+    const res = await post('/auth/login', { email: 'seller@yarnly.vn', password: 'yarnly-seller' });
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.equal(body.data.user.userType, 'seller');
+  });
+
+  it('POST /auth/register creates buyer account', async () => {
+    const res = await post('/auth/register', {
+      name: 'Buyer Test',
+      phone: '0909999888',
+      email: 'buyer-test@yarnly.vn',
+      password: 'secret12',
+    });
+    const body = await res.json();
+    assert.equal(res.status, 201);
+    assert.equal(body.data.user.userType, 'buyer');
   });
 
   it('protected routes require a Bearer token', async () => {
-    const res = await fetch(`${baseUrl}/users/me`);
+    const res = await get('/users/me');
     assert.equal(res.status, 401);
+  });
+
+  it('GET /users/me returns profile for authenticated user', async () => {
+    const loginRes = await post('/auth/login', { email: 'seller@yarnly.vn', password: 'yarnly-seller' });
+    const { token } = (await loginRes.json()).data;
+    const res = await get('/users/me', token);
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.equal(body.data.email, 'seller@yarnly.vn');
   });
 });

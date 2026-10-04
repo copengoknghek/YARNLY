@@ -2,7 +2,15 @@ const orderService = require('../services/orderService');
 
 const createOrder = async (req, res) => {
   const { items, shipping, note, paymentMethod } = req.body;
-  res.status(201).json({ data: await orderService.createOrder({ items, shipping, note, paymentMethod }) });
+  res.status(201).json({
+    data: await orderService.createOrder({
+      items,
+      shipping,
+      note,
+      paymentMethod,
+      buyerId: req.user?.id,
+    }),
+  });
 };
 
 const getOrder = async (req, res) => {
@@ -15,7 +23,7 @@ const lookupOrders = async (req, res) => {
 };
 
 const listMyOrders = async (req, res) => {
-  res.json({ data: await orderService.listUserOrders(req.token) });
+  res.json({ data: await orderService.listUserOrders(req.user.id) });
 };
 
 module.exports = { createOrder, getOrder, lookupOrders, listMyOrders };

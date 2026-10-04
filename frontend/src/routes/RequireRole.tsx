@@ -15,7 +15,13 @@ function RequireRole({ allow, children }: RequireRoleProps) {
   const location = useLocation()
 
   if (!user) {
-    return <Navigate to={ROUTES.LOGIN} replace state={{ from: location.pathname }} />
+    const asParam = allow.includes('seller')
+      ? 'seller'
+      : allow.includes('admin')
+        ? 'staff'
+        : undefined
+    const loginPath = asParam ? `${ROUTES.LOGIN}?as=${asParam}` : ROUTES.LOGIN
+    return <Navigate to={loginPath} replace state={{ from: location.pathname }} />
   }
   if (!allow.includes(getAccessRole(user))) {
     return <Navigate to={ROUTES.HOME} replace />

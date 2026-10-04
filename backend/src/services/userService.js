@@ -1,13 +1,21 @@
-const { notImplemented } = require('../utils/helpers');
+const User = require('../models/User');
+const { AppError } = require('../utils/helpers');
+const { toPublicUser } = require('../utils/user');
 
-const FEATURE = 'hồ sơ người dùng';
-
-const getProfile = async () => {
-  throw notImplemented(FEATURE);
+const getProfile = async (userId) => {
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new AppError(404, 'Không tìm thấy người dùng');
+  }
+  return toPublicUser(user);
 };
 
-const updateProfile = async () => {
-  throw notImplemented(FEATURE);
+const updateProfile = async (userId, { name }) => {
+  const user = await User.update(userId, { name: name?.trim() });
+  if (!user) {
+    throw new AppError(404, 'Không tìm thấy người dùng');
+  }
+  return toPublicUser(user);
 };
 
 module.exports = { getProfile, updateProfile };

@@ -3,7 +3,9 @@ import AdminLayout from '@/components/layout/AdminLayout'
 import BuyerLayout from '@/components/layout/BuyerLayout'
 import SellerLayout from '@/components/layout/SellerLayout'
 import { ROUTES } from '@/constants/routes'
+import AdminApprovals from '@/pages/admin/Approvals'
 import AdminDashboard from '@/pages/admin/Dashboard'
+import AdminOrders from '@/pages/admin/Orders'
 import { Login, Register } from '@/pages/buyer/Auth'
 import BlindBox from '@/pages/buyer/BlindBox'
 import Cart from '@/pages/buyer/Cart'
@@ -16,6 +18,9 @@ import OrderSuccess from '@/pages/buyer/OrderSuccess'
 import ProductDetail from '@/pages/buyer/ProductDetail'
 import Products from '@/pages/buyer/Products'
 import SellerDashboard from '@/pages/seller/Dashboard'
+import SellerInventory from '@/pages/seller/Inventory'
+import { EditProduct, NewProduct } from '@/pages/seller/ProductForm'
+import SellerProducts from '@/pages/seller/Products'
 import RequireRole from './RequireRole'
 
 function AppRoutes() {
@@ -39,12 +44,18 @@ function AppRoutes() {
       <Route element={<RequireRole allow={['seller']} />}>
         <Route path={ROUTES.SELLER} element={<SellerLayout />}>
           <Route index element={<SellerDashboard />} />
+          <Route path="products" element={<SellerProducts />} />
+          <Route path="products/new" element={<NewProduct />} />
+          <Route path="products/:id/edit" element={<EditProduct />} />
+          <Route path="inventory" element={<SellerInventory />} />
         </Route>
       </Route>
 
       <Route element={<RequireRole allow={['admin']} />}>
         <Route path={ROUTES.ADMIN} element={<AdminLayout />}>
           <Route index element={<AdminDashboard />} />
+          <Route path="approvals" element={<AdminApprovals />} />
+          <Route path="orders" element={<AdminOrders />} />
         </Route>
       </Route>
     </Routes>

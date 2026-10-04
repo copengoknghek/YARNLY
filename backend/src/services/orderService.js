@@ -2,9 +2,8 @@ const CustomDesign = require('../models/CustomDesign');
 const Order = require('../models/Order');
 const Product = require('../models/Product');
 const customDesignService = require('./customDesignService');
-const { AppError, notImplemented } = require('../utils/helpers');
+const { AppError } = require('../utils/helpers');
 
-// Keep in sync with frontend/src/utils/shipping.ts
 const LOCAL_PROVINCE = 'Đà Nẵng';
 const LOCAL_SHIPPING_FEE = 12000;
 const DEFAULT_SHIPPING_FEE = 30000;
@@ -40,14 +39,17 @@ const buildItem = async ({ productId, quantity, selectedOptions, customDesign })
   if (!product) {
     throw new AppError(400, `Sản phẩm ${productId} không tồn tại`);
   }
+  if (!Product.isApproved(product)) {
+    throw new AppError(400, `Sản phẩm "${product.name}" chưa được duyệt`);
+  }
   if (quantity > product.stock) {
     throw new AppError(400, `Sản phẩm "${product.name}" không đủ hàng`);
   }
   validateOptions(product, selectedOptions);
 
-  const { id, name, price, category, images } = product;
+  const { id, name, price, category, images, sellerId, sellerName } = product;
   return {
-    product: { id, name, price, category, images },
+    product: { id, name, price, category, images, sellerId, sellerName },
     quantity,
     unitPrice: price,
     selectedOptions,
@@ -55,7 +57,7 @@ const buildItem = async ({ productId, quantity, selectedOptions, customDesign })
   };
 };
 
-const createOrder = async ({ items, shipping, note, paymentMethod }) => {
+const createOrder = async ({ items, shipping, note, paymentMethod, buyerId }) => {
   const builtItems = await Promise.all(items.map(buildItem));
 
   const subtotal = builtItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
@@ -64,6 +66,7 @@ const createOrder = async ({ items, shipping, note, paymentMethod }) => {
   const estimatedDelivery = new Date(Date.now() + leadWeeks * 7 * 24 * 60 * 60 * 1000).toISOString();
 
   return Order.create({
+    buyerId: buyerId ?? null,
     items: builtItems.map(({ leadWeeks: _leadWeeks, ...item }) => item),
     shipping,
     note: note ?? '',
@@ -85,8 +88,15 @@ const getOrderById = async (id) => {
 
 const lookupOrders = ({ phone, email }) => Order.findByContact({ phone, email });
 
-const listUserOrders = async () => {
-  throw notImplemented('lịch sử đơn hàng');
-};
+const listUserOrders = async (buyerId) => Order.findByBuyerId(buyerId);
 
-module.exports = { calculateShippingFee, createOrder, getOrderById, lookupOrders, listUserOrders };
+const listSellerOrders = async (sellerId) => Order.findBySellerId(sellerId);
+
+module.exports = {
+  calculateShippingFee,
+  createOrder,
+  getOrderById,
+  lookupOrders,
+  listUserOrders,
+  listSellerOrders,
+};
