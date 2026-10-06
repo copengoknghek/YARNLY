@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/common/Icon'
 import '@/styles/components/QuantityInput.css'
 
@@ -8,17 +9,28 @@ interface QuantityInputProps {
   max?: number
   size?: 'md' | 'lg'
   label?: string
+  labelKey?: string
 }
 
-function QuantityInput({ value, onChange, min = 1, max = 99, size = 'md', label = 'Số lượng' }: QuantityInputProps) {
+function QuantityInput({
+  value,
+  onChange,
+  min = 1,
+  max = 99,
+  size = 'md',
+  label,
+  labelKey,
+}: QuantityInputProps) {
+  const { t } = useTranslation()
+  const displayLabel = labelKey ? t(labelKey) : (label ?? t('common.quantity'))
   const clamp = (next: number) => Math.min(max, Math.max(min, next))
 
   return (
-    <div className={`quantity-input quantity-input--${size}`} role="group" aria-label={label}>
+    <div className={`quantity-input quantity-input--${size}`} role="group" aria-label={displayLabel}>
       <button
         type="button"
         className="quantity-input__button"
-        aria-label="Giảm số lượng"
+        aria-label={t('common.quantityDecrease')}
         disabled={value <= min}
         onClick={() => onChange(clamp(value - 1))}
       >
@@ -28,7 +40,7 @@ function QuantityInput({ value, onChange, min = 1, max = 99, size = 'md', label 
         className="quantity-input__value"
         type="number"
         inputMode="numeric"
-        aria-label={label}
+        aria-label={displayLabel}
         value={value}
         min={min}
         max={max}
@@ -40,7 +52,7 @@ function QuantityInput({ value, onChange, min = 1, max = 99, size = 'md', label 
       <button
         type="button"
         className="quantity-input__button"
-        aria-label="Tăng số lượng"
+        aria-label={t('common.quantityIncrease')}
         disabled={value >= max}
         onClick={() => onChange(clamp(value + 1))}
       >

@@ -1,0 +1,466 @@
+{
+  "common": {
+    "brandHome": "Yarnly - Trang chủ",
+    "loadingEllipsis": "Đang tải...",
+    "quantity": "Số lượng",
+    "viewCart": "Xem giỏ hàng",
+    "continueShopping": "Tiếp tục mua sắm",
+    "backToCart": "Quay về giỏ hàng",
+    "fullName": "Họ và tên",
+    "phone": "Số điện thoại",
+    "email": "Email",
+    "cancel": "Hủy",
+    "saving": "Đang lưu...",
+    "saveChanges": "Lưu thay đổi",
+    "country": "Việt Nam",
+    "close": "Đóng",
+    "quantityDecrease": "Giảm số lượng",
+    "quantityIncrease": "Tăng số lượng",
+    "pagination": {
+      "nav": "Phân trang",
+      "nextPage": "Trang tiếp"
+    },
+    "breadcrumb": {
+      "home": "Trang chủ",
+      "products": "Sản phẩm",
+      "cart": "Giỏ hàng",
+      "checkout": "Thanh toán"
+    },
+    "validation": {
+      "emailInvalid": "Email không hợp lệ",
+      "fullNameRequired": "Vui lòng nhập họ tên",
+      "phoneInvalid": "Số điện thoại không hợp lệ",
+      "addressRequired": "Vui lòng nhập địa chỉ",
+      "provinceRequired": "Vui lòng chọn tỉnh thành",
+      "districtRequired": "Vui lòng chọn quận huyện",
+      "wardRequired": "Vui lòng chọn phường xã"
+    }
+  },
+  "nav": {
+    "products": "Sản phẩm",
+    "customDesign": "Thiết kế riêng",
+    "blindBox": "Blind box",
+    "orderLookup": "Tra cứu đơn hàng"
+  },
+  "header": {
+    "menuOpen": "Mở menu điều hướng",
+    "navMain": "Điều hướng chính",
+    "sellerPortal": "Cổng người bán",
+    "adminPortal": "Cổng quản trị",
+    "search": "Tìm kiếm",
+    "account": "Tài khoản",
+    "accountProfile": "Hồ sơ của tôi",
+    "logout": "Đăng xuất",
+    "login": "Đăng nhập",
+    "cart": "Giỏ hàng ({{count}} sản phẩm)"
+  },
+  "footer": {
+    "brandHome": "Yarnly - Trang chủ",
+    "tagline": "Vẻ đẹp từ đôi bàn tay, mang hơi ấm đến từng ngôi nhà.",
+    "exploreHeading": "Khám phá",
+    "contactHeading": "Liên hệ",
+    "supportHeading": "Hỗ trợ khách hàng",
+    "copyright": "© {{year}} Yarnly Handmade with love.",
+    "contact": {
+      "email": "Email: hello@yarnly.vn",
+      "hotline": "Hotline: 1900 1234",
+      "address": "Địa chỉ: TP. Đà Nẵng"
+    },
+    "support": {
+      "payment": "Chính sách thanh toán",
+      "return": "Chính sách đổi trả",
+      "privacy": "Chính sách bảo mật",
+      "shipping": "Chính sách vận chuyển"
+    }
+  },
+  "topMarquee": {
+    "message": "Chào mừng bạn tới Yarnly"
+  },
+  "searchBar": {
+    "label": "Tìm kiếm sản phẩm",
+    "placeholder": "Tìm kiếm sản phẩm",
+    "submit": "Tìm kiếm",
+    "close": "Đóng tìm kiếm"
+  },
+  "languageSwitcher": {
+    "label": "Ngôn ngữ"
+  },
+  "language": {
+    "vi": "Tiếng Việt (VN)",
+    "en": "English (USA)",
+    "zh": "Chinese (CN)"
+  },
+  "home": {
+    "heroTitle": "Yarnly - Đồ len handmade",
+    "productsEyebrow": "Gian hàng Yarnly",
+    "productsTitle": "Sản phẩm handmade",
+    "productsCountUnit": "sản phẩm",
+    "viewAllProducts": "Xem tất cả sản phẩm",
+    "bestSellersEyebrow": "Được khách hàng yêu thích",
+    "bestSellersTitle": "Hàng bán chạy",
+    "faqEyebrow": "Hỏi đáp và thắc mắc",
+    "faqTitle": "Một số câu hỏi thường gặp"
+  },
+  "products": {
+    "pageTitle": "Sản phẩm",
+    "searchResults": "Kết quả tìm kiếm cho “{{query}}”",
+    "clearSearch": "Xóa tìm kiếm",
+    "relatedTitle": "Có thể bạn cũng thích",
+    "empty": "Không tìm thấy sản phẩm nào.",
+    "categoryTabsLabel": "Danh mục sản phẩm",
+    "carouselPrev": "Sản phẩm trước",
+    "carouselNext": "Sản phẩm tiếp theo",
+    "sortBar": {
+      "sortBy": "Sắp xếp theo",
+      "status": "Tình trạng",
+      "price": "Giá cả",
+      "category": "Phân loại",
+      "prevPage": "Trang trước",
+      "nextPage": "Trang sau"
+    },
+    "card": {
+      "outOfStock": "Hết hàng",
+      "seller": "Người bán: {{name}}",
+      "viewDetail": "Xem chi tiết"
+    }
+  },
+  "productDetail": {
+    "rating": "Đánh giá {{rating}} trên 5",
+    "seller": "Người bán: {{name}}",
+    "options": {
+      "color": "Màu sắc",
+      "size": "Kích thước",
+      "leadTime": "Thời gian làm"
+    },
+    "outOfStock": "Sản phẩm đã hết hàng",
+    "addToCart": "Thêm vào giỏ",
+    "buyNow": "Mua ngay",
+    "addedToCart": "Đã thêm vào giỏ hàng.",
+    "tabs": {
+      "material": "Chất liệu",
+      "care": "Cách bảo quản",
+      "shipping": "Vận chuyển"
+    },
+    "galleryThumbsLabel": "Ảnh sản phẩm",
+    "galleryViewImage": "Xem ảnh {{index}}",
+    "optionPrev": "{{label}} trước",
+    "optionNext": "{{label}} sau"
+  },
+  "categories": {
+    "all": "Tất cả",
+    "decoration": "Trang trí & lưu niệm",
+    "fashion": "Phụ kiện & thời trang",
+    "combo": "Combo quà tặng",
+    "blindbox": "Blind box",
+    "custom": "Thiết kế riêng"
+  },
+  "filters": {
+    "all": "Tất cả",
+    "inStock": "Còn hàng",
+    "outOfStock": "Hết hàng",
+    "default": "Mặc định",
+    "priceAsc": "Giá thấp đến cao",
+    "priceDesc": "Giá cao đến thấp",
+    "newest": "Mới nhất"
+  },
+  "cart": {
+    "pageTitle": "Giỏ hàng của bạn",
+    "empty": "Giỏ hàng của bạn đang trống.",
+    "productsColumn": "Sản phẩm",
+    "quantityColumn": "Số lượng",
+    "priceColumn": "Đơn giá",
+    "itemsLabel": "Sản phẩm trong giỏ",
+    "itemQuantity": "Số lượng {{name}}",
+    "removeItem": "Xóa {{name}} khỏi giỏ hàng",
+    "summary": {
+      "subtotal": "Tạm tính",
+      "total": "Tổng",
+      "hint": "Các đơn hàng quốc tế có thể phải chịu thêm thuế hải quan và các loại thuế khác không được bao gồm khi thanh toán.",
+      "noteLabel": "Ghi chú đơn hàng",
+      "checkout": "Thanh toán",
+      "terms": "Bằng cách đặt hàng, bạn đồng ý với",
+      "termsLink": "Điều khoản & Điều kiện",
+      "returnLink": "Chính sách Trả hàng & Đổi hàng",
+      "and": "và",
+      "privacyLink": "Chính sách Bảo mật",
+      "termsSuffix": "của Yarnly.",
+      "pointsNotice": "Điểm thành viên sẽ được cộng vào tài khoản trong vòng 7 ngày làm việc sau khi thanh toán hoàn tất thành công.",
+      "phoneNotice": "Để tích lũy điểm thành viên, khách hàng phải cung cấp số điện thoại khi đặt hàng."
+    }
+  },
+  "checkout": {
+    "pageTitle": "Thanh toán",
+    "empty": "Giỏ hàng trống, không thể thanh toán.",
+    "shippingTitle": "Vận chuyển",
+    "shippingEnterAddress": "Nhập tỉnh thành để xem phí vận chuyển.",
+    "shippingLoadingQuotes": "Đang tải phí vận chuyển...",
+    "shippingNoCarriers": "Không có đơn vị vận chuyển khả dụng cho khu vực này.",
+    "shippingSelectCarrier": "Chọn đơn vị vận chuyển",
+    "shippingCarrierEta": "{{description}} · {{min}}–{{max}} ngày",
+    "validationPaymentRequired": "Vui lòng chọn phương thức thanh toán",
+    "validationCarrierRequired": "Vui lòng chọn đơn vị vận chuyển",
+    "orderSummaryTitle": "Đơn hàng ({{count}} sản phẩm)",
+    "submitting": "Đang đặt hàng...",
+    "submit": "Đặt hàng",
+    "formTitle": "Thông tin mua hàng",
+    "address": "Địa chỉ chi tiết",
+    "province": "Tỉnh thành",
+    "district": "Quận huyện",
+    "ward": "Phường xã",
+    "notePlaceholder": "Ghi chú (không bắt buộc)",
+    "noteLabel": "Ghi chú"
+  },
+  "payment": {
+    "title": "Phương thức thanh toán",
+    "momo": {
+      "label": "Thanh toán qua MoMo QR đa năng",
+      "shortLabel": "Ví MoMo"
+    },
+    "zalopay": {
+      "label": "Thanh toán qua ZaloPay",
+      "shortLabel": "ZaloPay"
+    },
+    "cod": {
+      "label": "Thu hộ (COD)",
+      "shortLabel": "Thanh toán khi nhận hàng"
+    }
+  },
+  "order": {
+    "subtotal": "Tạm tính",
+    "shipping": "Phí vận chuyển",
+    "shippingPending": "--------",
+    "total": "Tổng cộng",
+    "quantity": "Số lượng {{count}}",
+    "cancelled": "Đơn hàng đã bị hủy.",
+    "timelineState": {
+      "done": "Hoàn thành",
+      "current": "Đang làm",
+      "pending": "Chờ xử lí"
+    },
+    "steps": {
+      "placed": "Đã đặt hàng",
+      "crafting": "Đan móc",
+      "shipping": "Đang giao hàng",
+      "delivered": "Đã giao hàng"
+    },
+    "status": {
+      "placed": "Đã đặt hàng",
+      "crafting": "Đang đan móc",
+      "shipping": "Đang giao hàng",
+      "delivered": "Đã giao hàng",
+      "cancelled": "Đã hủy"
+    },
+    "coupon": {
+      "label": "Mã giảm giá",
+      "placeholder": "Mã giảm giá",
+      "apply": "Áp dụng",
+      "invalid": "Mã giảm giá không hợp lệ hoặc đã hết hạn."
+    }
+  },
+  "orderSuccess": {
+    "pageTitle": "Đặt hàng thành công",
+    "subtitle": "Cảm ơn bạn đã mua sắm tại Yarnly",
+    "breadcrumbConfirmed": "Xác nhận",
+    "emailNotice": "Email xác nhận đã được gửi tới {{email}}.",
+    "errorLookupHint": "Bạn có thể",
+    "errorLookupLink": "tra cứu đơn hàng",
+    "errorLookupSuffix": "bằng số điện thoại hoặc email.",
+    "statusTitle": "Trạng thái đơn hàng",
+    "statusEta": "Dự kiến giao trong {{weeks}} tuần (trước {{date}}).",
+    "shippingTitle": "Địa chỉ giao hàng",
+    "changeAddress": "Thay đổi",
+    "changeAddressNotice": "Vui lòng liên hệ hello@yarnly.vn để thay đổi địa chỉ giao hàng.",
+    "paymentTitle": "Thanh toán",
+    "paymentCod": "Thanh toán khi nhận hàng",
+    "paymentPending": "Chờ thanh toán",
+    "paymentPayNow": "Thanh toán ngay",
+    "paymentGatewayNotice": "Cổng thanh toán trực tuyến sẽ sớm được hỗ trợ.",
+    "summaryTitle": "Đơn hàng {{code}} ({{count}} sản phẩm)",
+    "copyCode": "Sao chép mã đơn",
+    "codeCopied": "Đã sao chép mã {{code}}.",
+    "codeFallback": "Mã đơn: {{code}}"
+  },
+  "orderLookup": {
+    "pageTitle": "Tra cứu đơn hàng",
+    "title": "Kiểm tra đơn hàng của bạn",
+    "methodsLegend": "Phương thức kiểm tra",
+    "methodPhone": "Số điện thoại",
+    "methodEmail": "Email",
+    "phonePlaceholder": "xxxx xxx xxx",
+    "emailPlaceholder": "email@vidu.com",
+    "hint": "Để kiểm tra đơn hàng quý khách vui lòng nhập đúng số điện thoại/email đặt hàng vào ô trên!",
+    "submit": "Kiểm tra",
+    "placeholder": "Nhập thông tin bên cạnh để xem đơn hàng của bạn.",
+    "notFound": "Không tìm thấy đơn hàng nào với thông tin này.",
+    "orderTitle": "Đơn hàng {{code}}",
+    "trackingPending": "Đang chuẩn bị",
+    "trackingLabel": "Mã vận đơn:",
+    "viewDetail": "Xem chi tiết đơn hàng"
+  },
+  "account": {
+    "pageTitle": "Tài khoản",
+    "profileEditTitle": "Chỉnh sửa hồ sơ",
+    "memberSince": "Thành viên từ {{date}}",
+    "phoneNotSet": "Chưa cập nhật",
+    "profileSaved": "Đã lưu hồ sơ.",
+    "profileEditButton": "Chỉnh sửa hồ sơ",
+    "ordersTitle": "Đơn hàng của bạn",
+    "ordersEmpty": "Bạn chưa có đơn hàng nào.",
+    "shopNow": "Mua sắm ngay",
+    "orderTitle": "Đơn {{code}}",
+    "orderMeta": "{{date}} · {{count}} sản phẩm",
+    "orderDetail": "Chi tiết"
+  },
+  "auth": {
+    "audienceLabel": "Loại tài khoản",
+    "audienceBuyer": "Người mua",
+    "audienceSeller": "Người bán",
+    "audienceStaff": "Nhân viên",
+    "tabsLabel": "Đăng nhập hoặc đăng ký",
+    "loginTab": "Đăng nhập",
+    "registerTab": "Đăng ký",
+    "staffTitle": "Đăng nhập nhân viên",
+    "staffHint": "Tài khoản mẫu: {{email}} / {{password}}",
+    "sellerHint": "Người bán mẫu: {{email}} / {{password}}",
+    "loginHeading": "Đăng nhập",
+    "registerHeading": "Đăng ký tài khoản",
+    "nameLabel": "Họ và tên *",
+    "phoneLabel": "Số điện thoại *",
+    "emailLabel": "Email *",
+    "passwordLabel": "Mật khẩu *",
+    "forgotPassword": "Quên mật khẩu?",
+    "forgotNotice": "Vui lòng liên hệ hello@yarnly.vn để được hỗ trợ đặt lại mật khẩu.",
+    "submitting": "Đang xử lý...",
+    "loginSubmit": "Đăng nhập",
+    "registerSubmit": "Đăng ký",
+    "createAccount": "Tạo tài khoản",
+    "hasAccount": "Đã có tài khoản? Đăng nhập",
+    "backToShop": "Trở về cửa hàng",
+    "socialDivider": "Hoặc tiếp tục với",
+    "socialSoon": "Đăng nhập bằng {{provider}} sẽ sớm được hỗ trợ.",
+    "validation": {
+      "nameRequired": "Vui lòng nhập họ tên",
+      "passwordRequired": "Vui lòng nhập mật khẩu",
+      "passwordMin": "Mật khẩu tối thiểu 6 ký tự"
+    }
+  },
+  "blindBox": {
+    "pageTitle": "Blind box",
+    "howEyebrow": "Cách hoạt động",
+    "howTitle": "Mỗi chiếc hộp là một câu chuyện mới",
+    "packagesEyebrow": "Chọn điều bất ngờ",
+    "packagesTitle": "Các gói blind box",
+    "addedToCart": "Đã thêm “{{name}}” vào giỏ hàng.",
+    "buyButton": "Mua hộp bí mật",
+    "steps": {
+      "choose": {
+        "title": "Chọn bộ sưu tập",
+        "description": "Chọn chủ đề và thể loại quà bạn yêu thích"
+      },
+      "prepare": {
+        "title": "Yarnly chuẩn bị bí mật",
+        "description": "Yarnly đóng gói cho bạn một món quà ngẫu nhiên theo chủ đề bạn chọn"
+      },
+      "open": {
+        "title": "Mở hộp người bạn mới",
+        "description": "Khám phá nhân vật thường, hiếm hoặc phiên bản theo mùa"
+      }
+    },
+    "packages": {
+      "basic": {
+        "name": "Blind Box Cơ bản",
+        "description": "Một bé thú len mini ngẫu nhiên trong bộ sưu tập hiện tại.",
+        "features": [
+          "1 nhân vật ngẫu nhiên",
+          "Cơ hội nhận bản hiếm",
+          "Thẻ nhân vật sưu tầm"
+        ]
+      },
+      "couple": {
+        "name": "Blind Box Cặp đôi",
+        "description": "Hai nhân vật bí mật đồng điệu dành cho cặp bạn thân hoặc các cặp đôi.",
+        "features": [
+          "2 nhân vật theo cặp",
+          "Cơ hội nhận phiên bản hiếm",
+          "Thiệp nhắn riêng"
+        ]
+      },
+      "rare": {
+        "name": "Blind box bộ sưu tập hiếm",
+        "description": "Hộp quà theo mùa cao cấp với tỉ lệ xuất hiện vật phẩm hiếm cao hơn.",
+        "features": [
+          "6 nhân vật thường và 2 nhân vật hiếm",
+          "Tỉ lệ bản hiếm cao",
+          "Phụ kiện theo mùa"
+        ]
+      }
+    }
+  },
+  "customDesign": {
+    "pageTitle": "Tự tạo mẫu của riêng bạn",
+    "breadcrumb": "Thiết kế riêng",
+    "cartNamePrefix": "Thiết kế riêng: {{product}}",
+    "formHeading": "Tạo mẫu theo yêu cầu",
+    "step1Title": "Chọn sản phẩm",
+    "step1Hint": "Chọn nền tảng cho thiết kế của bạn.",
+    "baseProductsLabel": "Sản phẩm nền",
+    "step2Title": "Kiểu dáng và màu sắc",
+    "step2Hint": "Phối màu để xem trực tiếp trên hình mô phỏng.",
+    "styleLabel": "Kiểu dáng",
+    "mainColorLabel": "Màu chính",
+    "accentColorLabel": "Màu phụ",
+    "accessoryLabel": "Phụ kiện",
+    "textLabel": "Tên hoặc chữ muốn thêm",
+    "textPlaceholder": "Ví dụ: Anh",
+    "referenceLabel": "Ảnh mẫu tham khảo",
+    "noteLabel": "Mô tả thêm cho Yarnly",
+    "notePlaceholder": "Kích thước, phong cách, ...",
+    "pickColor": "Chọn {{label}}",
+    "previewTitle": "Mẫu thiết kế của bạn",
+    "previewTag": "Đang mô phỏng",
+    "previewProduct": "Sản phẩm",
+    "previewStyle": "Kiểu dáng",
+    "previewAccessory": "Phụ kiện",
+    "previewText": "Chữ thêu",
+    "previewReference": "Ảnh tham khảo",
+    "previewTotal": "Tổng cộng",
+    "addToCart": "Thêm thiết kế vào giỏ",
+    "previewNote": "Yarnly sẽ liên hệ xác nhận chi tiết và giá cuối cùng trước khi thực hiện",
+    "previewIllustration": "Hình mô phỏng thiết kế"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Không tìm thấy trang",
+    "description": "Trang bạn tìm kiếm không tồn tại hoặc đã được di chuyển.",
+    "backHome": "Về trang chủ"
+  },
+  "marketing": {
+    "newsletter": {
+      "title": "Nhập email để nhận các thông tin khuyến mãi mới nhất từ Yarnly",
+      "emailLabel": "Email của bạn",
+      "emailPlaceholder": "Email của bạn",
+      "submit": "Đăng ký nhận tin",
+      "invalidEmail": "Email không hợp lệ.",
+      "success": "Cảm ơn bạn đã đăng ký nhận tin từ Yarnly!"
+    },
+    "ideaBanner": {
+      "eyebrow": "Ý tưởng dành riêng cho bạn",
+      "title": "Có ý tưởng? Hãy để Yarnly biến nó thành sản phẩm len.",
+      "cta": "Tạo thiết kế riêng"
+    },
+    "faq": {
+      "return": {
+        "question": "Tôi có thể đổi trả hàng được không",
+        "answer": "Yarnly hỗ trợ đổi trả trong vòng 7 ngày kể từ khi nhận hàng nếu sản phẩm bị lỗi do quá trình sản xuất hoặc vận chuyển. Sản phẩm thiết kế riêng theo yêu cầu không áp dụng đổi trả, trừ khi có lỗi từ Yarnly."
+      },
+      "leadTime": {
+        "question": "Thời gian hoàn thành 1 sản phẩm là bao lâu",
+        "answer": "Sản phẩm có sẵn sẽ được giao trong 2–5 ngày. Sản phẩm làm theo yêu cầu thường mất từ 2 đến 5 tuần tùy độ phức tạp, bạn có thể chọn thời gian làm ngay trên trang sản phẩm."
+      },
+      "shipping": {
+        "question": "Phí vận chuyển được tính như thế nào?",
+        "answer": "Phí vận chuyển là 12.000đ cho đơn hàng trong TP. Đà Nẵng và 30.000đ cho các tỉnh thành khác. Phí chính xác được hiển thị ở bước thanh toán sau khi bạn nhập địa chỉ giao hàng."
+      }
+    }
+  }
+}

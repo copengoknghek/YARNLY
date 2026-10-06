@@ -57,6 +57,12 @@
   color: var(--color-green);
 }
 
+.product-info__seller {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-maroon);
+}
+
 .product-info__quantity {
   display: flex;
   flex-direction: column;

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Input from '@/components/common/Input'
 import Select from '@/components/common/Select'
 import { LOCATIONS, PROVINCES } from '@/constants/locations'
@@ -15,15 +16,16 @@ interface CheckoutFormProps {
 }
 
 function CheckoutForm({ value, note, errors, onChange, onNoteChange }: CheckoutFormProps) {
+  const { t } = useTranslation()
   const districts = value.province ? Object.keys(LOCATIONS[value.province] ?? {}) : []
   const wards = value.province && value.district ? (LOCATIONS[value.province]?.[value.district] ?? []) : []
 
   return (
     <fieldset className="checkout-form">
-      <legend className="checkout-form__title">Thông tin mua hàng</legend>
+      <legend className="checkout-form__title">{t('checkout.formTitle')}</legend>
 
       <Input
-        label="Email"
+        label={t('common.email')}
         hideLabel
         type="email"
         autoComplete="email"
@@ -32,7 +34,7 @@ function CheckoutForm({ value, note, errors, onChange, onNoteChange }: CheckoutF
         onChange={(event) => onChange({ email: event.target.value })}
       />
       <Input
-        label="Họ và tên"
+        label={t('common.fullName')}
         hideLabel
         autoComplete="name"
         value={value.fullName}
@@ -40,17 +42,17 @@ function CheckoutForm({ value, note, errors, onChange, onNoteChange }: CheckoutF
         onChange={(event) => onChange({ fullName: event.target.value })}
       />
       <Input
-        label="Số điện thoại"
+        label={t('common.phone')}
         hideLabel
         type="tel"
         autoComplete="tel"
         value={value.phone}
         error={errors.phone}
         onChange={(event) => onChange({ phone: event.target.value })}
-        suffix={<img src="/images/flags/vn.svg" alt="Việt Nam" width={16} height={11} />}
+        suffix={<img src="/images/flags/vn.svg" alt={t('common.country')} width={16} height={11} />}
       />
       <Input
-        label="Địa chỉ chi tiết"
+        label={t('checkout.address')}
         hideLabel
         autoComplete="street-address"
         value={value.address}
@@ -58,14 +60,14 @@ function CheckoutForm({ value, note, errors, onChange, onNoteChange }: CheckoutF
         onChange={(event) => onChange({ address: event.target.value })}
       />
       <Select
-        label="Tỉnh thành"
+        label={t('checkout.province')}
         options={PROVINCES}
         value={value.province}
         error={errors.province}
         onChange={(event) => onChange({ province: event.target.value, district: '', ward: '' })}
       />
       <Select
-        label="Quận huyện"
+        label={t('checkout.district')}
         options={districts}
         value={value.district}
         error={errors.district}
@@ -73,7 +75,7 @@ function CheckoutForm({ value, note, errors, onChange, onNoteChange }: CheckoutF
         onChange={(event) => onChange({ district: event.target.value, ward: '' })}
       />
       <Select
-        label="Phường xã"
+        label={t('checkout.ward')}
         options={wards}
         value={value.ward}
         error={errors.ward}
@@ -82,12 +84,12 @@ function CheckoutForm({ value, note, errors, onChange, onNoteChange }: CheckoutF
       />
 
       <label htmlFor="checkout-note" className="visually-hidden">
-        Ghi chú
+        {t('checkout.noteLabel')}
       </label>
       <textarea
         id="checkout-note"
         className="checkout-form__note"
-        placeholder="Ghi chú (không bắt buộc)"
+        placeholder={t('checkout.notePlaceholder')}
         maxLength={500}
         value={note}
         onChange={(event) => onNoteChange(event.target.value)}

@@ -1,13 +1,14 @@
 const orderService = require('../services/orderService');
 
 const createOrder = async (req, res) => {
-  const { items, shipping, note, paymentMethod } = req.body;
+  const { items, shipping, note, paymentMethod, carrierId } = req.body;
   res.status(201).json({
     data: await orderService.createOrder({
       items,
       shipping,
       note,
       paymentMethod,
+      carrierId,
       buyerId: req.user?.id,
     }),
   });

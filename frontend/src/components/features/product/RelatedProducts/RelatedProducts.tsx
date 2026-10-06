@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import ProductGrid from '@/components/features/product/ProductGrid'
 import { useFetch } from '@/hooks/useFetch'
 import { getProducts } from '@/services/productService'
@@ -7,6 +8,7 @@ import '@/styles/components/RelatedProducts.css'
 const COUNT = 4
 
 function RelatedProducts({ excludeId }: { excludeId?: string }) {
+  const { t } = useTranslation()
   const fetchProducts = useCallback(() => getProducts({ pageSize: COUNT + 1 }), [])
   const { data } = useFetch(fetchProducts)
 
@@ -15,7 +17,7 @@ function RelatedProducts({ excludeId }: { excludeId?: string }) {
 
   return (
     <section className="container related-products">
-      <h2 className="display-title related-products__title">Có thể bạn cũng thích</h2>
+      <h2 className="display-title related-products__title">{t('products.relatedTitle')}</h2>
       <ProductGrid products={products} />
     </section>
   )

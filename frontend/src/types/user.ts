@@ -12,6 +12,12 @@ export interface User {
   phone?: string
   role: UserRole
   userType?: UserType
+  createdAt?: string
+}
+
+export interface UpdateProfilePayload {
+  name?: string
+  phone?: string
 }
 
 export interface LoginPayload {

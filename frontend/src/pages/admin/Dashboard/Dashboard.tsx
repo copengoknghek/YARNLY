@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import StatCard from '@/components/features/portal/StatCard'
 import Loading from '@/components/common/Loading'
-import { ORDER_STATUS_LABELS } from '@/constants/orderStatus'
+import { ORDER_STATUS_LABELS_VI } from '@/constants/orderStatus'
 import { ROUTES } from '@/constants/routes'
 import { useFetch } from '@/hooks/useFetch'
 import { getAdminStats } from '@/services/adminService'
@@ -34,7 +34,7 @@ function AdminDashboard() {
       <div className="portal-card">
         <h2 className="portal-card__title">Đơn hàng theo trạng thái</h2>
         <ul className="portal-empty">
-          {Object.entries(ORDER_STATUS_LABELS).map(([status, label]) => (
+          {Object.entries(ORDER_STATUS_LABELS_VI).map(([status, label]) => (
             <li key={status}>
               {label}: {stats.byStatus[status] ?? 0}
             </li>

@@ -31,6 +31,8 @@ export interface Order {
   shipping: ShippingInfo
   note: string
   paymentMethod: PaymentMethod
+  carrierId: string
+  carrierName: string
   subtotal: number
   shippingFee: number
   total: number
@@ -51,6 +53,23 @@ export interface CreateOrderPayload {
   shipping: ShippingInfo
   note?: string
   paymentMethod: PaymentMethod
+  carrierId: string
+}
+
+export interface ShippingQuote {
+  carrierId: string
+  carrierName: string
+  description: string
+  etaMinDays: number
+  etaMaxDays: number
+  zone: 'local' | 'nearby' | 'national'
+  fee: number
+}
+
+export interface ShippingQuotesResult {
+  province: string
+  zone: ShippingQuote['zone']
+  quotes: ShippingQuote[]
 }
 
 export interface OrderLookupQuery {

@@ -1,6 +1,11 @@
-const dateFormatter = new Intl.DateTimeFormat('vi-VN', { day: 'numeric', month: 'numeric', year: 'numeric' })
+import { getIntlLocale } from '@/i18n'
 
-export const formatDate = (iso: string) => dateFormatter.format(new Date(iso))
+export const formatDate = (iso: string) =>
+  new Intl.DateTimeFormat(getIntlLocale(), {
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  }).format(new Date(iso))
 
 const WEEK_MS = 7 * 24 * 60 * 60 * 1000
 

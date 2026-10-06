@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Breadcrumb from '@/components/common/Breadcrumb'
 import { LinkButton } from '@/components/common/Button'
 import PageBanner from '@/components/common/PageBanner'
@@ -8,27 +9,33 @@ import { useCart } from '@/hooks/useCart'
 import '@/styles/pages/buyer/Cart.css'
 
 function Cart() {
+  const { t } = useTranslation()
   const { items } = useCart()
 
   return (
     <div className="cart-page">
-      <PageBanner title="Giỏ hàng của bạn" />
+      <PageBanner title={t('cart.pageTitle')} />
 
       <div className="container page">
-        <Breadcrumb items={[{ label: 'Trang chủ', to: ROUTES.HOME }, { label: 'Giỏ hàng' }]} />
+        <Breadcrumb
+          items={[
+            { label: t('common.breadcrumb.home'), to: ROUTES.HOME },
+            { label: t('common.breadcrumb.cart') },
+          ]}
+        />
 
         {items.length === 0 ? (
           <div className="cart-page__empty">
-            <p>Giỏ hàng của bạn đang trống.</p>
-            <LinkButton to={ROUTES.PRODUCTS}>Tiếp tục mua sắm</LinkButton>
+            <p>{t('cart.empty')}</p>
+            <LinkButton to={ROUTES.PRODUCTS}>{t('common.continueShopping')}</LinkButton>
           </div>
         ) : (
           <div className="cart-page__layout">
-            <section className="cart-page__items" aria-label="Sản phẩm trong giỏ">
+            <section className="cart-page__items" aria-label={t('cart.itemsLabel')}>
               <div className="cart-page__head">
-                <span>Sản phẩm</span>
-                <span>Số lượng</span>
-                <span>Đơn giá</span>
+                <span>{t('cart.productsColumn')}</span>
+                <span>{t('cart.quantityColumn')}</span>
+                <span>{t('cart.priceColumn')}</span>
               </div>
               <ul className="cart-page__list">
                 {items.map((item) => (

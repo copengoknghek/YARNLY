@@ -1,0 +1,466 @@
+{
+  "common": {
+    "brandHome": "Yarnly - 首页",
+    "loadingEllipsis": "加载中...",
+    "quantity": "数量",
+    "viewCart": "查看购物车",
+    "continueShopping": "继续购物",
+    "backToCart": "返回购物车",
+    "fullName": "姓名",
+    "phone": "电话号码",
+    "email": "邮箱",
+    "cancel": "取消",
+    "saving": "保存中...",
+    "saveChanges": "保存更改",
+    "country": "越南",
+    "close": "关闭",
+    "quantityDecrease": "减少数量",
+    "quantityIncrease": "增加数量",
+    "pagination": {
+      "nav": "分页",
+      "nextPage": "下一页"
+    },
+    "breadcrumb": {
+      "home": "首页",
+      "products": "产品",
+      "cart": "购物车",
+      "checkout": "结账"
+    },
+    "validation": {
+      "emailInvalid": "邮箱地址无效",
+      "fullNameRequired": "请输入姓名",
+      "phoneInvalid": "电话号码无效",
+      "addressRequired": "请输入地址",
+      "provinceRequired": "请选择省份",
+      "districtRequired": "请选择区县",
+      "wardRequired": "请选择街道/社区"
+    }
+  },
+  "nav": {
+    "products": "产品",
+    "customDesign": "定制设计",
+    "blindBox": "盲盒",
+    "orderLookup": "订单查询"
+  },
+  "header": {
+    "menuOpen": "打开导航菜单",
+    "navMain": "主导航",
+    "sellerPortal": "卖家门户",
+    "adminPortal": "管理门户",
+    "search": "搜索",
+    "account": "账户",
+    "accountProfile": "我的资料",
+    "logout": "退出登录",
+    "login": "登录",
+    "cart": "购物车（{{count}} 件商品）"
+  },
+  "footer": {
+    "brandHome": "Yarnly - 首页",
+    "tagline": "手工之美，温暖每一个家。",
+    "exploreHeading": "探索",
+    "contactHeading": "联系我们",
+    "supportHeading": "客户支持",
+    "copyright": "© {{year}} Yarnly Handmade with love.",
+    "contact": {
+      "email": "邮箱：hello@yarnly.vn",
+      "hotline": "热线：1900 1234",
+      "address": "地址：岘港市"
+    },
+    "support": {
+      "payment": "支付政策",
+      "return": "退换货政策",
+      "privacy": "隐私政策",
+      "shipping": "配送政策"
+    }
+  },
+  "topMarquee": {
+    "message": "欢迎来到 Yarnly"
+  },
+  "searchBar": {
+    "label": "搜索产品",
+    "placeholder": "搜索产品",
+    "submit": "搜索",
+    "close": "关闭搜索"
+  },
+  "languageSwitcher": {
+    "label": "语言"
+  },
+  "language": {
+    "vi": "Tiếng Việt (VN)",
+    "en": "English (USA)",
+    "zh": "Chinese (CN)"
+  },
+  "home": {
+    "heroTitle": "Yarnly - 手工毛线制品",
+    "productsEyebrow": "Yarnly 商店",
+    "productsTitle": "手工产品",
+    "productsCountUnit": "件产品",
+    "viewAllProducts": "查看全部产品",
+    "bestSellersEyebrow": "顾客喜爱",
+    "bestSellersTitle": "热销商品",
+    "faqEyebrow": "问答",
+    "faqTitle": "常见问题"
+  },
+  "products": {
+    "pageTitle": "产品",
+    "searchResults": "“{{query}}” 的搜索结果",
+    "clearSearch": "清除搜索",
+    "relatedTitle": "您可能还喜欢",
+    "empty": "未找到产品。",
+    "categoryTabsLabel": "产品分类",
+    "carouselPrev": "上一个产品",
+    "carouselNext": "下一个产品",
+    "sortBar": {
+      "sortBy": "排序",
+      "status": "库存状态",
+      "price": "价格",
+      "category": "分类",
+      "prevPage": "上一页",
+      "nextPage": "下一页"
+    },
+    "card": {
+      "outOfStock": "缺货",
+      "seller": "卖家：{{name}}",
+      "viewDetail": "查看详情"
+    }
+  },
+  "productDetail": {
+    "rating": "评分 {{rating}} / 5",
+    "seller": "卖家：{{name}}",
+    "options": {
+      "color": "颜色",
+      "size": "尺寸",
+      "leadTime": "制作周期"
+    },
+    "outOfStock": "该产品已售罄",
+    "addToCart": "加入购物车",
+    "buyNow": "立即购买",
+    "addedToCart": "已加入购物车。",
+    "tabs": {
+      "material": "材质",
+      "care": "保养说明",
+      "shipping": "配送"
+    },
+    "galleryThumbsLabel": "产品图片",
+    "galleryViewImage": "查看图片 {{index}}",
+    "optionPrev": "上一个{{label}}",
+    "optionNext": "下一个{{label}}"
+  },
+  "categories": {
+    "all": "全部",
+    "decoration": "装饰与纪念品",
+    "fashion": "配饰与时尚",
+    "combo": "礼品套装",
+    "blindbox": "盲盒",
+    "custom": "定制设计"
+  },
+  "filters": {
+    "all": "全部",
+    "inStock": "有货",
+    "outOfStock": "缺货",
+    "default": "默认",
+    "priceAsc": "价格从低到高",
+    "priceDesc": "价格从高到低",
+    "newest": "最新"
+  },
+  "cart": {
+    "pageTitle": "您的购物车",
+    "empty": "您的购物车是空的。",
+    "productsColumn": "产品",
+    "quantityColumn": "数量",
+    "priceColumn": "单价",
+    "itemsLabel": "购物车商品",
+    "itemQuantity": "{{name}} 的数量",
+    "removeItem": "从购物车移除 {{name}}",
+    "summary": {
+      "subtotal": "小计",
+      "total": "合计",
+      "hint": "国际订单可能需额外支付未包含在结账金额中的关税和其他税费。",
+      "noteLabel": "订单备注",
+      "checkout": "结账",
+      "terms": "下单即表示您同意 Yarnly 的",
+      "termsLink": "条款与条件",
+      "returnLink": "退换货政策",
+      "and": "和",
+      "privacyLink": "隐私政策",
+      "termsSuffix": "。",
+      "pointsNotice": "会员积分将在付款成功后 7 个工作日内计入账户。",
+      "phoneNotice": "结账时需提供电话号码以累积会员积分。"
+    }
+  },
+  "checkout": {
+    "pageTitle": "结账",
+    "empty": "购物车为空，无法结账。",
+    "shippingTitle": "配送",
+    "shippingEnterAddress": "请输入省份以查看运费。",
+    "shippingLoadingQuotes": "正在加载运费...",
+    "shippingNoCarriers": "该地区暂无可用承运商。",
+    "shippingSelectCarrier": "选择承运商",
+    "shippingCarrierEta": "{{description}} · {{min}}–{{max}} 天",
+    "validationPaymentRequired": "请选择支付方式",
+    "validationCarrierRequired": "请选择承运商",
+    "orderSummaryTitle": "订单（{{count}} 件商品）",
+    "submitting": "正在下单...",
+    "submit": "提交订单",
+    "formTitle": "购买信息",
+    "address": "详细地址",
+    "province": "省份",
+    "district": "区县",
+    "ward": "街道/社区",
+    "notePlaceholder": "备注（可选）",
+    "noteLabel": "备注"
+  },
+  "payment": {
+    "title": "支付方式",
+    "momo": {
+      "label": "通过 MoMo 通用二维码支付",
+      "shortLabel": "MoMo 钱包"
+    },
+    "zalopay": {
+      "label": "通过 ZaloPay 支付",
+      "shortLabel": "ZaloPay"
+    },
+    "cod": {
+      "label": "货到付款 (COD)",
+      "shortLabel": "货到付款"
+    }
+  },
+  "order": {
+    "subtotal": "小计",
+    "shipping": "运费",
+    "shippingPending": "--------",
+    "total": "总计",
+    "quantity": "数量 {{count}}",
+    "cancelled": "该订单已取消。",
+    "timelineState": {
+      "done": "已完成",
+      "current": "进行中",
+      "pending": "待处理"
+    },
+    "steps": {
+      "placed": "已下单",
+      "crafting": "编织中",
+      "shipping": "配送中",
+      "delivered": "已送达"
+    },
+    "status": {
+      "placed": "已下单",
+      "crafting": "编织中",
+      "shipping": "配送中",
+      "delivered": "已送达",
+      "cancelled": "已取消"
+    },
+    "coupon": {
+      "label": "优惠码",
+      "placeholder": "优惠码",
+      "apply": "应用",
+      "invalid": "优惠码无效或已过期。"
+    }
+  },
+  "orderSuccess": {
+    "pageTitle": "下单成功",
+    "subtitle": "感谢您在 Yarnly 购物",
+    "breadcrumbConfirmed": "已确认",
+    "emailNotice": "确认邮件已发送至 {{email}}。",
+    "errorLookupHint": "您可以",
+    "errorLookupLink": "查询订单",
+    "errorLookupSuffix": "（使用电话号码或邮箱）。",
+    "statusTitle": "订单状态",
+    "statusEta": "预计 {{weeks}} 周内送达（{{date}} 前）。",
+    "shippingTitle": "收货地址",
+    "changeAddress": "更改",
+    "changeAddressNotice": "请联系 hello@yarnly.vn 更改收货地址。",
+    "paymentTitle": "支付",
+    "paymentCod": "货到付款",
+    "paymentPending": "待支付",
+    "paymentPayNow": "立即支付",
+    "paymentGatewayNotice": "在线支付网关即将上线。",
+    "summaryTitle": "订单 {{code}}（{{count}} 件商品）",
+    "copyCode": "复制订单号",
+    "codeCopied": "已复制订单号 {{code}}。",
+    "codeFallback": "订单号：{{code}}"
+  },
+  "orderLookup": {
+    "pageTitle": "订单查询",
+    "title": "查询您的订单",
+    "methodsLegend": "查询方式",
+    "methodPhone": "电话号码",
+    "methodEmail": "邮箱",
+    "phonePlaceholder": "xxxx xxx xxx",
+    "emailPlaceholder": "email@example.com",
+    "hint": "请输入下单时使用的电话号码或邮箱。",
+    "submit": "查询",
+    "placeholder": "请在左侧输入信息以查看订单。",
+    "notFound": "未找到相关订单。",
+    "orderTitle": "订单 {{code}}",
+    "trackingPending": "准备中",
+    "trackingLabel": "运单号：",
+    "viewDetail": "查看订单详情"
+  },
+  "account": {
+    "pageTitle": "账户",
+    "profileEditTitle": "编辑资料",
+    "memberSince": "注册于 {{date}}",
+    "phoneNotSet": "未设置",
+    "profileSaved": "资料已保存。",
+    "profileEditButton": "编辑资料",
+    "ordersTitle": "您的订单",
+    "ordersEmpty": "您还没有订单。",
+    "shopNow": "立即购物",
+    "orderTitle": "订单 {{code}}",
+    "orderMeta": "{{date}} · {{count}} 件商品",
+    "orderDetail": "详情"
+  },
+  "auth": {
+    "audienceLabel": "账户类型",
+    "audienceBuyer": "买家",
+    "audienceSeller": "卖家",
+    "audienceStaff": "员工",
+    "tabsLabel": "登录或注册",
+    "loginTab": "登录",
+    "registerTab": "注册",
+    "staffTitle": "员工登录",
+    "staffHint": "演示账户：{{email}} / {{password}}",
+    "sellerHint": "演示卖家：{{email}} / {{password}}",
+    "loginHeading": "登录",
+    "registerHeading": "创建账户",
+    "nameLabel": "姓名 *",
+    "phoneLabel": "电话号码 *",
+    "emailLabel": "邮箱 *",
+    "passwordLabel": "密码 *",
+    "forgotPassword": "忘记密码？",
+    "forgotNotice": "请联系 hello@yarnly.vn 获取密码重置帮助。",
+    "submitting": "处理中...",
+    "loginSubmit": "登录",
+    "registerSubmit": "注册",
+    "createAccount": "创建账户",
+    "hasAccount": "已有账户？登录",
+    "backToShop": "返回商店",
+    "socialDivider": "或使用以下方式继续",
+    "socialSoon": "{{provider}} 登录即将支持。",
+    "validation": {
+      "nameRequired": "请输入姓名",
+      "passwordRequired": "请输入密码",
+      "passwordMin": "密码至少 6 个字符"
+    }
+  },
+  "blindBox": {
+    "pageTitle": "盲盒",
+    "howEyebrow": "运作方式",
+    "howTitle": "每个盒子都是一个新故事",
+    "packagesEyebrow": "选择你的惊喜",
+    "packagesTitle": "盲盒套餐",
+    "addedToCart": "已将“{{name}}”加入购物车。",
+    "buyButton": "购买神秘盒",
+    "steps": {
+      "choose": {
+        "title": "选择系列",
+        "description": "选择您喜欢的主题和礼品类型"
+      },
+      "prepare": {
+        "title": "Yarnly 秘密准备",
+        "description": "Yarnly 根据您选择的主题随机打包一份礼物"
+      },
+      "open": {
+        "title": "遇见新朋友",
+        "description": "发现普通、稀有或季节限定角色"
+      }
+    },
+    "packages": {
+      "basic": {
+        "name": "基础盲盒",
+        "description": "当前系列中的一只随机迷你毛线角色。",
+        "features": [
+          "1 个随机角色",
+          "有机会获得稀有款",
+          "收藏角色卡"
+        ]
+      },
+      "couple": {
+        "name": "情侣盲盒",
+        "description": "两只相配的神秘角色，适合闺蜜或情侣。",
+        "features": [
+          "2 个配对角色",
+          "有机会获得稀有款",
+          "专属留言卡"
+        ]
+      },
+      "rare": {
+        "name": "稀有系列盲盒",
+        "description": "高级季节礼盒，稀有物品概率更高。",
+        "features": [
+          "6 个普通角色和 2 个稀有角色",
+          "更高稀有掉落率",
+          "季节配饰"
+        ]
+      }
+    }
+  },
+  "customDesign": {
+    "pageTitle": "创建专属设计",
+    "breadcrumb": "定制设计",
+    "cartNamePrefix": "定制设计：{{product}}",
+    "formHeading": "按需定制",
+    "step1Title": "选择产品",
+    "step1Hint": "为您的设计选择基础产品。",
+    "baseProductsLabel": "基础产品",
+    "step2Title": "风格与颜色",
+    "step2Hint": "搭配颜色并在模拟图上预览。",
+    "styleLabel": "风格",
+    "mainColorLabel": "主色",
+    "accentColorLabel": "辅色",
+    "accessoryLabel": "配饰",
+    "textLabel": "要添加的名称或文字",
+    "textPlaceholder": "例如：小明",
+    "referenceLabel": "参考图片",
+    "noteLabel": "给 Yarnly 的补充说明",
+    "notePlaceholder": "尺寸、风格...",
+    "pickColor": "选择{{label}}",
+    "previewTitle": "您的设计预览",
+    "previewTag": "模拟预览",
+    "previewProduct": "产品",
+    "previewStyle": "风格",
+    "previewAccessory": "配饰",
+    "previewText": "刺绣文字",
+    "previewReference": "参考图片",
+    "previewTotal": "总计",
+    "addToCart": "将设计加入购物车",
+    "previewNote": "Yarnly 将在制作前确认细节和最终价格",
+    "previewIllustration": "设计预览图"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "页面未找到",
+    "description": "您访问的页面不存在或已被移动。",
+    "backHome": "返回首页"
+  },
+  "marketing": {
+    "newsletter": {
+      "title": "输入邮箱获取 Yarnly 最新促销信息",
+      "emailLabel": "您的邮箱",
+      "emailPlaceholder": "您的邮箱",
+      "submit": "订阅",
+      "invalidEmail": "邮箱地址无效。",
+      "success": "感谢订阅 Yarnly！"
+    },
+    "ideaBanner": {
+      "eyebrow": "专属于您的创意",
+      "title": "有想法？让 Yarnly 把它变成毛线产品。",
+      "cta": "创建定制设计"
+    },
+    "faq": {
+      "return": {
+        "question": "可以退货或换货吗？",
+        "answer": "如因生产或运输问题，Yarnly 支持收货后 7 天内退货。定制产品除 Yarnly 责任缺陷外不支持退换。"
+      },
+      "leadTime": {
+        "question": "制作一个产品需要多久？",
+        "answer": "现货商品 2–5 天发货。定制商品通常需 2 至 5 周，具体取决于复杂度；可在产品页选择制作周期。"
+      },
+      "shipping": {
+        "question": "运费如何计算？",
+        "answer": "岘港市内订单运费 12,000 越南盾，其他省份 30,000 越南盾。输入收货地址后，结账页会显示准确运费。"
+      }
+    }
+  }
+}

@@ -10,6 +10,7 @@ export const ROUTES = {
   ORDER_LOOKUP: '/order-lookup',
   LOGIN: '/login',
   REGISTER: '/register',
+  ACCOUNT: '/account',
   SELLER: '/seller',
   SELLER_PRODUCTS: '/seller/products',
   SELLER_NEW_PRODUCT: '/seller/products/new',

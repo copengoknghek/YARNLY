@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import Breadcrumb from '@/components/common/Breadcrumb'
 import Loading from '@/components/common/Loading'
@@ -25,6 +26,7 @@ const INITIAL_DESIGN: CustomDesignData = {
 }
 
 function DesignWorkspace({ options }: { options: CustomDesignOptions }) {
+  const { t } = useTranslation()
   const { addItem } = useCart()
   const navigate = useNavigate()
   const [design, setDesign] = useState<CustomDesignData>(INITIAL_DESIGN)
@@ -40,7 +42,7 @@ function DesignWorkspace({ options }: { options: CustomDesignOptions }) {
     addItem(
       {
         id: CUSTOM_PRODUCT_ID,
-        name: `Thiết kế riêng: ${findLabel(options.baseProducts, design.baseProduct)}`,
+        name: t('customDesign.cartNamePrefix', { product: findLabel(options.baseProducts, design.baseProduct) }),
         price,
         category: 'custom',
         images: base?.image ? [base.image] : [],
@@ -64,15 +66,21 @@ function DesignWorkspace({ options }: { options: CustomDesignOptions }) {
 }
 
 function CustomDesign() {
+  const { t } = useTranslation()
   const fetchOptions = useCallback(() => getCustomDesignOptions(), [])
   const { data: options, loading, error } = useFetch(fetchOptions)
 
   return (
     <div className="custom-design">
-      <PageBanner title="Tự tạo mẫu của riêng bạn" />
+      <PageBanner title={t('customDesign.pageTitle')} />
 
       <div className="container page">
-        <Breadcrumb items={[{ label: 'Trang chủ', to: ROUTES.HOME }, { label: 'Thiết kế riêng' }]} />
+        <Breadcrumb
+          items={[
+            { label: t('common.breadcrumb.home'), to: ROUTES.HOME },
+            { label: t('customDesign.breadcrumb') },
+          ]}
+        />
         {loading && <Loading />}
         {error && <p className="text-error">{error}</p>}
         {options && <DesignWorkspace options={options} />}

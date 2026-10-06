@@ -2,12 +2,12 @@ import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
-import { CATEGORY_LABELS } from '@/constants/categories'
+import { CATEGORY_LABELS_VI } from '@/constants/categories'
 import { ROUTES } from '@/constants/routes'
 import type { ProductCategory } from '@/types/product'
 import type { SellerProduct, SellerProductInput } from '@/types/portal'
 
-const CATEGORY_OPTIONS = Object.entries(CATEGORY_LABELS).filter(([key]) => key !== 'custom') as [
+const CATEGORY_OPTIONS = Object.entries(CATEGORY_LABELS_VI).filter(([key]) => key !== 'custom') as [
   ProductCategory,
   string,
 ][]

@@ -6,6 +6,7 @@ import { ROUTES } from '@/constants/routes'
 import AdminApprovals from '@/pages/admin/Approvals'
 import AdminDashboard from '@/pages/admin/Dashboard'
 import AdminOrders from '@/pages/admin/Orders'
+import Account from '@/pages/buyer/Account'
 import { Login, Register } from '@/pages/buyer/Auth'
 import BlindBox from '@/pages/buyer/BlindBox'
 import Cart from '@/pages/buyer/Cart'
@@ -38,6 +39,9 @@ function AppRoutes() {
         <Route path={ROUTES.ORDER_LOOKUP} element={<OrderLookup />} />
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.REGISTER} element={<Register />} />
+        <Route element={<RequireRole allow={['buyer', 'seller', 'admin']} />}>
+          <Route path={ROUTES.ACCOUNT} element={<Account />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Route>
 

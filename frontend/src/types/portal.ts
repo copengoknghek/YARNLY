@@ -70,6 +70,8 @@ export const toCatalogProduct = (product: SellerProduct): Product => ({
   stock: product.stock,
   isBestSeller: product.isBestSeller,
   createdAt: product.createdAt,
+  sellerId: product.sellerId,
+  sellerName: product.sellerName,
   details: product.details,
   options: product.options,
 })

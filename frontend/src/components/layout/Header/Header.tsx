@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import Icon from '@/components/common/Icon'
 import LanguageSwitcher from '@/components/layout/LanguageSwitcher'
@@ -12,6 +13,7 @@ import { getAccessRole } from '@/utils/roles'
 import '@/styles/components/Header.css'
 
 function Header() {
+  const { t } = useTranslation()
   const { totalItems } = useCart()
   const { user, logout } = useAuth()
   const { pathname } = useLocation()
@@ -32,9 +34,9 @@ function Header() {
   const accessRole = user ? getAccessRole(user) : null
   const dashboardLink =
     accessRole === 'seller'
-      ? { to: ROUTES.SELLER, label: 'Kênh người bán' }
+      ? { to: ROUTES.SELLER, labelKey: 'header.sellerPortal' }
       : accessRole === 'admin'
-        ? { to: ROUTES.ADMIN, label: 'Trang quản trị' }
+        ? { to: ROUTES.ADMIN, labelKey: 'header.adminPortal' }
         : null
 
   return (
@@ -43,26 +45,26 @@ function Header() {
         <button
           type="button"
           className="header__menu-toggle"
-          aria-label="Mở menu"
+          aria-label={t('header.menuOpen')}
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen((value) => !value)}
         >
           <Icon name={menuOpen ? 'close' : 'menu'} size={22} />
         </button>
 
-        <nav className={`header__nav ${menuOpen ? 'header__nav--open' : ''}`} aria-label="Điều hướng chính">
+        <nav className={`header__nav ${menuOpen ? 'header__nav--open' : ''}`} aria-label={t('header.navMain')}>
           {MAIN_NAV.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) => `header__link ${isActive ? 'header__link--active' : ''}`}
             >
-              {item.label}
+              {t(item.labelKey)}
             </NavLink>
           ))}
         </nav>
 
-        <Link to={ROUTES.HOME} className="header__logo" aria-label="Yarnly - Trang chủ">
+        <Link to={ROUTES.HOME} className="header__logo" aria-label={t('common.brandHome')}>
           <img src="/images/brand/logo.png" alt="YARNLY" />
         </Link>
 
@@ -70,7 +72,7 @@ function Header() {
           <button
             type="button"
             className="header__icon"
-            aria-label="Tìm kiếm"
+            aria-label={t('header.search')}
             aria-expanded={searchOpen}
             onClick={() => setSearchOpen((value) => !value)}
           >
@@ -82,7 +84,7 @@ function Header() {
               <button
                 type="button"
                 className="header__icon"
-                aria-label="Tài khoản"
+                aria-label={t('header.account')}
                 aria-expanded={accountOpen}
                 onClick={() => setAccountOpen((value) => !value)}
               >
@@ -91,24 +93,27 @@ function Header() {
               {accountOpen && (
                 <div className="header__account-menu">
                   <p className="header__account-name">{user.name}</p>
+                  <Link to={ROUTES.ACCOUNT} className="header__account-item">
+                    {t('header.accountProfile')}
+                  </Link>
                   {dashboardLink && (
                     <Link to={dashboardLink.to} className="header__account-item">
-                      {dashboardLink.label}
+                      {t(dashboardLink.labelKey)}
                     </Link>
                   )}
                   <button type="button" className="header__account-item" onClick={logout}>
-                    Đăng xuất
+                    {t('header.logout')}
                   </button>
                 </div>
               )}
             </div>
           ) : (
-            <Link to={ROUTES.LOGIN} className="header__icon" aria-label="Đăng nhập">
+            <Link to={ROUTES.LOGIN} className="header__icon" aria-label={t('header.login')}>
               <img src="/images/icons/user.svg" alt="" width={18} height={18} />
             </Link>
           )}
 
-          <Link to={ROUTES.CART} className="header__icon header__cart" aria-label={`Giỏ hàng (${totalItems})`}>
+          <Link to={ROUTES.CART} className="header__icon header__cart" aria-label={t('header.cart', { count: totalItems })}>
             <img src="/images/icons/cart.svg" alt="" width={20} height={20} />
             <span className="header__cart-badge">{totalItems}</span>
           </Link>

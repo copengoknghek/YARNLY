@@ -20,6 +20,7 @@ const createOrderRules = [
   body('paymentMethod')
     .isIn(PAYMENT_METHODS)
     .withMessage(`Phương thức thanh toán phải là một trong: ${PAYMENT_METHODS.join(', ')}`),
+  body('carrierId').trim().notEmpty().withMessage('Vui lòng chọn đơn vị vận chuyển'),
 ];
 
 const lookupOrderRules = [

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import Button from '@/components/common/Button'
 import { ROUTES } from '@/constants/routes'
@@ -6,26 +7,24 @@ import { formatPrice } from '@/utils/formatPrice'
 import '@/styles/components/CartSummary.css'
 
 function CartSummary() {
+  const { t } = useTranslation()
   const { totalPrice, note, setNote } = useCart()
   const navigate = useNavigate()
 
   return (
     <aside className="cart-summary">
       <div className="cart-summary__row">
-        <span>Tạm tính</span>
+        <span>{t('cart.summary.subtotal')}</span>
         <span>{formatPrice(totalPrice)}</span>
       </div>
       <div className="cart-summary__row cart-summary__row--total">
-        <span>Tổng</span>
+        <span>{t('cart.summary.total')}</span>
         <strong>{formatPrice(totalPrice)}</strong>
       </div>
-      <p className="cart-summary__hint">
-        Các đơn hàng quốc tế có thể phải chịu thêm thuế hải quan và các loại thuế khác không được bao gồm khi
-        thanh toán.
-      </p>
+      <p className="cart-summary__hint">{t('cart.summary.hint')}</p>
 
       <label htmlFor="cart-note" className="cart-summary__note-label">
-        Ghi chú đơn hàng
+        {t('cart.summary.noteLabel')}
       </label>
       <textarea
         id="cart-note"
@@ -36,16 +35,18 @@ function CartSummary() {
       />
 
       <Button fullWidth className="cart-summary__checkout" onClick={() => navigate(ROUTES.CHECKOUT)}>
-        Thanh toán
+        {t('cart.summary.checkout')}
       </Button>
 
       <div className="cart-summary__policies">
         <p>
-          Bằng cách đặt hàng, bạn đồng ý với <a href="#">Điều khoản &amp; Điều kiện</a>,{' '}
-          <a href="#">Chính sách Trả hàng &amp; Đổi hàng</a> và <a href="#">Chính sách Bảo mật</a> của Yarnly.
+          {t('cart.summary.terms')}{' '}
+          <a href="#">{t('cart.summary.termsLink')}</a>, <a href="#">{t('cart.summary.returnLink')}</a>{' '}
+          {t('cart.summary.and')}{' '}
+          <a href="#">{t('cart.summary.privacyLink')}</a> {t('cart.summary.termsSuffix')}
         </p>
-        <p>Điểm thành viên sẽ được cộng vào tài khoản trong vòng 7 ngày làm việc sau khi thanh toán hoàn tất thành công.</p>
-        <p>Để tích lũy điểm thành viên, khách hàng phải cung cấp số điện thoại khi đặt hàng.</p>
+        <p>{t('cart.summary.pointsNotice')}</p>
+        <p>{t('cart.summary.phoneNotice')}</p>
       </div>
     </aside>
   )

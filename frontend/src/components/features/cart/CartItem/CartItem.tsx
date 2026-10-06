@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Icon from '@/components/common/Icon'
 import QuantityInput from '@/components/common/QuantityInput'
@@ -9,6 +10,7 @@ import { formatPrice } from '@/utils/formatPrice'
 import '@/styles/components/CartItem.css'
 
 function CartItem({ item }: { item: CartItemType }) {
+  const { t } = useTranslation()
   const { updateQuantity, removeItem } = useCart()
   const { product } = item
   const isCustom = product.category === 'custom'
@@ -34,12 +36,12 @@ function CartItem({ item }: { item: CartItemType }) {
         <QuantityInput
           value={item.quantity}
           onChange={(quantity) => updateQuantity(item.key, quantity)}
-          label={`Số lượng ${product.name}`}
+          label={t('cart.itemQuantity', { name: product.name })}
         />
         <button
           type="button"
           className="cart-item__remove"
-          aria-label={`Xóa ${product.name} khỏi giỏ hàng`}
+          aria-label={t('cart.removeItem', { name: product.name })}
           onClick={() => removeItem(item.key)}
         >
           <Icon name="trash" size={18} />

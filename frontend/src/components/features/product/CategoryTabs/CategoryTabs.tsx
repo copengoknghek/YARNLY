@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { CATEGORY_TABS } from '@/constants/categories'
 import type { ProductCategory } from '@/types/product'
 import '@/styles/components/CategoryTabs.css'
@@ -8,8 +9,10 @@ interface CategoryTabsProps {
 }
 
 function CategoryTabs({ value, onChange }: CategoryTabsProps) {
+  const { t } = useTranslation()
+
   return (
-    <div className="category-tabs" role="tablist" aria-label="Danh mục sản phẩm">
+    <div className="category-tabs" role="tablist" aria-label={t('products.categoryTabsLabel')}>
       {CATEGORY_TABS.map((tab) => (
         <button
           key={tab.value || 'all'}
@@ -19,7 +22,7 @@ function CategoryTabs({ value, onChange }: CategoryTabsProps) {
           className={`category-tabs__tab ${tab.value === value ? 'category-tabs__tab--active' : ''}`}
           onClick={() => onChange(tab.value)}
         >
-          {tab.label}
+          {t(tab.labelKey)}
         </button>
       ))}
     </div>

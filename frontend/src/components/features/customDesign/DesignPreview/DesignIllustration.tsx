@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { CustomDesign } from '@/types/customDesign'
 
 const INK = '#5f1d1d'
@@ -119,11 +120,12 @@ function Accessory({ type, accent }: { type: string; accent: string }) {
 const STYLE_SCALE: Record<string, number> = { chibi: 1, realistic: 0.95, mini: 0.78 }
 
 function DesignIllustration({ design }: { design: CustomDesign }) {
+  const { t } = useTranslation()
   const scale = STYLE_SCALE[design.style] ?? 1
   const text = design.text?.trim()
 
   return (
-    <svg viewBox="0 0 200 220" role="img" aria-label="Hình mô phỏng thiết kế">
+    <svg viewBox="0 0 200 220" role="img" aria-label={t('customDesign.previewIllustration')}>
       <g transform={`translate(${100 - 100 * scale} ${100 - 100 * scale}) scale(${scale})`}>
         <Base type={design.baseProduct} main={design.mainColor} accent={design.accentColor} />
         <Accessory type={design.accessory} accent={design.accentColor} />

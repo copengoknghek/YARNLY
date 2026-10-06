@@ -12,10 +12,45 @@ Website thương mại điện tử bán len và phụ kiện đan móc.
 
 ## Cài đặt và chạy
 
-Mở hai terminal, một cho backend và một cho frontend.
+Yêu cầu Docker Desktop (hoặc Docker Engine).
+
+### Cách 1 — Docker Compose (khuyên dùng)
+
+Chạy toàn bộ stack: PostgreSQL, backend và frontend. Lần đầu cần tạo `backend/.env` (bắt buộc, Docker báo lỗi nếu thiếu); điền thêm Gmail nếu muốn gửi email xác nhận đơn hàng (xem [Email xác nhận đơn hàng](#email-xác-nhận-đơn-hàng)).
 
 ```bash
-# Terminal 1 - Backend (http://localhost:5000/api)
+cp backend/.env.example backend/.env
+docker compose up --build --watch
+```
+
+| Dịch vụ | URL |
+| ------- | --- |
+| Website | http://localhost:5173 |
+| API | http://localhost:5000/api |
+
+Dừng: `Ctrl+C` hoặc `docker compose down`.
+
+Với `--watch`, container tự cập nhật khi bạn sửa code, không cần chạy lại lệnh:
+
+| Khi sửa | Container làm gì |
+| ------- | ---------------- |
+| `backend/src`, `backend/scripts`, `frontend/src`, `frontend/public`, `index.html` | Đồng bộ file, backend tự khởi động lại, frontend tự reload |
+| `backend/.env` | Backend tự khởi động lại và đọc giá trị mới |
+| `backend/db` (migration), `vite.config.ts` | Khởi động lại container |
+| `package.json`, `package-lock.json`, `tsconfig*.json` | Build lại image (cài thư viện mới) |
+
+Nếu đã chạy `docker compose up` mà quên `--watch`, nhấn phím `w` trong terminal để bật. Không có watch thì container giữ nguyên code lúc build.
+
+### Cách 2 — Chỉ database bằng Docker, code chạy local
+
+Hữu ích khi debug frontend trực tiếp trên Windows.
+
+```bash
+docker compose up -d postgres
+```
+
+```bash
+# Terminal 1 - Backend
 cd backend
 npm install
 cp .env.example .env
@@ -23,13 +58,29 @@ npm run dev
 ```
 
 ```bash
-# Terminal 2 - Frontend (http://localhost:5173)
+# Terminal 2 - Frontend
 cd frontend
 npm install
 npm run dev
 ```
 
-Trong môi trường dev, Vite tự chuyển tiếp mọi request `/api` sang backend `http://localhost:5000`, nên frontend không cần file `.env`. Chỉ tạo `frontend/.env` (từ `.env.example`) khi muốn trỏ tới một API khác.
+Trong môi trường dev local, Vite tự chuyển tiếp mọi request `/api` sang backend `http://localhost:5000`, nên frontend không cần file `.env`. Chỉ tạo `frontend/.env` (từ `.env.example`) khi muốn trỏ tới một API khác.
+
+### Email xác nhận đơn hàng
+
+Backend gửi email xác nhận qua Gmail SMTP mỗi khi đặt hàng thành công.
+
+1. Bật xác minh 2 bước cho tài khoản Gmail.
+2. Tạo App Password tại https://myaccount.google.com/apppasswords.
+3. Điền vào `backend/.env`:
+
+```env
+SMTP_USER=tenban@gmail.com
+SMTP_PASS=abcdefghijklmnop
+SMTP_FROM="Yarnly <tenban@gmail.com>"
+```
+
+`SMTP_FROM` phải dùng đúng địa chỉ Gmail ở `SMTP_USER`. Nếu để trống `SMTP_USER`/`SMTP_PASS`, đơn hàng vẫn tạo bình thường nhưng không gửi email. `npm test` không bao giờ gửi email thật. Không commit `backend/.env`.
 
 ### Font NVN January
 
@@ -133,9 +184,9 @@ Frontend dùng alias `@/` trỏ tới `frontend/src/`, ví dụ `import Button f
 ## Trạng thái hiện tại
 
 - Trang người mua đã chạy được: trang chủ, sản phẩm (lọc, sắp xếp, phân trang), chi tiết sản phẩm (chọn màu, size, thời gian làm), thiết kế riêng, blind box, giỏ hàng (lưu ở trình duyệt), thanh toán, đặt hàng thành công, tra cứu đơn hàng theo số điện thoại hoặc email.
-- Phí vận chuyển: 12.000đ trong Đà Nẵng, 30.000đ nơi khác. Giá thiết kế riêng được backend tính lại khi đặt hàng.
-- Chỉ có giao diện: đăng nhập bằng Google/Facebook, mã giảm giá, thanh toán MoMo/ZaloPay.
-- Chưa triển khai (API trả về 501): đăng ký/đăng nhập, giỏ hàng phía server, hồ sơ người dùng, lịch sử đơn hàng theo tài khoản. Trang đăng nhập/đăng ký hiển thị thông báo lỗi này.
-- Chưa chọn database; dữ liệu đang lưu trong bộ nhớ và mất khi restart backend.
+- Phí vận chuyển theo 3 đơn vị (Yarnly Express, GHN, Viettel Post) và khu vực: Đà Nẵng (local), Huế/Quảng Nam (nearby), còn lại (national). Giá thiết kế riêng được backend tính lại khi đặt hàng.
+- Sản phẩm hiển thị người bán; 3 tài khoản seller mẫu trong seed (`seller@yarnly.vn`, `hoa.len@yarnly.vn`, `thu.len@yarnly.vn`, mật khẩu `yarnly-seller`).
+- Chưa triển khai (API trả về 501): đăng ký/đăng nhập social, mã giảm giá, thanh toán MoMo/ZaloPay trực tuyến.
+- Dữ liệu lưu PostgreSQL (Docker). Email xác nhận đơn hàng gửi qua Gmail SMTP.
 
 Danh sách endpoint chi tiết xem tại [docs/api.md](docs/api.md).

@@ -1,12 +1,15 @@
 const assert = require('node:assert/strict');
 const { after, before, describe, it } = require('node:test');
-const app = require('../src/app');
+const { setupTestDb, teardownTestDb } = require('./setup');
 
+let app;
 let server;
 let baseUrl;
 let sellerToken;
 
 before(async () => {
+  await setupTestDb();
+  app = require('../src/app');
   server = app.listen(0);
   await new Promise((resolve) => server.once('listening', resolve));
   baseUrl = `http://localhost:${server.address().port}/api`;
@@ -18,7 +21,10 @@ before(async () => {
   sellerToken = (await loginRes.json()).data.token;
 });
 
-after(() => server.close());
+after(async () => {
+  if (server) server.close();
+  await teardownTestDb();
+});
 
 const authFetch = (path, options = {}) =>
   fetch(`${baseUrl}${path}`, {

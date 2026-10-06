@@ -1,17 +1,23 @@
 const assert = require('node:assert/strict');
 const { after, before, describe, it } = require('node:test');
-const app = require('../src/app');
+const { setupTestDb, teardownTestDb } = require('./setup');
 
+let app;
 let server;
 let baseUrl;
 
 before(async () => {
+  await setupTestDb();
+  app = require('../src/app');
   server = app.listen(0);
   await new Promise((resolve) => server.once('listening', resolve));
   baseUrl = `http://localhost:${server.address().port}/api`;
 });
 
-after(() => server.close());
+after(async () => {
+  if (server) server.close();
+  await teardownTestDb();
+});
 
 const SHIPPING = {
   email: 'minhanh@yarnly.vn',
@@ -23,6 +29,8 @@ const SHIPPING = {
   ward: 'Hải Châu 1',
 };
 
+const DEFAULT_CARRIER = 'carrier-yarnly-express';
+
 const createOrder = (overrides = {}) =>
   fetch(`${baseUrl}/orders`, {
     method: 'POST',
@@ -31,6 +39,7 @@ const createOrder = (overrides = {}) =>
       items: [{ productId: 'p-001', quantity: 2 }],
       shipping: SHIPPING,
       paymentMethod: 'cod',
+      carrierId: DEFAULT_CARRIER,
       ...overrides,
     }),
   });
@@ -45,6 +54,8 @@ describe('Orders API', () => {
     assert.equal(data.total, 310000);
     assert.equal(data.status, 'placed');
     assert.match(data.code, /^Y\d+$/);
+    assert.equal(data.carrierId, DEFAULT_CARRIER);
+    assert.ok(data.carrierName);
   });
 
   it('POST /orders validates product options', async () => {
@@ -84,6 +95,19 @@ describe('Orders API', () => {
     assert.equal(badPayment.status, 400);
   });
 
+  it('POST /orders rejects missing carrier', async () => {
+    const res = await fetch(`${baseUrl}/orders`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        items: [{ productId: 'p-001', quantity: 1 }],
+        shipping: SHIPPING,
+        paymentMethod: 'cod',
+      }),
+    });
+    assert.equal(res.status, 400);
+  });
+
   it('GET /orders/lookup finds orders by phone or email', async () => {
     await createOrder();
     const byPhone = await fetch(`${baseUrl}/orders/lookup?phone=%2B84912345678`);
@@ -95,5 +119,22 @@ describe('Orders API', () => {
 
     const missing = await fetch(`${baseUrl}/orders/lookup`);
     assert.equal(missing.status, 400);
+  });
+});
+
+describe('Shipping API', () => {
+  it('GET /shipping/quotes returns carrier options by province', async () => {
+    const local = await fetch(`${baseUrl}/shipping/quotes?province=${encodeURIComponent('Đà Nẵng')}`);
+    const localBody = await local.json();
+    assert.equal(local.status, 200);
+    assert.equal(localBody.data.zone, 'local');
+    assert.equal(localBody.data.quotes.length, 3);
+    assert.equal(localBody.data.quotes[0].fee, 12000);
+
+    const national = await fetch(`${baseUrl}/shipping/quotes?province=${encodeURIComponent('TP. Hồ Chí Minh')}`);
+    const nationalBody = await national.json();
+    assert.equal(national.status, 200);
+    assert.equal(nationalBody.data.zone, 'national');
+    assert.ok(nationalBody.data.quotes.some((quote) => quote.carrierId === 'carrier-ghn'));
   });
 });

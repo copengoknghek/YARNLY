@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import '@/styles/components/SocialLogin.css'
 
 const PROVIDERS = [
@@ -7,12 +8,13 @@ const PROVIDERS = [
 ] as const
 
 function SocialLogin() {
+  const { t } = useTranslation()
   const [message, setMessage] = useState('')
 
   return (
     <div className="social-login">
       <p className="social-login__divider">
-        <span>Hoặc tiếp tục với</span>
+        <span>{t('auth.socialDivider')}</span>
       </p>
       <div className="social-login__buttons">
         {PROVIDERS.map((provider) => (
@@ -20,7 +22,7 @@ function SocialLogin() {
             key={provider.id}
             type="button"
             className="social-login__button"
-            onClick={() => setMessage(`Đăng nhập bằng ${provider.label} sẽ sớm được hỗ trợ.`)}
+            onClick={() => setMessage(t('auth.socialSoon', { provider: provider.label }))}
           >
             <img src={provider.icon} alt="" width={16} height={16} />
             {provider.label}

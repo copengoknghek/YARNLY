@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import Icon from '@/components/common/Icon'
-import { CATEGORY_LABELS } from '@/constants/categories'
+import { CATEGORY_LABEL_KEYS } from '@/constants/categories'
 import { productDetailPath } from '@/constants/routes'
 import type { Product } from '@/types/product'
 import { formatPrice } from '@/utils/formatPrice'
@@ -10,6 +11,7 @@ import '@/styles/components/ProductCarousel.css'
 const VISIBLE = 3
 
 function ProductCarousel({ products }: { products: Product[] }) {
+  const { t } = useTranslation()
   const [offset, setOffset] = useState(0)
   const count = products.length
   if (count === 0) return null
@@ -22,7 +24,7 @@ function ProductCarousel({ products }: { products: Product[] }) {
       <button
         type="button"
         className="product-carousel__arrow"
-        aria-label="Sản phẩm trước"
+        aria-label={t('products.carouselPrev')}
         onClick={() => move(-1)}
         disabled={count <= 1}
       >
@@ -40,7 +42,7 @@ function ProductCarousel({ products }: { products: Product[] }) {
             <span className="product-carousel__media">
               <img src={product.images[0]} alt={product.name} loading="lazy" />
             </span>
-            <span className="product-carousel__category">{CATEGORY_LABELS[product.category]}</span>
+            <span className="product-carousel__category">{t(CATEGORY_LABEL_KEYS[product.category])}</span>
             <span className="product-carousel__name">{product.name}</span>
           </Link>
         ))}
@@ -49,7 +51,7 @@ function ProductCarousel({ products }: { products: Product[] }) {
       <button
         type="button"
         className="product-carousel__arrow"
-        aria-label="Sản phẩm tiếp theo"
+        aria-label={t('products.carouselNext')}
         onClick={() => move(1)}
         disabled={count <= 1}
       >

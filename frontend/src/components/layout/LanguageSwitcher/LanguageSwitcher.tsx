@@ -1,17 +1,24 @@
 import { useCallback, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import Icon from '@/components/common/Icon'
 import { LANGUAGES, type LanguageCode } from '@/constants/navigation'
 import { useClickOutside } from '@/hooks/useClickOutside'
 import '@/styles/components/LanguageSwitcher.css'
 
 function LanguageSwitcher() {
+  const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
-  const [current, setCurrent] = useState<LanguageCode>('vi')
   const ref = useRef<HTMLDivElement>(null)
   const close = useCallback(() => setOpen(false), [])
   useClickOutside(ref, close, open)
 
-  const active = LANGUAGES.find((lang) => lang.code === current) ?? LANGUAGES[0]
+  const currentCode = (i18n.language.split('-')[0] as LanguageCode) || 'vi'
+  const active = LANGUAGES.find((lang) => lang.code === currentCode) ?? LANGUAGES[0]
+
+  const selectLanguage = (code: LanguageCode) => {
+    void i18n.changeLanguage(code)
+    setOpen(false)
+  }
 
   return (
     <div className="lang-switcher" ref={ref}>
@@ -28,19 +35,16 @@ function LanguageSwitcher() {
       </button>
 
       {open && (
-        <ul className="lang-switcher__menu" role="listbox" aria-label="Ngôn ngữ">
-          {LANGUAGES.filter((lang) => lang.code !== current).map((lang) => (
+        <ul className="lang-switcher__menu" role="listbox" aria-label={t('languageSwitcher.label')}>
+          {LANGUAGES.filter((lang) => lang.code !== currentCode).map((lang) => (
             <li key={lang.code} role="option" aria-selected={false}>
               <button
                 type="button"
                 className="lang-switcher__option"
-                onClick={() => {
-                  setCurrent(lang.code)
-                  setOpen(false)
-                }}
+                onClick={() => selectLanguage(lang.code)}
               >
                 <img src={lang.flag} alt="" className="lang-switcher__flag" />
-                {lang.label}
+                {t(lang.labelKey)}
               </button>
             </li>
           ))}

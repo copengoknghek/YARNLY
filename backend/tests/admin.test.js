@@ -1,7 +1,8 @@
 const assert = require('node:assert/strict');
 const { after, before, describe, it } = require('node:test');
-const app = require('../src/app');
+const { setupTestDb, teardownTestDb } = require('./setup');
 
+let app;
 let server;
 let baseUrl;
 let adminToken;
@@ -9,6 +10,8 @@ let sellerToken;
 let pendingProductId;
 
 before(async () => {
+  await setupTestDb();
+  app = require('../src/app');
   server = app.listen(0);
   await new Promise((resolve) => server.once('listening', resolve));
   baseUrl = `http://localhost:${server.address().port}/api`;
@@ -41,9 +44,52 @@ before(async () => {
     }),
   });
   pendingProductId = (await createRes.json()).data.id;
+
+  await fetch(`${baseUrl}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: 'Nguyễn Minh Anh',
+      email: 'buyer.admin.test@yarnly.vn',
+      phone: '0912345678',
+      password: 'yarnly-buyer',
+    }),
+  });
+
+  const buyerLogin = await fetch(`${baseUrl}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'buyer.admin.test@yarnly.vn', password: 'yarnly-buyer' }),
+  });
+  const buyerToken = (await buyerLogin.json()).data.token;
+
+  await fetch(`${baseUrl}/orders`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${buyerToken}`,
+    },
+    body: JSON.stringify({
+      items: [{ productId: 'p-001', quantity: 1 }],
+      shipping: {
+        email: 'buyer.admin.test@yarnly.vn',
+        fullName: 'Nguyễn Minh Anh',
+        phone: '0912345678',
+        address: '45 Lê Duẩn',
+        province: 'Đà Nẵng',
+        district: 'Hải Châu',
+        ward: 'Hải Châu 1',
+      },
+      paymentMethod: 'cod',
+      carrierId: 'carrier-yarnly-express',
+    }),
+  });
 });
 
-after(() => server.close());
+after(async () => {
+  if (server) server.close();
+  await teardownTestDb();
+});
 
 const adminFetch = (path, options = {}) =>
   fetch(`${baseUrl}${path}`, {
@@ -72,11 +118,11 @@ describe('Admin API', () => {
     assert.ok(publicBody.data.items.some((item) => item.id === pendingProductId));
   });
 
-  it('GET /admin/orders returns seeded orders', async () => {
+  it('GET /admin/orders returns orders', async () => {
     const res = await adminFetch('/admin/orders');
     const body = await res.json();
     assert.equal(res.status, 200);
-    assert.ok(body.data.length >= 4);
+    assert.ok(body.data.length >= 1);
     assert.ok(body.data[0].buyerName);
     assert.ok(body.data[0].sellerName);
   });
@@ -85,6 +131,6 @@ describe('Admin API', () => {
     const res = await adminFetch('/admin/stats');
     const body = await res.json();
     assert.equal(res.status, 200);
-    assert.ok(body.data.totalOrders >= 4);
+    assert.ok(body.data.totalOrders >= 1);
   });
 });

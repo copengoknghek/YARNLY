@@ -1,17 +1,23 @@
 const assert = require('node:assert/strict');
 const { after, before, describe, it } = require('node:test');
-const app = require('../src/app');
+const { setupTestDb, teardownTestDb } = require('./setup');
 
+let app;
 let server;
 let baseUrl;
 
 before(async () => {
+  await setupTestDb();
+  app = require('../src/app');
   server = app.listen(0);
   await new Promise((resolve) => server.once('listening', resolve));
   baseUrl = `http://localhost:${server.address().port}/api`;
 });
 
-after(() => server.close());
+after(async () => {
+  if (server) server.close();
+  await teardownTestDb();
+});
 
 const getJson = async (path) => {
   const res = await fetch(`${baseUrl}${path}`);
@@ -32,6 +38,12 @@ describe('Products API', () => {
     assert.equal(body.data.page, 1);
     assert.equal(body.data.pageSize, 4);
     assert.equal(body.data.totalPages, Math.ceil(body.data.total / 4));
+  });
+
+  it('GET /products includes seller info', async () => {
+    const { body } = await getJson('/products?pageSize=1');
+    assert.ok(body.data.items[0].sellerId);
+    assert.ok(body.data.items[0].sellerName);
   });
 
   it('GET /products filters by category', async () => {

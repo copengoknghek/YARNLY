@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import Button from '@/components/common/Button'
 import Loading from '@/components/common/Loading'
 import StatusBadge from '@/components/features/portal/StatusBadge'
-import { CATEGORY_LABELS } from '@/constants/categories'
+import { CATEGORY_LABELS_VI } from '@/constants/categories'
 import { useFetch } from '@/hooks/useFetch'
 import { approveProduct, getPendingProducts, rejectProduct } from '@/services/adminService'
 import { formatDate } from '@/utils/formatDate'
@@ -61,7 +61,7 @@ function Approvals() {
                     </p>
                   </td>
                   <td>{product.sellerName}</td>
-                  <td>{CATEGORY_LABELS[product.category]}</td>
+                  <td>{CATEGORY_LABELS_VI[product.category]}</td>
                   <td>{formatPrice(product.price)}</td>
                   <td>{formatDate(product.createdAt)}</td>
                   <td><StatusBadge status={product.approvalStatus} /></td>

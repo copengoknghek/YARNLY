@@ -1,36 +1,35 @@
 import { ROUTES } from './routes'
 
 export const MAIN_NAV = [
-  { to: ROUTES.PRODUCTS, label: 'Sản phẩm' },
-  { to: ROUTES.CUSTOM_DESIGN, label: 'Thiết kế riêng' },
-  { to: ROUTES.BLIND_BOX, label: 'Blind box' },
-  { to: ROUTES.ORDER_LOOKUP, label: 'Tra cứu đơn hàng' },
+  { to: ROUTES.PRODUCTS, labelKey: 'nav.products' },
+  { to: ROUTES.CUSTOM_DESIGN, labelKey: 'nav.customDesign' },
+  { to: ROUTES.BLIND_BOX, labelKey: 'nav.blindBox' },
+  { to: ROUTES.ORDER_LOOKUP, labelKey: 'nav.orderLookup' },
 ] as const
 
 export const FOOTER_EXPLORE = [
-  { to: ROUTES.PRODUCTS, label: 'Sản phẩm' },
-  { to: ROUTES.CUSTOM_DESIGN, label: 'Thiết kế riêng' },
-  { to: ROUTES.BLIND_BOX, label: 'Blind box' },
+  { to: ROUTES.PRODUCTS, labelKey: 'nav.products' },
+  { to: ROUTES.CUSTOM_DESIGN, labelKey: 'nav.customDesign' },
+  { to: ROUTES.BLIND_BOX, labelKey: 'nav.blindBox' },
 ] as const
 
-export const FOOTER_CONTACT = [
-  'Email: hello@yarnly.vn',
-  'Hotline: 1900 1234',
-  'Địa chỉ: TP. Đà Nẵng',
+export const FOOTER_CONTACT_KEYS = [
+  'footer.contact.email',
+  'footer.contact.hotline',
+  'footer.contact.address',
 ] as const
 
-export const FOOTER_SUPPORT = [
-  'Chính sách thanh toán',
-  'Chính sách đổi trả',
-  'Chính sách bảo mật',
-  'Chính sách vận chuyển',
+export const FOOTER_SUPPORT_KEYS = [
+  'footer.support.payment',
+  'footer.support.return',
+  'footer.support.privacy',
+  'footer.support.shipping',
 ] as const
 
 export const LANGUAGES = [
-  { code: 'vi', short: 'VN', label: 'Tiếng Việt (VN)', flag: '/images/flags/vn.svg' },
-  { code: 'en', short: 'EN', label: 'English (USA)', flag: '/images/flags/us.svg' },
-  { code: 'ko', short: 'KR', label: 'Korean (KRN)', flag: '/images/flags/kr.svg' },
-  { code: 'zh', short: 'CN', label: 'Chinese (CN)', flag: '/images/flags/cn.svg' },
+  { code: 'vi', short: 'VN', labelKey: 'language.vi', flag: '/images/flags/vn.svg' },
+  { code: 'en', short: 'EN', labelKey: 'language.en', flag: '/images/flags/us.svg' },
+  { code: 'zh', short: 'CN', labelKey: 'language.zh', flag: '/images/flags/cn.svg' },
 ] as const
 
 export type LanguageCode = (typeof LANGUAGES)[number]['code']

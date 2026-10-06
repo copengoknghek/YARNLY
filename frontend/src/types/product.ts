@@ -26,6 +26,8 @@ export interface Product {
   stock: number
   isBestSeller: boolean
   createdAt: string
+  sellerId: string
+  sellerName: string
   options?: ProductOptions
   details: ProductDetails
 }

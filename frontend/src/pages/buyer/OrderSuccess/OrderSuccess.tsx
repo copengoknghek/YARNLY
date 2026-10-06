@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { Link, useLocation, useParams } from 'react-router-dom'
 import Breadcrumb from '@/components/common/Breadcrumb'
 import Button from '@/components/common/Button'
 import Icon from '@/components/common/Icon'
@@ -21,6 +22,7 @@ import '@/styles/pages/buyer/OrderSuccess.css'
 const formatPhone = (phone: string) => phone.replace(/^0/, '(+84) ').replace(/(\d{3})(\d{3})(\d{3})$/, '$1 $2 $3')
 
 function OrderDetails({ order }: { order: Order }) {
+  const { t } = useTranslation()
   const [message, setMessage] = useState('')
   const payment = getPaymentMethod(order.paymentMethod)
   const weeks = weeksBetween(order.createdAt, order.estimatedDelivery)
@@ -29,9 +31,9 @@ function OrderDetails({ order }: { order: Order }) {
   const copyCode = async () => {
     try {
       await navigator.clipboard.writeText(order.code)
-      setMessage(`Đã sao chép mã đơn hàng ${order.code}`)
+      setMessage(t('orderSuccess.codeCopied', { code: order.code }))
     } catch {
-      setMessage(`Mã đơn hàng của bạn: ${order.code}`)
+      setMessage(t('orderSuccess.codeFallback', { code: order.code }))
     }
   }
 
@@ -39,50 +41,52 @@ function OrderDetails({ order }: { order: Order }) {
     <div className="order-success__layout">
       <div className="order-success__cards">
         <section className="order-card">
-          <h2 className="order-card__title">Trạng thái đơn hàng</h2>
+          <h2 className="order-card__title">{t('orderSuccess.statusTitle')}</h2>
           <OrderTimeline status={order.status} />
           <p className="order-card__eta">
-            Dự kiến giao hàng: {weeks} tuần nữa, {formatDate(order.estimatedDelivery)}, vui lòng nghe điện thoại khi
-            nhận hàng
+            {t('orderSuccess.statusEta', {
+              weeks,
+              date: formatDate(order.estimatedDelivery),
+            })}
           </p>
         </section>
 
         <section className="order-card">
           <div className="order-card__header">
-            <h2 className="order-card__title">Chi tiết giao hàng</h2>
+            <h2 className="order-card__title">{t('orderSuccess.shippingTitle')}</h2>
             <button
               type="button"
               className="order-card__pill"
-              onClick={() => setMessage('Vui lòng gọi hotline 1900 1234 để thay đổi địa chỉ giao hàng.')}
+              onClick={() => setMessage(t('orderSuccess.changeAddressNotice'))}
             >
-              Thay đổi thông tin địa chỉ
+              {t('orderSuccess.changeAddress')}
             </button>
           </div>
           <p className="order-card__name">{shipping.fullName}</p>
           <p className="order-card__muted">{formatPhone(shipping.phone)}</p>
           <p className="order-card__address">
             {shipping.address}, {shipping.ward}, {shipping.district},<br />
-            {shipping.province}, Việt Nam
+            {shipping.province}, {t('common.country')}
           </p>
         </section>
 
         <section className="order-card">
-          <h2 className="order-card__title">Phương thức thanh toán</h2>
+          <h2 className="order-card__title">{t('orderSuccess.paymentTitle')}</h2>
           <div className="order-card__payment">
             <img src={payment.logo} alt="" />
             <div>
-              <p className="order-card__name">{payment.shortLabel}</p>
+              <p className="order-card__name">{t(payment.shortLabelKey)}</p>
               <p className="order-card__muted">
-                {order.paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng' : 'Chờ thanh toán'}
+                {order.paymentMethod === 'cod' ? t('orderSuccess.paymentCod') : t('orderSuccess.paymentPending')}
               </p>
             </div>
             {order.paymentMethod !== 'cod' && (
               <button
                 type="button"
                 className="order-card__pill order-card__pill--small"
-                onClick={() => setMessage('Cổng thanh toán trực tuyến sẽ sớm được tích hợp.')}
+                onClick={() => setMessage(t('orderSuccess.paymentGatewayNotice'))}
               >
-                Trả
+                {t('orderSuccess.paymentPayNow')}
               </button>
             )}
           </div>
@@ -92,7 +96,7 @@ function OrderDetails({ order }: { order: Order }) {
       <aside className="order-success__summary">
         <div className="order-success__summary-card">
           <OrderSummary
-            title={`Đơn hàng ${order.code} (${countItems(order)} sản phẩm)`}
+            title={t('orderSuccess.summaryTitle', { code: order.code, count: countItems(order) })}
             lines={toSummaryLines(order)}
             subtotal={order.subtotal}
             shippingFee={order.shippingFee}
@@ -101,10 +105,10 @@ function OrderDetails({ order }: { order: Order }) {
         </div>
         <div className="order-success__actions">
           <Link to={ROUTES.CART} className="order-success__back">
-            <Icon name="chevron-left" size={12} /> Quay về giỏ hàng
+            <Icon name="chevron-left" size={12} /> {t('common.backToCart')}
           </Link>
           <Button className="order-success__code" onClick={copyCode}>
-            Lấy mã vận đơn
+            {t('orderSuccess.copyCode')}
           </Button>
         </div>
         {message && (
@@ -118,27 +122,38 @@ function OrderDetails({ order }: { order: Order }) {
 }
 
 function OrderSuccess() {
+  const { t } = useTranslation()
   const { id = '' } = useParams()
+  const location = useLocation()
+  const confirmationEmail =
+    (location.state as { confirmationEmail?: string } | null)?.confirmationEmail ?? null
   const fetchOrder = useCallback(() => getOrderById(id), [id])
   const { data: order, loading, error } = useFetch(fetchOrder)
 
   return (
     <div className="order-success">
-      <PageBanner title="Đặt hàng thành công" subtitle="Cảm ơn bạn đã tin tưởng và ủng hộ Yarnly nhé!" />
+      <PageBanner title={t('orderSuccess.pageTitle')} subtitle={t('orderSuccess.subtitle')} />
 
       <div className="container page">
         <Breadcrumb
           items={[
-            { label: 'Trang chủ', to: ROUTES.HOME },
-            { label: 'Giỏ hàng', to: ROUTES.CART },
-            { label: 'Thanh toán', to: ROUTES.CHECKOUT },
-            { label: 'Đơn hàng đã được xác nhận' },
+            { label: t('common.breadcrumb.home'), to: ROUTES.HOME },
+            { label: t('common.breadcrumb.cart'), to: ROUTES.CART },
+            { label: t('common.breadcrumb.checkout'), to: ROUTES.CHECKOUT },
+            { label: t('orderSuccess.breadcrumbConfirmed') },
           ]}
         />
+        {(confirmationEmail || order?.shipping.email) && (
+          <p className="order-success__email-notice" role="status">
+            {t('orderSuccess.emailNotice', { email: confirmationEmail ?? order?.shipping.email })}
+          </p>
+        )}
         {loading && <Loading />}
         {error && (
           <p className="text-error">
-            {error} Bạn có thể <Link to={ROUTES.ORDER_LOOKUP}>tra cứu đơn hàng</Link> bằng số điện thoại.
+            {error} {t('orderSuccess.errorLookupHint')}{' '}
+            <Link to={ROUTES.ORDER_LOOKUP}>{t('orderSuccess.errorLookupLink')}</Link>{' '}
+            {t('orderSuccess.errorLookupSuffix')}
           </p>
         )}
         {order && <OrderDetails order={order} />}

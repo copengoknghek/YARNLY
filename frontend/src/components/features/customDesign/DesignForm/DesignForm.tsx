@@ -1,4 +1,5 @@
 import { useState, type ChangeEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { CustomDesign, CustomDesignOptions } from '@/types/customDesign'
 import '@/styles/components/DesignForm.css'
 
@@ -10,7 +11,18 @@ interface DesignFormProps {
 
 const HEX_PATTERN = /^#[0-9a-f]{6}$/i
 
-function ColorField({ id, label, value, onChange }: { id: string; label: string; value: string; onChange: (value: string) => void }) {
+function ColorField({
+  id,
+  label,
+  value,
+  onChange,
+}: {
+  id: string
+  label: string
+  value: string
+  onChange: (value: string) => void
+}) {
+  const { t } = useTranslation()
   const [draft, setDraft] = useState(value)
   const [syncedValue, setSyncedValue] = useState(value)
   if (value !== syncedValue) {
@@ -26,7 +38,7 @@ function ColorField({ id, label, value, onChange }: { id: string; label: string;
       <div className="design-form__color">
         <input
           type="color"
-          aria-label={`Chọn ${label.toLowerCase()}`}
+          aria-label={t('customDesign.pickColor', { label })}
           value={value}
           onChange={(event) => onChange(event.target.value)}
         />
@@ -49,22 +61,24 @@ function ColorField({ id, label, value, onChange }: { id: string; label: string;
 }
 
 function DesignForm({ design, options, onChange }: DesignFormProps) {
+  const { t } = useTranslation()
+
   const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
     onChange({ referenceImageName: event.target.files?.[0]?.name })
   }
 
   return (
     <form className="design-form" onSubmit={(event) => event.preventDefault()}>
-      <p className="design-form__heading">Tạo mẫu theo yêu cầu</p>
+      <p className="design-form__heading">{t('customDesign.formHeading')}</p>
 
       <section className="design-form__step">
         <span className="design-form__step-number">01</span>
         <div>
-          <h2 className="design-form__step-title">Chọn sản phẩm</h2>
-          <p className="design-form__step-hint">Chọn nền tảng cho thiết kế của bạn.</p>
+          <h2 className="design-form__step-title">{t('customDesign.step1Title')}</h2>
+          <p className="design-form__step-hint">{t('customDesign.step1Hint')}</p>
         </div>
       </section>
-      <div className="design-form__products" role="radiogroup" aria-label="Sản phẩm nền">
+      <div className="design-form__products" role="radiogroup" aria-label={t('customDesign.baseProductsLabel')}>
         {options.baseProducts.map((option) => (
           <button
             key={option.id}
@@ -82,15 +96,15 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
       <section className="design-form__step">
         <span className="design-form__step-number">02</span>
         <div>
-          <h2 className="design-form__step-title">Kiểu dáng và màu sắc</h2>
-          <p className="design-form__step-hint">Phối màu để xem trực tiếp trên hình mô phỏng.</p>
+          <h2 className="design-form__step-title">{t('customDesign.step2Title')}</h2>
+          <p className="design-form__step-hint">{t('customDesign.step2Hint')}</p>
         </div>
       </section>
 
       <div className="design-form__grid">
         <div className="design-form__field">
           <label htmlFor="design-style" className="design-form__label">
-            Kiểu dáng
+            {t('customDesign.styleLabel')}
           </label>
           <select
             id="design-style"
@@ -108,14 +122,14 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
 
         <ColorField
           id="design-main-color"
-          label="Màu chính"
+          label={t('customDesign.mainColorLabel')}
           value={design.mainColor}
           onChange={(mainColor) => onChange({ mainColor })}
         />
 
         <div className="design-form__field">
           <label htmlFor="design-accessory" className="design-form__label">
-            Phụ kiện
+            {t('customDesign.accessoryLabel')}
           </label>
           <select
             id="design-accessory"
@@ -133,19 +147,19 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
 
         <ColorField
           id="design-accent-color"
-          label="Màu phụ"
+          label={t('customDesign.accentColorLabel')}
           value={design.accentColor}
           onChange={(accentColor) => onChange({ accentColor })}
         />
 
         <div className="design-form__field">
           <label htmlFor="design-text" className="design-form__label">
-            Tên hoặc chữ muốn thêm
+            {t('customDesign.textLabel')}
           </label>
           <input
             id="design-text"
             className="design-form__control"
-            placeholder="Ví dụ: Anh"
+            placeholder={t('customDesign.textPlaceholder')}
             maxLength={20}
             value={design.text ?? ''}
             onChange={(event) => onChange({ text: event.target.value })}
@@ -154,7 +168,7 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
 
         <div className="design-form__field">
           <label htmlFor="design-reference" className="design-form__label">
-            Ảnh mẫu tham khảo
+            {t('customDesign.referenceLabel')}
           </label>
           <input
             id="design-reference"
@@ -167,12 +181,12 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
 
         <div className="design-form__field design-form__field--full">
           <label htmlFor="design-note" className="design-form__label">
-            Mô tả thêm cho Yarnly
+            {t('customDesign.noteLabel')}
           </label>
           <textarea
             id="design-note"
             className="design-form__control design-form__textarea"
-            placeholder="Kích thước, phong cách, ..."
+            placeholder={t('customDesign.notePlaceholder')}
             maxLength={500}
             value={design.note ?? ''}
             onChange={(event) => onChange({ note: event.target.value })}

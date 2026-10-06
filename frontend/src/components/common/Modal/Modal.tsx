@@ -1,4 +1,5 @@
 import { useEffect, type ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
 import '@/styles/components/Modal.css'
 
 interface ModalProps {
@@ -9,6 +10,8 @@ interface ModalProps {
 }
 
 function Modal({ isOpen, title, onClose, children }: ModalProps) {
+  const { t } = useTranslation()
+
   useEffect(() => {
     if (!isOpen) return
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -31,7 +34,7 @@ function Modal({ isOpen, title, onClose, children }: ModalProps) {
       >
         <div className="modal__header">
           <h3>{title}</h3>
-          <button className="modal__close" onClick={onClose} aria-label="Đóng">
+          <button className="modal__close" onClick={onClose} aria-label={t('common.close')}>
             ×
           </button>
         </div>

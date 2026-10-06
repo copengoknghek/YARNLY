@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react'
 import StatCard from '@/components/features/portal/StatCard'
 import Loading from '@/components/common/Loading'
-import { ORDER_STATUS_LABELS } from '@/constants/orderStatus'
+import { ORDER_STATUS_LABELS_VI } from '@/constants/orderStatus'
 import { useFetch } from '@/hooks/useFetch'
 import { getAdminOrders } from '@/services/adminService'
 import { formatDate } from '@/utils/formatDate'
@@ -54,7 +54,7 @@ function Orders() {
                 </td>
                 <td>{order.sellerName}</td>
                 <td>{formatPrice(order.total)}</td>
-                <td>{ORDER_STATUS_LABELS[order.status]}</td>
+                <td>{ORDER_STATUS_LABELS_VI[order.status]}</td>
                 <td>{formatDate(order.createdAt)}</td>
               </tr>
             ))}

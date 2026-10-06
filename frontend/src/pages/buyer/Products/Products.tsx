@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useSearchParams } from 'react-router-dom'
 import Loading from '@/components/common/Loading'
 import PageBanner from '@/components/common/PageBanner'
@@ -17,6 +18,7 @@ const pickOption = <T extends string>(options: { value: T }[], raw: string | nul
   options.find((option) => option.value === raw)?.value ?? ''
 
 function Products() {
+  const { t } = useTranslation()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const search = searchParams.get('search') ?? ''
@@ -58,14 +60,14 @@ function Products() {
 
   return (
     <div className="products-page">
-      <PageBanner title="Sản phẩm" />
+      <PageBanner title={t('products.pageTitle')} />
 
       <section className="container page">
         {search && (
           <p className="products-page__search">
-            Kết quả tìm kiếm cho “<strong>{search}</strong>”
+            {t('products.searchResults', { query: search })}
             <button type="button" className="products-page__clear" onClick={() => updateParams({ search: '' })}>
-              Xóa tìm kiếm
+              {t('products.clearSearch')}
             </button>
           </p>
         )}

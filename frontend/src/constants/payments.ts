@@ -1,9 +1,29 @@
 import type { PaymentMethod } from '@/types/order'
 
-export const PAYMENT_METHODS: { value: PaymentMethod; label: string; shortLabel: string; logo: string }[] = [
-  { value: 'momo', label: 'Thanh toán qua MoMo QR đa năng', shortLabel: 'Ví MoMo', logo: '/images/payments/momo.png' },
-  { value: 'zalopay', label: 'Thanh toán qua ZaloPay', shortLabel: 'ZaloPay', logo: '/images/payments/zalopay.png' },
-  { value: 'cod', label: 'Thu hộ (COD)', shortLabel: 'Thanh toán khi nhận hàng', logo: '/images/payments/cod.svg' },
+export const PAYMENT_METHODS: {
+  value: PaymentMethod
+  labelKey: string
+  shortLabelKey: string
+  logo: string
+}[] = [
+  {
+    value: 'momo',
+    labelKey: 'payment.momo.label',
+    shortLabelKey: 'payment.momo.shortLabel',
+    logo: '/images/payments/momo.png',
+  },
+  {
+    value: 'zalopay',
+    labelKey: 'payment.zalopay.label',
+    shortLabelKey: 'payment.zalopay.shortLabel',
+    logo: '/images/payments/zalopay.png',
+  },
+  {
+    value: 'cod',
+    labelKey: 'payment.cod.label',
+    shortLabelKey: 'payment.cod.shortLabel',
+    logo: '/images/payments/cod.svg',
+  },
 ]
 
 export const getPaymentMethod = (value: PaymentMethod) =>

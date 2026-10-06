@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Breadcrumb from '@/components/common/Breadcrumb'
 import Button from '@/components/common/Button'
@@ -26,6 +27,7 @@ const initialOptions = (product: Product): SelectedOptions => ({
 })
 
 function ProductInfo({ product }: { product: Product }) {
+  const { t } = useTranslation()
   const { addItem } = useCart()
   const navigate = useNavigate()
   const [quantity, setQuantity] = useState(1)
@@ -39,10 +41,10 @@ function ProductInfo({ product }: { product: Product }) {
     addItem({ id, name, price, category, images }, quantity, { selectedOptions })
   }
 
-  const pickers: { key: keyof SelectedOptions; label: string; values?: string[] }[] = [
-    { key: 'color', label: 'Màu sắc', values: product.options?.colors },
-    { key: 'size', label: 'Kích cỡ', values: product.options?.sizes },
-    { key: 'leadTime', label: 'Thời gian làm', values: product.options?.leadTimes },
+  const pickers: { key: keyof SelectedOptions; labelKey: string; values?: string[] }[] = [
+    { key: 'color', labelKey: 'productDetail.options.color', values: product.options?.colors },
+    { key: 'size', labelKey: 'productDetail.options.size', values: product.options?.sizes },
+    { key: 'leadTime', labelKey: 'productDetail.options.leadTime', values: product.options?.leadTimes },
   ]
 
   return (
@@ -50,21 +52,22 @@ function ProductInfo({ product }: { product: Product }) {
       <h1 className="display-title product-info__name">{product.name}</h1>
       <div className="product-info__meta">
         <span className="product-info__price">{formatPrice(product.price)}</span>
-        <span className="product-info__rating" aria-label={`Đánh giá ${RATING} trên 5`}>
+        <span className="product-info__rating" aria-label={t('productDetail.rating', { rating: RATING })}>
           {Array.from({ length: 5 }, (_, i) => (
             <span key={i} className={`yarn-ball ${i < RATING ? 'yarn-ball--filled' : ''}`} />
           ))}
         </span>
       </div>
       <p className="product-info__description">{product.description}</p>
+      <p className="product-info__seller">{t('productDetail.seller', { name: product.sellerName })}</p>
 
       {pickers.map(
-        ({ key, label, values }) =>
+        ({ key, labelKey, values }) =>
           values &&
           values.length > 0 && (
             <OptionPicker
               key={key}
-              label={label}
+              label={t(labelKey)}
               options={values}
               value={options[key] ?? values[0]}
               onChange={(value) => setOptions((current) => ({ ...current, [key]: value }))}
@@ -73,7 +76,7 @@ function ProductInfo({ product }: { product: Product }) {
       )}
 
       <div className="product-info__quantity">
-        <span className="product-info__label">Số lượng</span>
+        <span className="product-info__label">{t('common.quantity')}</span>
         <QuantityInput
           size="lg"
           value={quantity}
@@ -83,7 +86,7 @@ function ProductInfo({ product }: { product: Product }) {
       </div>
 
       {outOfStock ? (
-        <p className="product-info__soldout">Sản phẩm tạm hết hàng. Bạn có thể đặt làm theo yêu cầu ở trang Thiết kế riêng.</p>
+        <p className="product-info__soldout">{t('productDetail.outOfStock')}</p>
       ) : (
         <div className="product-info__actions">
           <Button
@@ -92,7 +95,7 @@ function ProductInfo({ product }: { product: Product }) {
               setAdded(true)
             }}
           >
-            Bỏ giỏ hàng
+            {t('productDetail.addToCart')}
           </Button>
           <Button
             onClick={() => {
@@ -100,14 +103,14 @@ function ProductInfo({ product }: { product: Product }) {
               navigate(ROUTES.CHECKOUT)
             }}
           >
-            Mua ngay
+            {t('productDetail.buyNow')}
           </Button>
         </div>
       )}
 
       {added && (
         <p className="product-info__added" role="status">
-          Đã thêm vào giỏ hàng. <Link to={ROUTES.CART}>Xem giỏ hàng</Link>
+          {t('productDetail.addedToCart')} <Link to={ROUTES.CART}>{t('common.viewCart')}</Link>
         </p>
       )}
     </div>
@@ -115,6 +118,7 @@ function ProductInfo({ product }: { product: Product }) {
 }
 
 function ProductDetail() {
+  const { t } = useTranslation()
   const { id = '' } = useParams()
   const fetchProduct = useCallback(() => getProductById(id), [id])
   const { data: product, loading, error } = useFetch(fetchProduct)
@@ -124,9 +128,9 @@ function ProductDetail() {
       <div className="container page page--plain">
         <Breadcrumb
           items={[
-            { label: 'Trang chủ', to: ROUTES.HOME },
-            { label: 'Sản phẩm', to: ROUTES.PRODUCTS },
-            { label: product?.name ?? '...' },
+            { label: t('common.breadcrumb.home'), to: ROUTES.HOME },
+            { label: t('common.breadcrumb.products'), to: ROUTES.PRODUCTS },
+            { label: product?.name ?? t('common.loadingEllipsis') },
           ]}
         />
 

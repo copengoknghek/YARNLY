@@ -64,6 +64,12 @@
   font-weight: 600;
 }
 
+.product-card__seller {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-2xs);
+  color: var(--color-green);
+}
+
 .product-card__footer {
   display: flex;
   align-items: center;

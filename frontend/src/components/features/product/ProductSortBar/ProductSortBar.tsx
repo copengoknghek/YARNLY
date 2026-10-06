@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import Dropdown from '@/components/common/Dropdown'
 import Icon from '@/components/common/Icon'
 import { CATEGORY_OPTIONS, PRICE_SORT_OPTIONS, STATUS_OPTIONS } from '@/constants/productFilters'
@@ -19,24 +20,26 @@ interface ProductSortBarProps {
 }
 
 function ProductSortBar({ filters, onFilterChange, page, totalPages, onPageChange }: ProductSortBarProps) {
+  const { t } = useTranslation()
+
   return (
     <div className="sort-bar">
       <div className="sort-bar__filters">
-        <span className="sort-bar__label">Sắp xếp theo</span>
+        <span className="sort-bar__label">{t('products.sortBar.sortBy')}</span>
         <Dropdown
-          label="Tình trạng"
+          labelKey="products.sortBar.status"
           value={filters.status}
           options={STATUS_OPTIONS}
           onChange={(status) => onFilterChange({ status })}
         />
         <Dropdown
-          label="Giá cả"
+          labelKey="products.sortBar.price"
           value={filters.sort}
           options={PRICE_SORT_OPTIONS}
           onChange={(sort) => onFilterChange({ sort })}
         />
         <Dropdown
-          label="Phân loại"
+          labelKey="products.sortBar.category"
           value={filters.category}
           options={CATEGORY_OPTIONS}
           onChange={(category) => onFilterChange({ category })}
@@ -50,7 +53,7 @@ function ProductSortBar({ filters, onFilterChange, page, totalPages, onPageChang
         <button
           type="button"
           className="sort-bar__page-button"
-          aria-label="Trang trước"
+          aria-label={t('products.sortBar.prevPage')}
           disabled={page <= 1}
           onClick={() => onPageChange(page - 1)}
         >
@@ -59,7 +62,7 @@ function ProductSortBar({ filters, onFilterChange, page, totalPages, onPageChang
         <button
           type="button"
           className="sort-bar__page-button"
-          aria-label="Trang sau"
+          aria-label={t('products.sortBar.nextPage')}
           disabled={page >= totalPages}
           onClick={() => onPageChange(page + 1)}
         >

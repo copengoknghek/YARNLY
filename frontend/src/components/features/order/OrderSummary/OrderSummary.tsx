@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { ReactNode } from 'react'
 import { formatPrice } from '@/utils/formatPrice'
 import '@/styles/components/OrderSummary.css'
@@ -23,6 +24,8 @@ interface OrderSummaryProps {
 }
 
 function OrderSummary({ title, lines, subtotal, shippingFee, total, children, className = '' }: OrderSummaryProps) {
+  const { t } = useTranslation()
+
   return (
     <section className={`order-summary ${className}`}>
       <h2 className="order-summary__title">{title}</h2>
@@ -32,7 +35,7 @@ function OrderSummary({ title, lines, subtotal, shippingFee, total, children, cl
           <li key={line.key} className="order-summary__item">
             <span className="order-summary__thumb">
               {line.image && <img src={line.image} alt="" />}
-              <span className="order-summary__qty" aria-label={`Số lượng ${line.quantity}`}>
+              <span className="order-summary__qty" aria-label={t('order.quantity', { count: line.quantity })}>
                 {line.quantity}
               </span>
             </span>
@@ -49,17 +52,17 @@ function OrderSummary({ title, lines, subtotal, shippingFee, total, children, cl
 
       <dl className="order-summary__totals">
         <div>
-          <dt>Tạm tính</dt>
+          <dt>{t('order.subtotal')}</dt>
           <dd>{formatPrice(subtotal)}</dd>
         </div>
         <div>
-          <dt>Phí vận chuyển</dt>
-          <dd>{shippingFee === null ? '--------' : formatPrice(shippingFee)}</dd>
+          <dt>{t('order.shipping')}</dt>
+          <dd>{shippingFee === null ? t('order.shippingPending') : formatPrice(shippingFee)}</dd>
         </div>
       </dl>
 
       <div className="order-summary__total">
-        <span>Tổng cộng</span>
+        <span>{t('order.total')}</span>
         <strong>{formatPrice(total)}</strong>
       </div>
     </section>

@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react'
 import * as authService from '@/services/authService'
 import { TOKEN_STORAGE_KEY } from '@/services/api'
+import * as userService from '@/services/userService'
 import type { AuthResponse, User } from '@/types/user'
 import { AuthContext, type AuthContextValue } from './AuthContext'
 
@@ -32,6 +33,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loginSeller: async (payload) => saveSession(await authService.login(payload)),
       registerSeller: async (payload) => saveSession(await authService.registerSeller(payload)),
       loginStaff: async (payload) => saveSession(await authService.login(payload)),
+      updateProfile: async (payload) => {
+        const updated = await userService.updateProfile(payload)
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(updated))
+        setUser(updated)
+      },
       logout: async () => {
         try {
           await authService.logout()

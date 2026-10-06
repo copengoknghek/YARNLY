@@ -2,6 +2,14 @@
   padding-bottom: 0;
 }
 
+.order-success__email-notice {
+  margin-bottom: var(--space-6);
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--font-size-xs);
+  background-color: var(--color-yellow);
+  border-radius: var(--radius-sm);
+}
+
 .order-success__layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 330px;

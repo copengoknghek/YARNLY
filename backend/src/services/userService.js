@@ -10,8 +10,11 @@ const getProfile = async (userId) => {
   return toPublicUser(user);
 };
 
-const updateProfile = async (userId, { name }) => {
-  const user = await User.update(userId, { name: name?.trim() });
+const updateProfile = async (userId, { name, phone }) => {
+  const patch = {};
+  if (name !== undefined) patch.name = name.trim();
+  if (phone !== undefined) patch.phone = phone.trim();
+  const user = await User.update(userId, patch);
   if (!user) {
     throw new AppError(404, 'Không tìm thấy người dùng');
   }

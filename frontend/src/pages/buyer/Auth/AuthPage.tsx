@@ -1,4 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
@@ -12,6 +13,7 @@ import {
 import { ROUTES } from '@/constants/routes'
 import { useAuth } from '@/hooks/useAuth'
 import { getErrorMessage } from '@/services/api'
+import i18n from '@/i18n'
 import type { AuthAudience } from '@/types/portal'
 import { getAccessRole } from '@/utils/roles'
 import { isValidEmail, isValidPassword, isValidPhone } from '@/utils/validators'
@@ -30,10 +32,10 @@ type AuthErrors = Partial<Record<keyof AuthValues, string>>
 
 const EMPTY_VALUES: AuthValues = { name: '', phone: '', email: '', password: '' }
 
-const AUDIENCE_OPTIONS: { value: AuthAudience; label: string }[] = [
-  { value: 'buyer', label: 'Người mua' },
-  { value: 'seller', label: 'Người bán' },
-  { value: 'staff', label: 'Nhân viên' },
+const AUDIENCE_OPTIONS: { value: AuthAudience; labelKey: string }[] = [
+  { value: 'buyer', labelKey: 'auth.audienceBuyer' },
+  { value: 'seller', labelKey: 'auth.audienceSeller' },
+  { value: 'staff', labelKey: 'auth.audienceStaff' },
 ]
 
 const parseAudience = (value: string | null): AuthAudience =>
@@ -42,13 +44,15 @@ const parseAudience = (value: string | null): AuthAudience =>
 const validate = (mode: AuthMode, audience: AuthAudience, values: AuthValues): AuthErrors => {
   const errors: AuthErrors = {}
   if (mode === 'register' && audience !== 'staff') {
-    if (!values.name.trim()) errors.name = 'Vui lòng nhập họ tên'
-    if (!isValidPhone(values.phone)) errors.phone = 'Số điện thoại không hợp lệ'
+    if (!values.name.trim()) errors.name = i18n.t('auth.validation.nameRequired')
+    if (!isValidPhone(values.phone)) errors.phone = i18n.t('common.validation.phoneInvalid')
   }
-  if (!isValidEmail(values.email)) errors.email = 'Email không hợp lệ'
+  if (!isValidEmail(values.email)) errors.email = i18n.t('common.validation.emailInvalid')
   if (mode === 'register' && audience !== 'staff' ? !isValidPassword(values.password) : !values.password) {
     errors.password =
-      mode === 'register' && audience !== 'staff' ? 'Mật khẩu tối thiểu 6 ký tự' : 'Vui lòng nhập mật khẩu'
+      mode === 'register' && audience !== 'staff'
+        ? i18n.t('auth.validation.passwordMin')
+        : i18n.t('auth.validation.passwordRequired')
   }
   return errors
 }
@@ -60,6 +64,7 @@ const redirectForUser = (audience: AuthAudience) => {
 }
 
 function AuthPage({ mode }: { mode: AuthMode }) {
+  const { t } = useTranslation()
   const { login, register, loginSeller, registerSeller, loginStaff, user } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
@@ -147,7 +152,7 @@ function AuthPage({ mode }: { mode: AuthMode }) {
   return (
     <div className="auth-page page page--plain">
       <div className="auth-page__card">
-        <div className="auth-page__audience" role="group" aria-label="Loại tài khoản">
+        <div className="auth-page__audience" role="group" aria-label={t('auth.audienceLabel')}>
           {AUDIENCE_OPTIONS.map((option) => (
             <button
               key={option.value}
@@ -155,20 +160,20 @@ function AuthPage({ mode }: { mode: AuthMode }) {
               className={`auth-page__audience-btn ${audience === option.value ? 'auth-page__audience-btn--active' : ''}`}
               onClick={() => updateAudience(option.value)}
             >
-              {option.label}
+              {t(option.labelKey)}
             </button>
           ))}
         </div>
 
         {showRegisterTab ? (
-          <nav className="auth-page__tabs" aria-label="Đăng nhập hoặc đăng ký">
+          <nav className="auth-page__tabs" aria-label={t('auth.tabsLabel')}>
             <Link
               to={ROUTES.LOGIN}
               state={location.state}
               className={`auth-page__tab ${isLogin ? 'auth-page__tab--active' : ''}`}
               aria-current={isLogin ? 'page' : undefined}
             >
-              Đăng nhập
+              {t('auth.loginTab')}
             </Link>
             <Link
               to={ROUTES.REGISTER}
@@ -176,32 +181,32 @@ function AuthPage({ mode }: { mode: AuthMode }) {
               className={`auth-page__tab ${!isLogin ? 'auth-page__tab--active' : ''}`}
               aria-current={!isLogin ? 'page' : undefined}
             >
-              Đăng ký
+              {t('auth.registerTab')}
             </Link>
           </nav>
         ) : (
-          <h2 className="auth-page__staff-title">Đăng nhập nhân viên</h2>
+          <h2 className="auth-page__staff-title">{t('auth.staffTitle')}</h2>
         )}
 
         {isStaff && (
           <p className="auth-page__hint">
-            Tài khoản mẫu: {DEMO_STAFF_EMAIL} / {DEMO_STAFF_PASSWORD}
+            {t('auth.staffHint', { email: DEMO_STAFF_EMAIL, password: DEMO_STAFF_PASSWORD })}
           </p>
         )}
         {audience === 'seller' && isLogin && (
           <p className="auth-page__hint">
-            Người bán mẫu: {DEMO_SELLER_EMAIL} / {DEMO_SELLER_PASSWORD}
+            {t('auth.sellerHint', { email: DEMO_SELLER_EMAIL, password: DEMO_SELLER_PASSWORD })}
           </p>
         )}
 
         <form className="auth-page__form" onSubmit={handleSubmit} noValidate>
           <h1 className="visually-hidden">
-            {isStaff ? 'Đăng nhập nhân viên' : isLogin ? 'Đăng nhập' : 'Đăng ký tài khoản'}
+            {isStaff ? t('auth.staffTitle') : isLogin ? t('auth.loginHeading') : t('auth.registerHeading')}
           </h1>
           {!isLogin && !isStaff && (
             <>
               <Input
-                label="Họ và tên *"
+                label={t('auth.nameLabel')}
                 hideLabel
                 autoComplete="name"
                 className="auth-page__input"
@@ -210,7 +215,7 @@ function AuthPage({ mode }: { mode: AuthMode }) {
                 onChange={(event) => update('name')(event.target.value)}
               />
               <Input
-                label="Số điện thoại *"
+                label={t('auth.phoneLabel')}
                 hideLabel
                 type="tel"
                 autoComplete="tel"
@@ -222,7 +227,7 @@ function AuthPage({ mode }: { mode: AuthMode }) {
             </>
           )}
           <Input
-            label="Email *"
+            label={t('auth.emailLabel')}
             hideLabel
             type="email"
             autoComplete="email"
@@ -232,7 +237,7 @@ function AuthPage({ mode }: { mode: AuthMode }) {
             onChange={(event) => update('email')(event.target.value)}
           />
           <Input
-            label="Mật khẩu *"
+            label={t('auth.passwordLabel')}
             hideLabel
             type="password"
             autoComplete={isLogin ? 'current-password' : 'new-password'}
@@ -246,11 +251,9 @@ function AuthPage({ mode }: { mode: AuthMode }) {
             <button
               type="button"
               className="auth-page__link auth-page__forgot"
-              onClick={() =>
-                setNotice('Vui lòng liên hệ hello@yarnly.vn để được hỗ trợ đặt lại mật khẩu.')
-              }
+              onClick={() => setNotice(t('auth.forgotNotice'))}
             >
-              Quên mật khẩu?
+              {t('auth.forgotPassword')}
             </button>
           )}
 
@@ -258,22 +261,22 @@ function AuthPage({ mode }: { mode: AuthMode }) {
           {notice && <p className="auth-page__notice">{notice}</p>}
 
           <Button type="submit" fullWidth disabled={submitting} className="auth-page__submit">
-            {submitting ? 'Đang xử lý...' : isLogin ? 'Đăng nhập' : 'Đăng ký'}
+            {submitting ? t('auth.submitting') : isLogin ? t('auth.loginSubmit') : t('auth.registerSubmit')}
           </Button>
 
           <div className="auth-page__footer">
             {showRegisterTab &&
               (isLogin ? (
                 <Link to={ROUTES.REGISTER} state={location.state} className="auth-page__link">
-                  Tạo tài khoản
+                  {t('auth.createAccount')}
                 </Link>
               ) : (
                 <Link to={ROUTES.LOGIN} state={location.state} className="auth-page__link">
-                  Đã có tài khoản? Đăng nhập
+                  {t('auth.hasAccount')}
                 </Link>
               ))}
             <Link to={ROUTES.HOME} className="auth-page__link">
-              Trở về cửa hàng
+              {t('auth.backToShop')}
             </Link>
           </div>
         </form>

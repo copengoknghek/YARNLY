@@ -1,4 +1,5 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link, useNavigate } from 'react-router-dom'
 import Breadcrumb from '@/components/common/Breadcrumb'
 import Button, { LinkButton } from '@/components/common/Button'
@@ -8,15 +9,16 @@ import CheckoutForm, { type CheckoutErrors } from '@/components/features/checkou
 import CouponInput from '@/components/features/checkout/CouponInput'
 import PaymentMethods from '@/components/features/checkout/PaymentMethods'
 import OrderSummary from '@/components/features/order/OrderSummary'
+import i18n from '@/i18n'
 import { ROUTES, orderSuccessPath } from '@/constants/routes'
 import { useAuth } from '@/hooks/useAuth'
 import { useCart } from '@/hooks/useCart'
 import { getErrorMessage } from '@/services/api'
 import { createOrder } from '@/services/orderService'
-import type { PaymentMethod, ShippingInfo } from '@/types/order'
+import { getShippingQuotes } from '@/services/shippingService'
+import type { PaymentMethod, ShippingInfo, ShippingQuote } from '@/types/order'
 import { describeItemOptions } from '@/utils/cartItem'
 import { formatPrice } from '@/utils/formatPrice'
-import { calculateShippingFee } from '@/utils/shipping'
 import { isValidEmail, isValidPhone } from '@/utils/validators'
 import '@/styles/pages/buyer/Checkout.css'
 
@@ -24,17 +26,18 @@ const FORM_ID = 'checkout-form'
 
 const validate = (shipping: ShippingInfo): CheckoutErrors => {
   const errors: CheckoutErrors = {}
-  if (!isValidEmail(shipping.email)) errors.email = 'Email không hợp lệ'
-  if (!shipping.fullName.trim()) errors.fullName = 'Vui lòng nhập họ tên'
-  if (!isValidPhone(shipping.phone)) errors.phone = 'Số điện thoại không hợp lệ'
-  if (!shipping.address.trim()) errors.address = 'Vui lòng nhập địa chỉ'
-  if (!shipping.province) errors.province = 'Vui lòng chọn tỉnh thành'
-  if (!shipping.district) errors.district = 'Vui lòng chọn quận huyện'
-  if (!shipping.ward) errors.ward = 'Vui lòng chọn phường xã'
+  if (!isValidEmail(shipping.email)) errors.email = i18n.t('common.validation.emailInvalid')
+  if (!shipping.fullName.trim()) errors.fullName = i18n.t('common.validation.fullNameRequired')
+  if (!isValidPhone(shipping.phone)) errors.phone = i18n.t('common.validation.phoneInvalid')
+  if (!shipping.address.trim()) errors.address = i18n.t('common.validation.addressRequired')
+  if (!shipping.province) errors.province = i18n.t('common.validation.provinceRequired')
+  if (!shipping.district) errors.district = i18n.t('common.validation.districtRequired')
+  if (!shipping.ward) errors.ward = i18n.t('common.validation.wardRequired')
   return errors
 }
 
 function Checkout() {
+  const { t } = useTranslation()
   const { items, totalPrice, note, setNote, clearCart } = useCart()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -49,20 +52,63 @@ function Checkout() {
     ward: '',
   })
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | ''>('')
+  const [carrierId, setCarrierId] = useState('')
+  const [quotes, setQuotes] = useState<ShippingQuote[]>([])
+  const [quotesLoading, setQuotesLoading] = useState(false)
+  const [quotesError, setQuotesError] = useState('')
   const [errors, setErrors] = useState<CheckoutErrors>({})
   const [paymentError, setPaymentError] = useState('')
+  const [carrierError, setCarrierError] = useState('')
   const [submitError, setSubmitError] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
-  const shippingFee = shipping.province ? calculateShippingFee(shipping.province) : null
+  useEffect(() => {
+    if (!shipping.province) {
+      setQuotes([])
+      setCarrierId('')
+      return
+    }
+
+    let cancelled = false
+    setQuotesLoading(true)
+    setQuotesError('')
+
+    getShippingQuotes(shipping.province)
+      .then((result) => {
+        if (cancelled) return
+        setQuotes(result.quotes)
+        setCarrierId((current) =>
+          current && result.quotes.some((quote) => quote.carrierId === current)
+            ? current
+            : (result.quotes[0]?.carrierId ?? ''),
+        )
+      })
+      .catch((error) => {
+        if (cancelled) return
+        setQuotes([])
+        setCarrierId('')
+        setQuotesError(getErrorMessage(error))
+      })
+      .finally(() => {
+        if (!cancelled) setQuotesLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [shipping.province])
+
+  const selectedQuote = quotes.find((quote) => quote.carrierId === carrierId) ?? null
+  const shippingFee = selectedQuote?.fee ?? null
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0)
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const nextErrors = validate(shipping)
     setErrors(nextErrors)
-    setPaymentError(paymentMethod ? '' : 'Vui lòng chọn phương thức thanh toán')
-    if (Object.keys(nextErrors).length > 0 || !paymentMethod) return
+    setPaymentError(paymentMethod ? '' : t('checkout.validationPaymentRequired'))
+    setCarrierError(carrierId ? '' : t('checkout.validationCarrierRequired'))
+    if (Object.keys(nextErrors).length > 0 || !paymentMethod || !carrierId) return
 
     setSubmitting(true)
     setSubmitError('')
@@ -77,9 +123,10 @@ function Checkout() {
         shipping: { ...shipping, phone: shipping.phone.replace(/\s/g, '') },
         note: note.trim() || undefined,
         paymentMethod,
+        carrierId,
       })
       clearCart()
-      navigate(orderSuccessPath(order.id))
+      navigate(orderSuccessPath(order.id), { state: { confirmationEmail: shipping.email } })
     } catch (error) {
       setSubmitError(getErrorMessage(error))
     } finally {
@@ -90,10 +137,10 @@ function Checkout() {
   if (items.length === 0) {
     return (
       <div className="checkout-page">
-        <PageBanner title="Thanh toán" />
+        <PageBanner title={t('checkout.pageTitle')} />
         <div className="container page checkout-page__empty">
-          <p>Giỏ hàng của bạn đang trống.</p>
-          <LinkButton to={ROUTES.PRODUCTS}>Tiếp tục mua sắm</LinkButton>
+          <p>{t('checkout.empty')}</p>
+          <LinkButton to={ROUTES.PRODUCTS}>{t('common.continueShopping')}</LinkButton>
         </div>
       </div>
     )
@@ -101,14 +148,14 @@ function Checkout() {
 
   return (
     <div className="checkout-page">
-      <PageBanner title="Thanh toán" />
+      <PageBanner title={t('checkout.pageTitle')} />
 
       <div className="container page">
         <Breadcrumb
           items={[
-            { label: 'Trang chủ', to: ROUTES.HOME },
-            { label: 'Giỏ hàng', to: ROUTES.CART },
-            { label: 'Thanh toán' },
+            { label: t('common.breadcrumb.home'), to: ROUTES.HOME },
+            { label: t('common.breadcrumb.cart'), to: ROUTES.CART },
+            { label: t('common.breadcrumb.checkout') },
           ]}
         />
 
@@ -124,15 +171,46 @@ function Checkout() {
 
             <div className="checkout-page__side">
               <section>
-                <h2 className="checkout-page__section-title">Vận chuyển</h2>
-                {shippingFee === null ? (
-                  <p className="checkout-page__notice">Vui lòng nhập thông tin giao hàng</p>
+                <h2 className="checkout-page__section-title">{t('checkout.shippingTitle')}</h2>
+                {!shipping.province ? (
+                  <p className="checkout-page__notice">{t('checkout.shippingEnterAddress')}</p>
+                ) : quotesLoading ? (
+                  <p className="checkout-page__notice">{t('checkout.shippingLoadingQuotes')}</p>
+                ) : quotesError ? (
+                  <p className="text-error checkout-page__notice">{quotesError}</p>
+                ) : quotes.length === 0 ? (
+                  <p className="checkout-page__notice">{t('checkout.shippingNoCarriers')}</p>
                 ) : (
-                  <p className="checkout-page__shipping">
-                    <span>Giao hàng tiêu chuẩn đến {shipping.province}</span>
-                    <strong>{formatPrice(shippingFee)}</strong>
-                  </p>
+                  <fieldset className="checkout-page__carriers">
+                    <legend className="visually-hidden">{t('checkout.shippingSelectCarrier')}</legend>
+                    {quotes.map((quote) => (
+                      <label key={quote.carrierId} className="checkout-page__carrier">
+                        <input
+                          type="radio"
+                          name="carrier"
+                          value={quote.carrierId}
+                          checked={carrierId === quote.carrierId}
+                          onChange={() => {
+                            setCarrierId(quote.carrierId)
+                            setCarrierError('')
+                          }}
+                        />
+                        <span className="checkout-page__carrier-body">
+                          <span className="checkout-page__carrier-name">{quote.carrierName}</span>
+                          <span className="checkout-page__carrier-meta">
+                            {t('checkout.shippingCarrierEta', {
+                              description: quote.description,
+                              min: quote.etaMinDays,
+                              max: quote.etaMaxDays,
+                            })}
+                          </span>
+                        </span>
+                        <strong>{formatPrice(quote.fee)}</strong>
+                      </label>
+                    ))}
+                  </fieldset>
                 )}
+                {carrierError && <p className="text-error checkout-page__carrier-error">{carrierError}</p>}
               </section>
 
               <PaymentMethods
@@ -148,7 +226,7 @@ function Checkout() {
 
           <aside className="checkout-page__summary">
             <OrderSummary
-              title={`Đơn hàng (${itemCount} sản phẩm)`}
+              title={t('checkout.orderSummaryTitle', { count: itemCount })}
               lines={items.map((item) => ({
                 key: item.key,
                 name: item.product.name,
@@ -168,10 +246,10 @@ function Checkout() {
 
             <div className="checkout-page__actions">
               <Link to={ROUTES.CART} className="checkout-page__back">
-                <Icon name="chevron-left" size={12} /> Quay về giỏ hàng
+                <Icon name="chevron-left" size={12} /> {t('common.backToCart')}
               </Link>
               <Button type="submit" form={FORM_ID} disabled={submitting} className="checkout-page__submit">
-                {submitting ? 'Đang đặt hàng...' : 'Đặt hàng'}
+                {submitting ? t('checkout.submitting') : t('checkout.submit')}
               </Button>
             </div>
           </aside>

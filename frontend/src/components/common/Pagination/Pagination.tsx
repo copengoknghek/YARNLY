@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import '@/styles/components/Pagination.css'
 
 interface PaginationProps {
@@ -9,6 +10,8 @@ interface PaginationProps {
 const MAX_VISIBLE = 5
 
 function Pagination({ page, totalPages, onChange }: PaginationProps) {
+  const { t } = useTranslation()
+
   if (totalPages <= 1) return null
 
   const start = Math.max(1, Math.min(page - 2, totalPages - MAX_VISIBLE + 1))
@@ -16,7 +19,7 @@ function Pagination({ page, totalPages, onChange }: PaginationProps) {
   const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i)
 
   return (
-    <nav className="pagination" aria-label="Phân trang">
+    <nav className="pagination" aria-label={t('common.pagination.nav')}>
       {pages.map((number) => (
         <button
           key={number}
@@ -29,7 +32,12 @@ function Pagination({ page, totalPages, onChange }: PaginationProps) {
         </button>
       ))}
       {end < totalPages && (
-        <button type="button" className="pagination__item" onClick={() => onChange(end + 1)} aria-label="Trang tiếp">
+        <button
+          type="button"
+          className="pagination__item"
+          onClick={() => onChange(end + 1)}
+          aria-label={t('common.pagination.nextPage')}
+        >
           …
         </button>
       )}

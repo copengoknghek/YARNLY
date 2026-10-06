@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import Icon from '@/components/common/Icon'
 import { productsSearchPath } from '@/constants/routes'
@@ -9,6 +10,7 @@ interface SearchBarProps {
 }
 
 function SearchBar({ onClose }: SearchBarProps) {
+  const { t } = useTranslation()
   const [keyword, setKeyword] = useState('')
   const navigate = useNavigate()
 
@@ -24,22 +26,22 @@ function SearchBar({ onClose }: SearchBarProps) {
     <div className="search-bar">
       <form className="search-bar__form" role="search" onSubmit={handleSubmit}>
         <label htmlFor="header-search" className="visually-hidden">
-          Tìm kiếm sản phẩm
+          {t('searchBar.label')}
         </label>
         <input
           id="header-search"
           className="search-bar__input"
           type="search"
-          placeholder="Tìm kiếm sản phẩm"
+          placeholder={t('searchBar.placeholder')}
           value={keyword}
           onChange={(event) => setKeyword(event.target.value)}
           autoFocus
         />
-        <button type="submit" className="search-bar__submit" aria-label="Tìm kiếm">
+        <button type="submit" className="search-bar__submit" aria-label={t('searchBar.submit')}>
           <Icon name="search" size={18} />
         </button>
       </form>
-      <button type="button" className="search-bar__close" aria-label="Đóng tìm kiếm" onClick={onClose}>
+      <button type="button" className="search-bar__close" aria-label={t('searchBar.close')} onClick={onClose}>
         <Icon name="close" size={22} />
       </button>
     </div>

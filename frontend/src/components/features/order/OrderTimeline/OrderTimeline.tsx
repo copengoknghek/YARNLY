@@ -1,18 +1,15 @@
-import { ORDER_STEPS } from '@/constants/orderStatus'
+import { useTranslation } from 'react-i18next'
+import { ORDER_STEPS, ORDER_TIMELINE_STATE_KEYS } from '@/constants/orderStatus'
 import type { OrderStatus } from '@/types/order'
 import '@/styles/components/OrderTimeline.css'
 
 type StepState = 'done' | 'current' | 'pending'
 
-const STATE_LABELS: Record<StepState, string> = {
-  done: 'Hoàn thành',
-  current: 'Đang làm',
-  pending: 'Chờ xử lí',
-}
-
 function OrderTimeline({ status }: { status: OrderStatus }) {
+  const { t } = useTranslation()
+
   if (status === 'cancelled') {
-    return <p className="order-timeline__cancelled">Đơn hàng đã bị hủy.</p>
+    return <p className="order-timeline__cancelled">{t('order.cancelled')}</p>
   }
 
   const reached = ORDER_STEPS.findIndex((step) => step.status === status)
@@ -31,8 +28,8 @@ function OrderTimeline({ status }: { status: OrderStatus }) {
         return (
           <li key={step.status} className={`order-timeline__step order-timeline__step--${state}`}>
             <span className="order-timeline__number">{index + 1}</span>
-            <span className="order-timeline__label">{step.label}</span>
-            <span className="order-timeline__state">{STATE_LABELS[state]}</span>
+            <span className="order-timeline__label">{t(step.labelKey)}</span>
+            <span className="order-timeline__state">{t(ORDER_TIMELINE_STATE_KEYS[state])}</span>
           </li>
         )
       })}
