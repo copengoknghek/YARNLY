@@ -1,0 +1,35 @@
+.checkout-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: 0;
+  border: none;
+}
+
+.checkout-form__title {
+  margin-bottom: var(--space-3);
+  padding: 0;
+  font-size: var(--font-size-md);
+}
+
+.checkout-form__note {
+  min-height: 96px;
+  padding: var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--color-maroon);
+  background: transparent;
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  outline: none;
+  resize: vertical;
+}
+
+.checkout-form__note::placeholder {
+  color: var(--color-maroon);
+  opacity: 0.85;
+}
+
+.checkout-form__note:focus {
+  box-shadow: 0 0 0 3px var(--color-green-light);
+}

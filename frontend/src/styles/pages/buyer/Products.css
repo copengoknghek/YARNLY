@@ -1,0 +1,19 @@
+.products-page .page {
+  padding-top: var(--space-16);
+  padding-bottom: 0;
+}
+
+.products-page__search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+  padding: 0 var(--space-6);
+}
+
+.products-page__clear {
+  font-size: var(--font-size-xs);
+  text-decoration: underline;
+  color: var(--color-green);
+}

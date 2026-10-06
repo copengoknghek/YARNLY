@@ -1,0 +1,466 @@
+{
+  "common": {
+    "brandHome": "Yarnly - Home",
+    "loadingEllipsis": "Loading...",
+    "quantity": "Quantity",
+    "viewCart": "View cart",
+    "continueShopping": "Continue shopping",
+    "backToCart": "Back to cart",
+    "fullName": "Full name",
+    "phone": "Phone number",
+    "email": "Email",
+    "cancel": "Cancel",
+    "saving": "Saving...",
+    "saveChanges": "Save changes",
+    "country": "Vietnam",
+    "close": "Close",
+    "quantityDecrease": "Decrease quantity",
+    "quantityIncrease": "Increase quantity",
+    "pagination": {
+      "nav": "Pagination",
+      "nextPage": "Next page"
+    },
+    "breadcrumb": {
+      "home": "Home",
+      "products": "Products",
+      "cart": "Cart",
+      "checkout": "Checkout"
+    },
+    "validation": {
+      "emailInvalid": "Invalid email address",
+      "fullNameRequired": "Please enter your full name",
+      "phoneInvalid": "Invalid phone number",
+      "addressRequired": "Please enter your address",
+      "provinceRequired": "Please select a province",
+      "districtRequired": "Please select a district",
+      "wardRequired": "Please select a ward"
+    }
+  },
+  "nav": {
+    "products": "Products",
+    "customDesign": "Custom design",
+    "blindBox": "Blind box",
+    "orderLookup": "Order lookup"
+  },
+  "header": {
+    "menuOpen": "Open navigation menu",
+    "navMain": "Main navigation",
+    "sellerPortal": "Seller portal",
+    "adminPortal": "Admin portal",
+    "search": "Search",
+    "account": "Account",
+    "accountProfile": "My profile",
+    "logout": "Log out",
+    "login": "Log in",
+    "cart": "Cart ({{count}} items)"
+  },
+  "footer": {
+    "brandHome": "Yarnly - Home",
+    "tagline": "Beauty crafted by hand, warmth for every home.",
+    "exploreHeading": "Explore",
+    "contactHeading": "Contact",
+    "supportHeading": "Customer support",
+    "copyright": "© {{year}} Yarnly Handmade with love.",
+    "contact": {
+      "email": "Email: hello@yarnly.vn",
+      "hotline": "Hotline: 1900 1234",
+      "address": "Address: Da Nang City"
+    },
+    "support": {
+      "payment": "Payment policy",
+      "return": "Return & exchange policy",
+      "privacy": "Privacy policy",
+      "shipping": "Shipping policy"
+    }
+  },
+  "topMarquee": {
+    "message": "Welcome to Yarnly"
+  },
+  "searchBar": {
+    "label": "Search products",
+    "placeholder": "Search products",
+    "submit": "Search",
+    "close": "Close search"
+  },
+  "languageSwitcher": {
+    "label": "Language"
+  },
+  "language": {
+    "vi": "Tiếng Việt (VN)",
+    "en": "English (USA)",
+    "zh": "Chinese (CN)"
+  },
+  "home": {
+    "heroTitle": "Yarnly - Handmade yarn goods",
+    "productsEyebrow": "Yarnly shop",
+    "productsTitle": "Handmade products",
+    "productsCountUnit": "products",
+    "viewAllProducts": "View all products",
+    "bestSellersEyebrow": "Customer favorites",
+    "bestSellersTitle": "Best sellers",
+    "faqEyebrow": "Q&A",
+    "faqTitle": "Frequently asked questions"
+  },
+  "products": {
+    "pageTitle": "Products",
+    "searchResults": "Search results for “{{query}}”",
+    "clearSearch": "Clear search",
+    "relatedTitle": "You may also like",
+    "empty": "No products found.",
+    "categoryTabsLabel": "Product categories",
+    "carouselPrev": "Previous product",
+    "carouselNext": "Next product",
+    "sortBar": {
+      "sortBy": "Sort by",
+      "status": "Availability",
+      "price": "Price",
+      "category": "Category",
+      "prevPage": "Previous page",
+      "nextPage": "Next page"
+    },
+    "card": {
+      "outOfStock": "Out of stock",
+      "seller": "Seller: {{name}}",
+      "viewDetail": "View details"
+    }
+  },
+  "productDetail": {
+    "rating": "Rated {{rating}} out of 5",
+    "seller": "Seller: {{name}}",
+    "options": {
+      "color": "Color",
+      "size": "Size",
+      "leadTime": "Lead time"
+    },
+    "outOfStock": "This product is out of stock",
+    "addToCart": "Add to cart",
+    "buyNow": "Buy now",
+    "addedToCart": "Added to cart.",
+    "tabs": {
+      "material": "Material",
+      "care": "Care instructions",
+      "shipping": "Shipping"
+    },
+    "galleryThumbsLabel": "Product images",
+    "galleryViewImage": "View image {{index}}",
+    "optionPrev": "Previous {{label}}",
+    "optionNext": "Next {{label}}"
+  },
+  "categories": {
+    "all": "All",
+    "decoration": "Decor & souvenirs",
+    "fashion": "Accessories & fashion",
+    "combo": "Gift combos",
+    "blindbox": "Blind box",
+    "custom": "Custom design"
+  },
+  "filters": {
+    "all": "All",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "default": "Default",
+    "priceAsc": "Price: low to high",
+    "priceDesc": "Price: high to low",
+    "newest": "Newest"
+  },
+  "cart": {
+    "pageTitle": "Your cart",
+    "empty": "Your cart is empty.",
+    "productsColumn": "Product",
+    "quantityColumn": "Quantity",
+    "priceColumn": "Unit price",
+    "itemsLabel": "Cart items",
+    "itemQuantity": "Quantity for {{name}}",
+    "removeItem": "Remove {{name}} from cart",
+    "summary": {
+      "subtotal": "Subtotal",
+      "total": "Total",
+      "hint": "International orders may be subject to additional customs duties and taxes not included at checkout.",
+      "noteLabel": "Order note",
+      "checkout": "Checkout",
+      "terms": "By placing an order, you agree to Yarnly's",
+      "termsLink": "Terms & Conditions",
+      "returnLink": "Return & Exchange Policy",
+      "and": "and",
+      "privacyLink": "Privacy Policy",
+      "termsSuffix": ".",
+      "pointsNotice": "Membership points will be added within 7 business days after successful payment.",
+      "phoneNotice": "A phone number is required at checkout to earn membership points."
+    }
+  },
+  "checkout": {
+    "pageTitle": "Checkout",
+    "empty": "Your cart is empty and cannot be checked out.",
+    "shippingTitle": "Shipping",
+    "shippingEnterAddress": "Enter your province to see shipping fees.",
+    "shippingLoadingQuotes": "Loading shipping rates...",
+    "shippingNoCarriers": "No carriers available for this area.",
+    "shippingSelectCarrier": "Select a carrier",
+    "shippingCarrierEta": "{{description}} · {{min}}–{{max}} days",
+    "validationPaymentRequired": "Please select a payment method",
+    "validationCarrierRequired": "Please select a carrier",
+    "orderSummaryTitle": "Order ({{count}} items)",
+    "submitting": "Placing order...",
+    "submit": "Place order",
+    "formTitle": "Customer information",
+    "address": "Street address",
+    "province": "Province",
+    "district": "District",
+    "ward": "Ward",
+    "notePlaceholder": "Note (optional)",
+    "noteLabel": "Note"
+  },
+  "payment": {
+    "title": "Payment method",
+    "momo": {
+      "label": "Pay with MoMo universal QR",
+      "shortLabel": "MoMo Wallet"
+    },
+    "zalopay": {
+      "label": "Pay with ZaloPay",
+      "shortLabel": "ZaloPay"
+    },
+    "cod": {
+      "label": "Cash on delivery (COD)",
+      "shortLabel": "Pay on delivery"
+    }
+  },
+  "order": {
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "shippingPending": "--------",
+    "total": "Total",
+    "quantity": "Quantity {{count}}",
+    "cancelled": "This order has been cancelled.",
+    "timelineState": {
+      "done": "Completed",
+      "current": "In progress",
+      "pending": "Pending"
+    },
+    "steps": {
+      "placed": "Order placed",
+      "crafting": "Crafting",
+      "shipping": "Shipping",
+      "delivered": "Delivered"
+    },
+    "status": {
+      "placed": "Order placed",
+      "crafting": "Crafting",
+      "shipping": "Shipping",
+      "delivered": "Delivered",
+      "cancelled": "Cancelled"
+    },
+    "coupon": {
+      "label": "Discount code",
+      "placeholder": "Discount code",
+      "apply": "Apply",
+      "invalid": "Invalid or expired discount code."
+    }
+  },
+  "orderSuccess": {
+    "pageTitle": "Order confirmed",
+    "subtitle": "Thank you for shopping with Yarnly",
+    "breadcrumbConfirmed": "Confirmed",
+    "emailNotice": "A confirmation email was sent to {{email}}.",
+    "errorLookupHint": "You can",
+    "errorLookupLink": "look up your order",
+    "errorLookupSuffix": "using your phone number or email.",
+    "statusTitle": "Order status",
+    "statusEta": "Estimated delivery in {{weeks}} week(s) (by {{date}}).",
+    "shippingTitle": "Shipping address",
+    "changeAddress": "Change",
+    "changeAddressNotice": "Please contact hello@yarnly.vn to change your shipping address.",
+    "paymentTitle": "Payment",
+    "paymentCod": "Pay on delivery",
+    "paymentPending": "Payment pending",
+    "paymentPayNow": "Pay now",
+    "paymentGatewayNotice": "Online payment gateway coming soon.",
+    "summaryTitle": "Order {{code}} ({{count}} items)",
+    "copyCode": "Copy order code",
+    "codeCopied": "Copied order code {{code}}.",
+    "codeFallback": "Order code: {{code}}"
+  },
+  "orderLookup": {
+    "pageTitle": "Order lookup",
+    "title": "Check your order",
+    "methodsLegend": "Lookup method",
+    "methodPhone": "Phone number",
+    "methodEmail": "Email",
+    "phonePlaceholder": "xxxx xxx xxx",
+    "emailPlaceholder": "email@example.com",
+    "hint": "Enter the phone number or email used when placing the order.",
+    "submit": "Check",
+    "placeholder": "Enter your details to view your orders.",
+    "notFound": "No orders found for this information.",
+    "orderTitle": "Order {{code}}",
+    "trackingPending": "Preparing",
+    "trackingLabel": "Tracking number:",
+    "viewDetail": "View order details"
+  },
+  "account": {
+    "pageTitle": "Account",
+    "profileEditTitle": "Edit profile",
+    "memberSince": "Member since {{date}}",
+    "phoneNotSet": "Not set",
+    "profileSaved": "Profile saved.",
+    "profileEditButton": "Edit profile",
+    "ordersTitle": "Your orders",
+    "ordersEmpty": "You have no orders yet.",
+    "shopNow": "Shop now",
+    "orderTitle": "Order {{code}}",
+    "orderMeta": "{{date}} · {{count}} items",
+    "orderDetail": "Details"
+  },
+  "auth": {
+    "audienceLabel": "Account type",
+    "audienceBuyer": "Buyer",
+    "audienceSeller": "Seller",
+    "audienceStaff": "Staff",
+    "tabsLabel": "Log in or sign up",
+    "loginTab": "Log in",
+    "registerTab": "Sign up",
+    "staffTitle": "Staff login",
+    "staffHint": "Demo account: {{email}} / {{password}}",
+    "sellerHint": "Demo seller: {{email}} / {{password}}",
+    "loginHeading": "Log in",
+    "registerHeading": "Create account",
+    "nameLabel": "Full name *",
+    "phoneLabel": "Phone number *",
+    "emailLabel": "Email *",
+    "passwordLabel": "Password *",
+    "forgotPassword": "Forgot password?",
+    "forgotNotice": "Please contact hello@yarnly.vn for password reset assistance.",
+    "submitting": "Processing...",
+    "loginSubmit": "Log in",
+    "registerSubmit": "Sign up",
+    "createAccount": "Create account",
+    "hasAccount": "Already have an account? Log in",
+    "backToShop": "Back to shop",
+    "socialDivider": "Or continue with",
+    "socialSoon": "{{provider}} login coming soon.",
+    "validation": {
+      "nameRequired": "Please enter your full name",
+      "passwordRequired": "Please enter your password",
+      "passwordMin": "Password must be at least 6 characters"
+    }
+  },
+  "blindBox": {
+    "pageTitle": "Blind box",
+    "howEyebrow": "How it works",
+    "howTitle": "Every box tells a new story",
+    "packagesEyebrow": "Choose your surprise",
+    "packagesTitle": "Blind box packages",
+    "addedToCart": "Added “{{name}}” to cart.",
+    "buyButton": "Buy mystery box",
+    "steps": {
+      "choose": {
+        "title": "Pick a collection",
+        "description": "Choose a theme and gift style you love"
+      },
+      "prepare": {
+        "title": "Yarnly prepares the surprise",
+        "description": "Yarnly packs a random gift based on your chosen theme"
+      },
+      "open": {
+        "title": "Meet your new friend",
+        "description": "Discover common, rare, or seasonal characters"
+      }
+    },
+    "packages": {
+      "basic": {
+        "name": "Basic Blind Box",
+        "description": "One random mini yarn character from the current collection.",
+        "features": [
+          "1 random character",
+          "Chance for a rare edition",
+          "Collectible character card"
+        ]
+      },
+      "couple": {
+        "name": "Couple Blind Box",
+        "description": "Two matching mystery characters for best friends or couples.",
+        "features": [
+          "2 matching characters",
+          "Chance for a rare edition",
+          "Personal message card"
+        ]
+      },
+      "rare": {
+        "name": "Rare collection blind box",
+        "description": "Premium seasonal box with higher rare-item odds.",
+        "features": [
+          "6 common and 2 rare characters",
+          "Higher rare drop rate",
+          "Seasonal accessories"
+        ]
+      }
+    }
+  },
+  "customDesign": {
+    "pageTitle": "Create your own design",
+    "breadcrumb": "Custom design",
+    "cartNamePrefix": "Custom design: {{product}}",
+    "formHeading": "Design to order",
+    "step1Title": "Choose a product",
+    "step1Hint": "Pick the base for your design.",
+    "baseProductsLabel": "Base product",
+    "step2Title": "Style and colors",
+    "step2Hint": "Mix colors and preview them on the mockup.",
+    "styleLabel": "Style",
+    "mainColorLabel": "Main color",
+    "accentColorLabel": "Accent color",
+    "accessoryLabel": "Accessory",
+    "textLabel": "Name or text to add",
+    "textPlaceholder": "e.g. Alex",
+    "referenceLabel": "Reference image",
+    "noteLabel": "Additional notes for Yarnly",
+    "notePlaceholder": "Size, style, ...",
+    "pickColor": "Pick {{label}}",
+    "previewTitle": "Your design preview",
+    "previewTag": "Simulated preview",
+    "previewProduct": "Product",
+    "previewStyle": "Style",
+    "previewAccessory": "Accessory",
+    "previewText": "Embroidery text",
+    "previewReference": "Reference image",
+    "previewTotal": "Total",
+    "addToCart": "Add design to cart",
+    "previewNote": "Yarnly will confirm details and final pricing before production",
+    "previewIllustration": "Design preview illustration"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or has been moved.",
+    "backHome": "Back to home"
+  },
+  "marketing": {
+    "newsletter": {
+      "title": "Enter your email to get the latest Yarnly promotions",
+      "emailLabel": "Your email",
+      "emailPlaceholder": "Your email",
+      "submit": "Subscribe",
+      "invalidEmail": "Invalid email address.",
+      "success": "Thanks for subscribing to Yarnly!"
+    },
+    "ideaBanner": {
+      "eyebrow": "Made just for you",
+      "title": "Have an idea? Let Yarnly turn it into a yarn product.",
+      "cta": "Create a custom design"
+    },
+    "faq": {
+      "return": {
+        "question": "Can I return or exchange items?",
+        "answer": "Yarnly accepts returns within 7 days of delivery for manufacturing or shipping defects. Custom-made products are not eligible for return unless there is a defect from Yarnly."
+      },
+      "leadTime": {
+        "question": "How long does it take to make a product?",
+        "answer": "Ready-made items ship in 2–5 days. Made-to-order items usually take 2 to 5 weeks depending on complexity; you can choose lead time on the product page."
+      },
+      "shipping": {
+        "question": "How is shipping calculated?",
+        "answer": "Shipping is 12,000 VND for orders in Da Nang and 30,000 VND for other provinces. The exact fee is shown at checkout after you enter your shipping address."
+      }
+    }
+  }
+}

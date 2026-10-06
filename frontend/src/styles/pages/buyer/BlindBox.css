@@ -1,0 +1,76 @@
+.blindbox-page .page {
+  padding-bottom: 0;
+}
+
+.blindbox-page__section + .blindbox-page__section {
+  margin-top: var(--space-20);
+}
+
+.blindbox-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-10);
+  padding: 0 var(--space-12);
+  list-style: none;
+}
+
+.blindbox-steps__item {
+  min-height: 300px;
+  padding: var(--space-10) var(--space-10);
+  border: 1px solid var(--color-green);
+  border-radius: var(--radius-lg);
+}
+
+.blindbox-steps__number,
+.blindbox-steps__title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  font-weight: 400;
+  line-height: 1.25;
+  text-transform: uppercase;
+  color: var(--color-maroon);
+}
+
+.blindbox-steps__title {
+  min-height: 2.5em;
+  margin-top: var(--space-6);
+}
+
+.blindbox-steps__description {
+  max-width: 260px;
+  margin-top: var(--space-6);
+  font-size: var(--font-size-2xs);
+  line-height: 1.5;
+  color: var(--color-green);
+}
+
+.blindbox-packages {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-8);
+  padding: 0 var(--space-10);
+}
+
+.blindbox-page__added {
+  margin-top: var(--space-6);
+  font-size: var(--font-size-sm);
+  text-align: center;
+  color: var(--color-green);
+}
+
+.blindbox-page__added a {
+  text-decoration: underline;
+}
+
+@media (max-width: 960px) {
+  .blindbox-steps,
+  .blindbox-packages {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  .blindbox-steps__item {
+    min-height: 0;
+  }
+}

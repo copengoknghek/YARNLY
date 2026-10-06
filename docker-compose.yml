@@ -1,0 +1,107 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: yarnly-postgres
+    environment:
+      POSTGRES_USER: yarnly
+      POSTGRES_PASSWORD: yarnly
+      POSTGRES_DB: yarnly
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db/init-test-db.sql:/docker-entrypoint-initdb.d/02-test-db.sql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U yarnly -d yarnly']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+    container_name: yarnly-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # Values here take precedence over backend/.env (dotenv never overrides).
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      CLIENT_URL: http://localhost:5173
+      DB_URI: postgresql://yarnly:yarnly@postgres:5432/yarnly
+      JWT_SECRET: change-me
+    ports:
+      - '5000:5000'
+    # .env is excluded from the image and from Compose Watch (.dockerignore), so it
+    # is bind-mounted and polled by nodemon to pick up edits without a rebuild.
+    volumes:
+      - type: bind
+        source: ./backend/.env
+        target: /app/.env
+        read_only: true
+        bind:
+          create_host_path: false
+    command: ['npx', 'nodemon', '--legacy-watch', '--watch', 'src', '--watch', '.env', 'src/server.js']
+    restart: unless-stopped
+    # Bind mounts on Windows don't deliver file events to the container, so code
+    # is synced with Compose Watch instead: `docker compose up --build --watch`.
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/src
+          target: /app/src
+          initial_sync: true
+        - action: sync
+          path: ./backend/scripts
+          target: /app/scripts
+          initial_sync: true
+        - action: sync+restart
+          path: ./backend/db
+          target: /app/db
+        - action: rebuild
+          path: ./backend/package.json
+        - action: rebuild
+          path: ./backend/package-lock.json
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: yarnly-frontend
+    depends_on:
+      - backend
+    environment:
+      VITE_API_PROXY_TARGET: http://backend:5000
+    ports:
+      - '5173:5173'
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/src
+          initial_sync: true
+        - action: sync
+          path: ./frontend/public
+          target: /app/public
+          initial_sync: true
+        - action: sync
+          path: ./frontend/index.html
+          target: /app/index.html
+          initial_sync: true
+        - action: sync+restart
+          path: ./frontend/vite.config.ts
+          target: /app/vite.config.ts
+        - action: rebuild
+          path: ./frontend/package.json
+        - action: rebuild
+          path: ./frontend/package-lock.json
+        - action: rebuild
+          path: ./frontend/tsconfig.json
+        - action: rebuild
+          path: ./frontend/tsconfig.app.json
+        - action: rebuild
+          path: ./frontend/tsconfig.node.json
+
+volumes:
+  postgres_data:

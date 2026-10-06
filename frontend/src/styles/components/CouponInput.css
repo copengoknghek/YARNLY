@@ -1,0 +1,44 @@
+.coupon__row {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.coupon__input {
+  flex: 1;
+  min-width: 0;
+  min-height: 35px;
+  padding: 0 var(--space-3);
+  font-size: var(--font-size-xs);
+  color: var(--color-maroon);
+  background: transparent;
+  border: var(--border-thin);
+  border-radius: var(--radius-sm);
+  outline: none;
+}
+
+.coupon__input::placeholder {
+  color: var(--color-gray);
+}
+
+.coupon__input:focus {
+  box-shadow: 0 0 0 3px var(--color-green-light);
+}
+
+.coupon__apply {
+  padding: 0 var(--space-4);
+  font-size: var(--font-size-xs);
+  color: var(--color-maroon);
+  background-color: var(--color-yellow);
+  border-radius: var(--radius-sm);
+}
+
+.coupon__apply:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.coupon__message {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-2xs);
+  color: var(--color-error);
+}

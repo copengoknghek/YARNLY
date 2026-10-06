@@ -1,0 +1,45 @@
+@import './fonts.css';
+@import './variables.css';
+@import './reset.css';
+@import './typography.css';
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container-width) + 2 * var(--space-6));
+  margin: 0 auto;
+  padding-right: var(--space-6);
+  padding-left: var(--space-6);
+}
+
+.page {
+  padding-top: var(--space-12);
+  padding-bottom: var(--space-20);
+}
+
+/* Pages without a banner must clear the floating header themselves. */
+.page--plain {
+  padding-top: calc(var(--header-zone) + var(--space-16));
+}
+
+.section {
+  padding-top: var(--space-16);
+  padding-bottom: var(--space-16);
+}
+
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-10);
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
