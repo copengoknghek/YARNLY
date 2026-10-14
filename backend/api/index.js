@@ -1,11 +1,16 @@
 const app = require('../src/app');
-const { connectDB } = require('../src/config/db');
+const { connectDB, migrate } = require('../src/config/db');
+const seed = require('../src/config/seed');
 
 let dbReady;
 
 app.use(async (req, res, next) => {
   if (!dbReady) {
-    dbReady = connectDB();
+    dbReady = (async () => {
+      await migrate();
+      await connectDB();
+      await seed();
+    })();
   }
   try {
     await dbReady;

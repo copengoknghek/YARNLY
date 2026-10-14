@@ -15,8 +15,19 @@ if (nodeEnv === 'production') {
   }
 }
 
-const dbUri =
-  process.env.DB_URI || process.env.DATABASE_URL || 'postgresql://yarnly:yarnly@localhost:5432/yarnly';
+const DEFAULT_LOCAL_DB_URI = 'postgresql://yarnly:yarnly@localhost:5432/yarnly';
+const dbUri = process.env.DB_URI || process.env.DATABASE_URL || DEFAULT_LOCAL_DB_URI;
+
+if (
+  nodeEnv === 'production' &&
+  process.env.VERCEL &&
+  !process.env.DB_URI &&
+  !process.env.DATABASE_URL
+) {
+  throw new Error(
+    'DATABASE_URL is not set. Add the Neon Postgres integration (or set DB_URI) on the Vercel project.',
+  );
+}
 
 const isServerless = process.env.VERCEL === '1';
 const dbNeedsSsl =
