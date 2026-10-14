@@ -53,7 +53,7 @@ describe('Orders API', () => {
     assert.equal(data.shippingFee, 12000);
     assert.equal(data.total, 310000);
     assert.equal(data.status, 'placed');
-    assert.match(data.code, /^Y\d+$/);
+    assert.match(data.code, /^YL-\d{6}-[A-HJ-NP-Z2-9]{6}$/);
     assert.equal(data.carrierId, DEFAULT_CARRIER);
     assert.ok(data.carrierName);
   });
@@ -78,13 +78,40 @@ describe('Orders API', () => {
         {
           productId: 'custom-design',
           quantity: 1,
-          customDesign: { baseProduct: 'doll', style: 'chibi', accessory: 'bow', mainColor: '#f48aa0' },
+          customDesign: {
+            baseProduct: 'doll',
+            style: 'chibi',
+            accessory: 'bow',
+            sellerId: 'seller-demo',
+            mainColorId: 'yc-seller-demo-01',
+            accentColorId: 'yc-seller-demo-03',
+          },
         },
       ],
     });
     const { data } = await res.json();
     assert.equal(res.status, 201);
     assert.equal(data.subtotal, 461000);
+  });
+
+  it('POST /orders rejects custom design with out-of-stock yarn color', async () => {
+    const res = await createOrder({
+      items: [
+        {
+          productId: 'custom-design',
+          quantity: 1,
+          customDesign: {
+            baseProduct: 'doll',
+            style: 'chibi',
+            accessory: 'bow',
+            sellerId: 'seller-demo',
+            mainColorId: 'yc-seller-demo-10',
+            accentColorId: 'yc-seller-demo-01',
+          },
+        },
+      ],
+    });
+    assert.equal(res.status, 400);
   });
 
   it('POST /orders rejects quantity above stock and unknown payment methods', async () => {

@@ -57,6 +57,31 @@ describe('Seller API', () => {
     assert.equal(publicBody.data.items.some((item) => item.id === created.id), false);
   });
 
+  it('GET /seller/colors lists yarn palette', async () => {
+    const res = await authFetch('/seller/colors');
+    const body = await res.json();
+    assert.equal(res.status, 200);
+    assert.ok(body.data.length >= 10);
+  });
+
+  it('POST /seller/colors rejects more than 10 colors', async () => {
+    const listRes = await authFetch('/seller/colors');
+    const colors = (await listRes.json()).data;
+    if (colors.length < 10) {
+      for (let i = colors.length; i < 10; i++) {
+        await authFetch('/seller/colors', {
+          method: 'POST',
+          body: JSON.stringify({ name: `Extra ${i}`, hex: '#aabbcc', stock: 1 }),
+        });
+      }
+    }
+    const res = await authFetch('/seller/colors', {
+      method: 'POST',
+      body: JSON.stringify({ name: 'Quá giới hạn', hex: '#112233', stock: 1 }),
+    });
+    assert.equal(res.status, 400);
+  });
+
   it('GET /seller/stats returns dashboard counts', async () => {
     const res = await authFetch('/seller/stats');
     const body = await res.json();

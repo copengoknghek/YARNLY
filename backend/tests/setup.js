@@ -2,7 +2,7 @@
 process.env.NODE_ENV = 'test';
 
 const { Pool } = require('pg');
-const { closeDB, connectDB } = require('../src/config/db');
+const { closeDB, connectDB, migrate } = require('../src/config/db');
 const seed = require('../src/config/seed');
 
 const DEFAULT_TEST_URI = 'postgresql://yarnly:yarnly@localhost:5432/yarnly_test';
@@ -28,6 +28,7 @@ const setupTestDb = async () => {
   const testUri = process.env.TEST_DB_URI || DEFAULT_TEST_URI;
   await ensureTestDatabase(testUri);
   process.env.DB_URI = testUri;
+  await migrate();
   await connectDB();
   await seed({ force: true });
 };

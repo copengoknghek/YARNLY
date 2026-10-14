@@ -65,6 +65,16 @@ describe('Auth API', () => {
     assert.equal(res.status, 401);
   });
 
+  it('POST /auth/register/seller requires address fields', async () => {
+    const res = await post('/auth/register/seller', {
+      name: 'Shop Test',
+      phone: '0912345678',
+      email: 'new-seller@test.vn',
+      password: 'secret12',
+    });
+    assert.equal(res.status, 400);
+  });
+
   it('GET /users/me returns profile when authenticated', async () => {
     const login = await post('/auth/login', { email: 'staff@yarnly.vn', password: 'yarnly-staff' });
     const token = (await login.json()).data.token;

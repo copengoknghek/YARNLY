@@ -32,3 +32,39 @@ export const getSellerStats = async () => {
   const res = await api.get<ApiResponse<SellerStats>>('/seller/stats')
   return res.data.data
 }
+
+export interface SellerYarnColor {
+  id: string
+  sellerId: string
+  name: string
+  hex: string
+  stock: number
+  createdAt: string
+}
+
+export interface YarnColorInput {
+  name: string
+  hex: string
+  stock: number
+}
+
+export const MAX_YARN_COLORS = 10
+
+export const getSellerYarnColors = async () => {
+  const res = await api.get<ApiResponse<SellerYarnColor[]>>('/seller/colors')
+  return res.data.data
+}
+
+export const createSellerYarnColor = async (input: YarnColorInput) => {
+  const res = await api.post<ApiResponse<SellerYarnColor>>('/seller/colors', input)
+  return res.data.data
+}
+
+export const updateSellerYarnColor = async (id: string, input: Partial<YarnColorInput>) => {
+  const res = await api.patch<ApiResponse<SellerYarnColor>>(`/seller/colors/${id}`, input)
+  return res.data.data
+}
+
+export const deleteSellerYarnColor = async (id: string) => {
+  await api.delete(`/seller/colors/${id}`)
+}

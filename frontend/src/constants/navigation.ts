@@ -29,7 +29,6 @@ export const FOOTER_SUPPORT_KEYS = [
 export const LANGUAGES = [
   { code: 'vi', short: 'VN', labelKey: 'language.vi', flag: '/images/flags/vn.svg' },
   { code: 'en', short: 'EN', labelKey: 'language.en', flag: '/images/flags/us.svg' },
-  { code: 'zh', short: 'CN', labelKey: 'language.zh', flag: '/images/flags/cn.svg' },
 ] as const
 
 export type LanguageCode = (typeof LANGUAGES)[number]['code']

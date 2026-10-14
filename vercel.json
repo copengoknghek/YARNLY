@@ -1,0 +1,37 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "backend": {
+      "root": "backend",
+      "framework": "express",
+      "buildCommand": "npm run vercel-build",
+      "functions": {
+        "api/index.js": {
+          "includeFiles": "db/**",
+          "regions": ["sin1"]
+        }
+      }
+    },
+    "frontend": {
+      "root": "frontend",
+      "framework": "vite",
+      "outputDirectory": "dist"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": { "service": "backend" }
+    },
+    {
+      "source": "/(.*)",
+      "destination": { "service": "frontend" }
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/cleanup-guest-orders",
+      "schedule": "0 19 * * *"
+    }
+  ]
+}

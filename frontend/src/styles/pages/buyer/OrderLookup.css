@@ -5,6 +5,24 @@
   margin: 0 auto;
 }
 
+.order-lookup__layout--single {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-6);
+  max-width: 640px;
+}
+
+.order-lookup__layout--single .order-lookup__results {
+  padding-left: 0;
+  border-left: none;
+}
+
+.order-lookup__mine {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  text-align: center;
+}
+
 .order-lookup__form {
   display: flex;
   flex-direction: column;

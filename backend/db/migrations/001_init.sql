@@ -11,6 +11,11 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+ALTER TABLE users ADD COLUMN IF NOT EXISTS address TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS province TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS district TEXT;
+ALTER TABLE users ADD COLUMN IF NOT EXISTS ward TEXT;
+
 CREATE TABLE IF NOT EXISTS products (
   id TEXT PRIMARY KEY,
   seller_id TEXT NOT NULL REFERENCES users (id),
@@ -98,3 +103,14 @@ CREATE TABLE IF NOT EXISTS order_items (
 );
 
 CREATE INDEX IF NOT EXISTS idx_order_items_order ON order_items (order_id);
+
+CREATE TABLE IF NOT EXISTS yarn_colors (
+  id TEXT PRIMARY KEY,
+  seller_id TEXT NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  hex TEXT NOT NULL,
+  stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_yarn_colors_seller ON yarn_colors (seller_id);

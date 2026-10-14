@@ -28,8 +28,16 @@ const validateOptions = (product, selectedOptions = {}) => {
 
 const buildItem = async ({ productId, quantity, selectedOptions, customDesign }) => {
   if (productId === CustomDesign.PRODUCT_ID) {
-    const { price, product } = await customDesignService.quote(customDesign);
-    return { product, quantity, unitPrice: price, customDesign, leadWeeks: CUSTOM_LEAD_WEEKS };
+    const { price, product, customDesign: normalizedDesign, yarnDeductions } =
+      await customDesignService.quote(customDesign, quantity);
+    return {
+      product,
+      quantity,
+      unitPrice: price,
+      customDesign: normalizedDesign,
+      yarnDeductions,
+      leadWeeks: CUSTOM_LEAD_WEEKS,
+    };
   }
 
   const product = await Product.findById(productId);
@@ -74,11 +82,23 @@ const createOrder = async ({ items, shipping, note, paymentMethod, carrierId, bu
   const leadWeeks = Math.max(...builtItems.map((item) => item.leadWeeks));
   const estimatedDelivery = new Date(Date.now() + leadWeeks * 7 * 24 * 60 * 60 * 1000).toISOString();
 
-  const orderItems = builtItems.map(({ leadWeeks: _leadWeeks, ...item }) => item);
+  const yarnDeductions = builtItems.flatMap((item) => item.yarnDeductions ?? []);
+  const mergedYarn = new Map();
+  for (const { colorId, sellerId, quantity: qty } of yarnDeductions) {
+    const key = `${sellerId}:${colorId}`;
+    mergedYarn.set(key, {
+      colorId,
+      sellerId,
+      quantity: (mergedYarn.get(key)?.quantity ?? 0) + qty,
+    });
+  }
+
+  const orderItems = builtItems.map(({ leadWeeks: _leadWeeks, yarnDeductions: _yarn, ...item }) => item);
   const order = await Order.create({
     buyerId: buyerId ?? null,
     carrierId,
     items: orderItems,
+    yarnDeductions: [...mergedYarn.values()],
     shipping,
     note: note ?? '',
     paymentMethod,

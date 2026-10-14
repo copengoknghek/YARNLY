@@ -14,4 +14,12 @@ const registerRules = [
   body('password').isLength({ min: 6 }).withMessage('Mật khẩu tối thiểu 6 ký tự'),
 ];
 
-module.exports = { loginRules, registerRules };
+const registerSellerRules = [
+  ...registerRules,
+  body('address').trim().notEmpty().withMessage('Vui lòng nhập địa chỉ'),
+  body('province').trim().notEmpty().withMessage('Vui lòng chọn tỉnh/thành'),
+  body('district').trim().notEmpty().withMessage('Vui lòng chọn quận/huyện'),
+  body('ward').trim().notEmpty().withMessage('Vui lòng chọn phường/xã'),
+];
+
+module.exports = { loginRules, registerRules, registerSellerRules };

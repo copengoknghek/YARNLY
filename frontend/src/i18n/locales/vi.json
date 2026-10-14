@@ -87,8 +87,7 @@
   },
   "language": {
     "vi": "Tiếng Việt (VN)",
-    "en": "English (USA)",
-    "zh": "Chinese (CN)"
+    "en": "English (USA)"
   },
   "home": {
     "heroTitle": "Yarnly - Đồ len handmade",
@@ -295,7 +294,10 @@
     "orderTitle": "Đơn hàng {{code}}",
     "trackingPending": "Đang chuẩn bị",
     "trackingLabel": "Mã vận đơn:",
-    "viewDetail": "Xem chi tiết đơn hàng"
+    "viewDetail": "Xem chi tiết đơn hàng",
+    "myOrdersTitle": "Đơn hàng của bạn",
+    "myOrdersHint": "Các đơn hàng đã đặt bằng tài khoản {{email}}.",
+    "myOrdersEmpty": "Bạn chưa có đơn hàng nào."
   },
   "account": {
     "pageTitle": "Tài khoản",
@@ -328,6 +330,10 @@
     "phoneLabel": "Số điện thoại *",
     "emailLabel": "Email *",
     "passwordLabel": "Mật khẩu *",
+    "addressLabel": "Địa chỉ xưởng *",
+    "provinceLabel": "Tỉnh / Thành phố *",
+    "districtLabel": "Quận / Huyện *",
+    "wardLabel": "Phường / Xã *",
     "forgotPassword": "Quên mật khẩu?",
     "forgotNotice": "Vui lòng liên hệ hello@yarnly.vn để được hỗ trợ đặt lại mật khẩu.",
     "submitting": "Đang xử lý...",
@@ -341,7 +347,11 @@
     "validation": {
       "nameRequired": "Vui lòng nhập họ tên",
       "passwordRequired": "Vui lòng nhập mật khẩu",
-      "passwordMin": "Mật khẩu tối thiểu 6 ký tự"
+      "passwordMin": "Mật khẩu tối thiểu 6 ký tự",
+      "addressRequired": "Vui lòng nhập địa chỉ xưởng",
+      "provinceRequired": "Vui lòng chọn tỉnh/thành",
+      "districtRequired": "Vui lòng chọn quận/huyện",
+      "wardRequired": "Vui lòng chọn phường/xã"
     }
   },
   "blindBox": {
@@ -401,6 +411,11 @@
     "breadcrumb": "Thiết kế riêng",
     "cartNamePrefix": "Thiết kế riêng: {{product}}",
     "formHeading": "Tạo mẫu theo yêu cầu",
+    "makerStepTitle": "Chọn xưởng len",
+    "makerStepHint": "Đơn thiết kế sẽ được xưởng bạn chọn thực hiện.",
+    "makerLabel": "Xưởng len",
+    "noMakers": "Chưa có xưởng nào đăng bảng màu. Vui lòng quay lại sau.",
+    "outOfStock": "Hết hàng",
     "step1Title": "Chọn sản phẩm",
     "step1Hint": "Chọn nền tảng cho thiết kế của bạn.",
     "baseProductsLabel": "Sản phẩm nền",
@@ -413,12 +428,17 @@
     "textLabel": "Tên hoặc chữ muốn thêm",
     "textPlaceholder": "Ví dụ: Anh",
     "referenceLabel": "Ảnh mẫu tham khảo",
+    "referenceRemove": "Xóa ảnh",
+    "referenceTooLarge": "Ảnh tối đa 5MB",
     "noteLabel": "Mô tả thêm cho Yarnly",
     "notePlaceholder": "Kích thước, phong cách, ...",
     "pickColor": "Chọn {{label}}",
     "previewTitle": "Mẫu thiết kế của bạn",
     "previewTag": "Đang mô phỏng",
+    "previewMaker": "Xưởng",
     "previewProduct": "Sản phẩm",
+    "previewMainColor": "Màu chính",
+    "previewAccentColor": "Màu phụ",
     "previewStyle": "Kiểu dáng",
     "previewAccessory": "Phụ kiện",
     "previewText": "Chữ thêu",
@@ -426,7 +446,8 @@
     "previewTotal": "Tổng cộng",
     "addToCart": "Thêm thiết kế vào giỏ",
     "previewNote": "Yarnly sẽ liên hệ xác nhận chi tiết và giá cuối cùng trước khi thực hiện",
-    "previewIllustration": "Hình mô phỏng thiết kế"
+    "previewIllustration": "Hình mô phỏng thiết kế",
+    "dragToRotate": "Kéo để xoay"
   },
   "notFound": {
     "code": "404",

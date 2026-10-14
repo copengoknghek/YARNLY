@@ -12,6 +12,10 @@ export interface User {
   phone?: string
   role: UserRole
   userType?: UserType
+  address?: string
+  province?: string
+  district?: string
+  ward?: string
   createdAt?: string
 }
 
@@ -28,6 +32,13 @@ export interface LoginPayload {
 export interface RegisterPayload extends LoginPayload {
   name: string
   phone: string
+}
+
+export interface RegisterSellerPayload extends RegisterPayload {
+  address: string
+  province: string
+  district: string
+  ward: string
 }
 
 export interface AuthResponse {

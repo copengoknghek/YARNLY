@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import Button from '@/components/common/Button'
 import Input from '@/components/common/Input'
+import Select from '@/components/common/Select'
+import { LOCATIONS, PROVINCES } from '@/constants/locations'
 import SocialLogin from '@/components/features/auth/SocialLogin'
 import {
   DEMO_SELLER_EMAIL,
@@ -26,11 +28,24 @@ interface AuthValues {
   phone: string
   email: string
   password: string
+  address: string
+  province: string
+  district: string
+  ward: string
 }
 
 type AuthErrors = Partial<Record<keyof AuthValues, string>>
 
-const EMPTY_VALUES: AuthValues = { name: '', phone: '', email: '', password: '' }
+const EMPTY_VALUES: AuthValues = {
+  name: '',
+  phone: '',
+  email: '',
+  password: '',
+  address: '',
+  province: '',
+  district: '',
+  ward: '',
+}
 
 const AUDIENCE_OPTIONS: { value: AuthAudience; labelKey: string }[] = [
   { value: 'buyer', labelKey: 'auth.audienceBuyer' },
@@ -53,6 +68,12 @@ const validate = (mode: AuthMode, audience: AuthAudience, values: AuthValues): A
       mode === 'register' && audience !== 'staff'
         ? i18n.t('auth.validation.passwordMin')
         : i18n.t('auth.validation.passwordRequired')
+  }
+  if (mode === 'register' && audience === 'seller') {
+    if (!values.address.trim()) errors.address = i18n.t('auth.validation.addressRequired')
+    if (!values.province) errors.province = i18n.t('auth.validation.provinceRequired')
+    if (!values.district) errors.district = i18n.t('auth.validation.districtRequired')
+    if (!values.ward) errors.ward = i18n.t('auth.validation.wardRequired')
   }
   return errors
 }
@@ -80,6 +101,9 @@ function AuthPage({ mode }: { mode: AuthMode }) {
   const isLogin = mode === 'login'
   const isStaff = audience === 'staff'
   const showRegisterTab = !isStaff
+  const districts = values.province ? Object.keys(LOCATIONS[values.province] ?? {}) : []
+  const wards =
+    values.province && values.district ? (LOCATIONS[values.province]?.[values.district] ?? []) : []
 
   useEffect(() => {
     setAudience(parseAudience(searchParams.get('as')))
@@ -136,6 +160,10 @@ function AuthPage({ mode }: { mode: AuthMode }) {
             phone: values.phone.replace(/\s/g, ''),
             email: values.email,
             password: values.password,
+            address: values.address.trim(),
+            province: values.province,
+            district: values.district,
+            ward: values.ward,
           })
         }
       } else {
@@ -224,6 +252,60 @@ function AuthPage({ mode }: { mode: AuthMode }) {
                 error={errors.phone}
                 onChange={(event) => update('phone')(event.target.value)}
               />
+              {audience === 'seller' && (
+                <>
+                  <Input
+                    label={t('auth.addressLabel')}
+                    hideLabel
+                    autoComplete="street-address"
+                    className="auth-page__input"
+                    value={values.address}
+                    error={errors.address}
+                    onChange={(event) => update('address')(event.target.value)}
+                  />
+                  <Select
+                    label={t('auth.provinceLabel')}
+                    className="auth-page__input"
+                    options={PROVINCES}
+                    value={values.province}
+                    error={errors.province}
+                    onChange={(event) => {
+                      setValues((current) => ({
+                        ...current,
+                        province: event.target.value,
+                        district: '',
+                        ward: '',
+                      }))
+                      setErrors((current) => ({ ...current, province: undefined, district: undefined, ward: undefined }))
+                    }}
+                  />
+                  <Select
+                    label={t('auth.districtLabel')}
+                    className="auth-page__input"
+                    options={districts}
+                    value={values.district}
+                    error={errors.district}
+                    disabled={!values.province}
+                    onChange={(event) => {
+                      setValues((current) => ({
+                        ...current,
+                        district: event.target.value,
+                        ward: '',
+                      }))
+                      setErrors((current) => ({ ...current, district: undefined, ward: undefined }))
+                    }}
+                  />
+                  <Select
+                    label={t('auth.wardLabel')}
+                    className="auth-page__input"
+                    options={wards}
+                    value={values.ward}
+                    error={errors.ward}
+                    disabled={!values.district}
+                    onChange={(event) => update('ward')(event.target.value)}
+                  />
+                </>
+              )}
             </>
           )}
           <Input

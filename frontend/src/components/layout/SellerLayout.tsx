@@ -6,6 +6,7 @@ const SELLER_NAV: DashboardNavItem[] = [
   { to: ROUTES.SELLER_PRODUCTS, label: 'Sản phẩm của tôi' },
   { to: ROUTES.SELLER_NEW_PRODUCT, label: 'Đăng sản phẩm' },
   { to: ROUTES.SELLER_INVENTORY, label: 'Kho hàng' },
+  { to: ROUTES.SELLER_COLORS, label: 'Bảng màu len' },
 ]
 
 function SellerLayout() {

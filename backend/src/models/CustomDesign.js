@@ -26,7 +26,12 @@ const OPTIONS = {
   textPrice: 20000,
 };
 
-const getOptions = async () => OPTIONS;
+const YarnColor = require('./YarnColor');
+
+const getOptions = async () => ({
+  ...OPTIONS,
+  makers: await YarnColor.findSellersWithColors(),
+});
 
 const findOption = (list, id) => list.find((option) => option.id === id) ?? null;
 

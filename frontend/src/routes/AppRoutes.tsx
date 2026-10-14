@@ -20,6 +20,7 @@ import ProductDetail from '@/pages/buyer/ProductDetail'
 import Products from '@/pages/buyer/Products'
 import SellerDashboard from '@/pages/seller/Dashboard'
 import SellerInventory from '@/pages/seller/Inventory'
+import SellerYarnColors from '@/pages/seller/YarnColors'
 import { EditProduct, NewProduct } from '@/pages/seller/ProductForm'
 import SellerProducts from '@/pages/seller/Products'
 import RequireRole from './RequireRole'
@@ -52,6 +53,7 @@ function AppRoutes() {
           <Route path="products/new" element={<NewProduct />} />
           <Route path="products/:id/edit" element={<EditProduct />} />
           <Route path="inventory" element={<SellerInventory />} />
+          <Route path="colors" element={<SellerYarnColors />} />
         </Route>
       </Route>
 

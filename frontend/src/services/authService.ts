@@ -1,4 +1,4 @@
-import type { AuthResponse, LoginPayload, RegisterPayload } from '@/types/user'
+import type { AuthResponse, LoginPayload, RegisterPayload, RegisterSellerPayload } from '@/types/user'
 import api, { type ApiResponse } from './api'
 
 export const login = async (payload: LoginPayload) => {
@@ -11,7 +11,7 @@ export const register = async (payload: RegisterPayload) => {
   return res.data.data
 }
 
-export const registerSeller = async (payload: RegisterPayload) => {
+export const registerSeller = async (payload: RegisterSellerPayload) => {
   const res = await api.post<ApiResponse<AuthResponse>>('/auth/register/seller', payload)
   return res.data.data
 }

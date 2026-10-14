@@ -87,8 +87,7 @@
   },
   "language": {
     "vi": "Tiếng Việt (VN)",
-    "en": "English (USA)",
-    "zh": "Chinese (CN)"
+    "en": "English (USA)"
   },
   "home": {
     "heroTitle": "Yarnly - Handmade yarn goods",
@@ -295,7 +294,10 @@
     "orderTitle": "Order {{code}}",
     "trackingPending": "Preparing",
     "trackingLabel": "Tracking number:",
-    "viewDetail": "View order details"
+    "viewDetail": "View order details",
+    "myOrdersTitle": "Your orders",
+    "myOrdersHint": "Orders placed with the account {{email}}.",
+    "myOrdersEmpty": "You have no orders yet."
   },
   "account": {
     "pageTitle": "Account",
@@ -328,6 +330,10 @@
     "phoneLabel": "Phone number *",
     "emailLabel": "Email *",
     "passwordLabel": "Password *",
+    "addressLabel": "Workshop address *",
+    "provinceLabel": "Province / City *",
+    "districtLabel": "District *",
+    "wardLabel": "Ward *",
     "forgotPassword": "Forgot password?",
     "forgotNotice": "Please contact hello@yarnly.vn for password reset assistance.",
     "submitting": "Processing...",
@@ -341,7 +347,11 @@
     "validation": {
       "nameRequired": "Please enter your full name",
       "passwordRequired": "Please enter your password",
-      "passwordMin": "Password must be at least 6 characters"
+      "passwordMin": "Password must be at least 6 characters",
+      "addressRequired": "Please enter your workshop address",
+      "provinceRequired": "Please select a province/city",
+      "districtRequired": "Please select a district",
+      "wardRequired": "Please select a ward"
     }
   },
   "blindBox": {
@@ -401,6 +411,11 @@
     "breadcrumb": "Custom design",
     "cartNamePrefix": "Custom design: {{product}}",
     "formHeading": "Design to order",
+    "makerStepTitle": "Choose a workshop",
+    "makerStepHint": "Your custom order will be made by the workshop you select.",
+    "makerLabel": "Workshop",
+    "noMakers": "No workshops have published yarn colors yet. Please check back later.",
+    "outOfStock": "Out of stock",
     "step1Title": "Choose a product",
     "step1Hint": "Pick the base for your design.",
     "baseProductsLabel": "Base product",
@@ -413,12 +428,17 @@
     "textLabel": "Name or text to add",
     "textPlaceholder": "e.g. Alex",
     "referenceLabel": "Reference image",
+    "referenceRemove": "Remove image",
+    "referenceTooLarge": "Image must be 5MB or smaller",
     "noteLabel": "Additional notes for Yarnly",
     "notePlaceholder": "Size, style, ...",
     "pickColor": "Pick {{label}}",
     "previewTitle": "Your design preview",
     "previewTag": "Simulated preview",
+    "previewMaker": "Workshop",
     "previewProduct": "Product",
+    "previewMainColor": "Main color",
+    "previewAccentColor": "Accent color",
     "previewStyle": "Style",
     "previewAccessory": "Accessory",
     "previewText": "Embroidery text",
@@ -426,7 +446,8 @@
     "previewTotal": "Total",
     "addToCart": "Add design to cart",
     "previewNote": "Yarnly will confirm details and final pricing before production",
-    "previewIllustration": "Design preview illustration"
+    "previewIllustration": "Design preview illustration",
+    "dragToRotate": "Drag to rotate"
   },
   "notFound": {
     "code": "404",

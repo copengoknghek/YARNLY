@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import Breadcrumb from '@/components/common/Breadcrumb'
@@ -12,27 +12,51 @@ import { useCart } from '@/hooks/useCart'
 import { useFetch } from '@/hooks/useFetch'
 import { getCustomDesignOptions } from '@/services/customDesignService'
 import type { CustomDesign as CustomDesignData, CustomDesignOptions } from '@/types/customDesign'
-import { calculateDesignPrice, findLabel } from '@/utils/customDesign'
+import { buildInitialDesign, calculateDesignPrice, findLabel } from '@/utils/customDesign'
 import '@/styles/pages/buyer/CustomDesign.css'
 
 const CUSTOM_PRODUCT_ID = 'custom-design'
-
-const INITIAL_DESIGN: CustomDesignData = {
-  baseProduct: 'doll',
-  style: 'chibi',
-  accessory: 'bow',
-  mainColor: '#d99aa6',
-  accentColor: '#ffe373',
-}
+const MAX_REFERENCE_BYTES = 5 * 1024 * 1024
 
 function DesignWorkspace({ options }: { options: CustomDesignOptions }) {
   const { t } = useTranslation()
   const { addItem } = useCart()
   const navigate = useNavigate()
-  const [design, setDesign] = useState<CustomDesignData>(INITIAL_DESIGN)
-  const price = calculateDesignPrice(design, options)
+  const initialDesign = useMemo(() => buildInitialDesign(options), [options])
+  const [design, setDesign] = useState<CustomDesignData | null>(initialDesign)
+  const [referenceImageUrl, setReferenceImageUrl] = useState<string | undefined>()
+  const [referenceImageError, setReferenceImageError] = useState('')
+  useEffect(() => {
+    setDesign(initialDesign)
+  }, [initialDesign])
+
+  useEffect(
+    () => () => {
+      if (referenceImageUrl) URL.revokeObjectURL(referenceImageUrl)
+    },
+    [referenceImageUrl],
+  )
+
+  const handleReferenceImageChange = (file: File | null) => {
+    if (referenceImageUrl) {
+      URL.revokeObjectURL(referenceImageUrl)
+      setReferenceImageUrl(undefined)
+    }
+    setReferenceImageError('')
+    if (!file) {
+      setDesign((current) => (current ? { ...current, referenceImageName: undefined } : current))
+      return
+    }
+    if (file.size > MAX_REFERENCE_BYTES) {
+      setReferenceImageError(t('customDesign.referenceTooLarge'))
+      return
+    }
+    setReferenceImageUrl(URL.createObjectURL(file))
+    setDesign((current) => (current ? { ...current, referenceImageName: file.name } : current))
+  }
 
   const handleAddToCart = () => {
+    if (!design) return
     const base = options.baseProducts.find((option) => option.id === design.baseProduct)
     const cleaned: CustomDesignData = {
       ...design,
@@ -53,14 +77,29 @@ function DesignWorkspace({ options }: { options: CustomDesignOptions }) {
     navigate(ROUTES.CART)
   }
 
+  if (!design) {
+    return <p className="custom-design__empty">{t('customDesign.noMakers')}</p>
+  }
+
+  const price = calculateDesignPrice(design, options)
+
   return (
     <div className="custom-design__workspace">
       <DesignForm
         design={design}
         options={options}
-        onChange={(patch) => setDesign((current) => ({ ...current, ...patch }))}
+        onChange={(patch) => setDesign((current) => (current ? { ...current, ...patch } : current))}
+        referenceImageUrl={referenceImageUrl}
+        referenceImageError={referenceImageError}
+        onReferenceImageChange={handleReferenceImageChange}
       />
-      <DesignPreview design={design} options={options} price={price} onAddToCart={handleAddToCart} />
+      <DesignPreview
+        design={design}
+        options={options}
+        price={price}
+        referenceImageUrl={referenceImageUrl}
+        onAddToCart={handleAddToCart}
+      />
     </div>
   )
 }

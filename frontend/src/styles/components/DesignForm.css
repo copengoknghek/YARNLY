@@ -154,6 +154,109 @@ select.design-form__control {
   outline: none;
 }
 
+.design-form__file-error {
+  margin-top: var(--space-2);
+  font-size: var(--font-size-2xs);
+}
+
+.design-form__reference-preview {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  margin-top: var(--space-3);
+}
+
+.design-form__reference-img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-green);
+}
+
+.design-form__reference-meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-size-2xs);
+}
+
+.design-form__reference-name {
+  word-break: break-all;
+  color: var(--color-green);
+}
+
+.design-form__makers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.design-form__maker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  text-align: left;
+  background: var(--color-cream);
+  border: 1px solid var(--color-green);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.design-form__maker--active {
+  border-color: var(--color-maroon);
+  box-shadow: 0 0 0 1px var(--color-maroon);
+}
+
+.design-form__maker-name {
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+}
+
+.design-form__maker-province {
+  font-size: var(--font-size-2xs);
+  color: var(--color-green);
+}
+
+.design-form__swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.design-form__swatch {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: var(--swatch-color);
+  border: 2px solid transparent;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+}
+
+.design-form__swatch--active {
+  border-color: var(--color-maroon);
+  box-shadow: 0 0 0 2px var(--color-cream);
+}
+
+.design-form__swatch--disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.design-form__reference-remove {
+  align-self: flex-start;
+  padding: 0;
+  font-size: var(--font-size-2xs);
+  color: var(--color-maroon);
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 @media (max-width: 640px) {
   .design-form {
     padding: var(--space-5);
