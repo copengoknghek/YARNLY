@@ -7,7 +7,19 @@ const logger = require('../utils/logger');
 const MIGRATION_LOCK_KEY = 915_062_028;
 
 let pool;
-let migrationPromise;
+let migrationDone;
+
+const buildPoolConfig = () => {
+  const config = {
+    connectionString: env.dbUri,
+    max: env.isServerless ? 3 : 10,
+    idleTimeoutMillis: env.isServerless ? 5_000 : 30_000,
+  };
+  if (env.dbSsl) {
+    config.ssl = { rejectUnauthorized: false };
+  }
+  return config;
+};
 
 const getPool = () => {
   if (!pool) {
@@ -27,26 +39,25 @@ const runMigrations = async (client) => {
   }
 };
 
+const migrate = async () => {
+  if (migrationDone) return;
+
+  const bootstrap = new Pool(buildPoolConfig());
+  const client = await bootstrap.connect();
+  try {
+    await runMigrations(client);
+    migrationDone = true;
+    logger.info('PostgreSQL migrations applied');
+  } finally {
+    client.release();
+    await bootstrap.end();
+  }
+};
+
 const connectDB = async () => {
   if (pool) return pool;
 
-  if (!migrationPromise) {
-    migrationPromise = (async () => {
-      const bootstrap = new Pool({ connectionString: env.dbUri });
-      const client = await bootstrap.connect();
-      try {
-        await runMigrations(client);
-        logger.info('PostgreSQL connected and migrations applied');
-      } finally {
-        client.release();
-        await bootstrap.end();
-      }
-    })();
-  }
-
-  await migrationPromise;
-
-  pool = new Pool({ connectionString: env.dbUri });
+  pool = new Pool(buildPoolConfig());
   pool.on('error', (error) => {
     logger.error('Unexpected PostgreSQL pool error', error);
   });
@@ -58,7 +69,6 @@ const closeDB = async () => {
   if (!pool) return;
   await pool.end();
   pool = undefined;
-  migrationPromise = undefined;
 };
 
-module.exports = { connectDB, closeDB, getPool };
+module.exports = { connectDB, closeDB, getPool, migrate };

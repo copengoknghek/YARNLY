@@ -9,10 +9,12 @@ import Loading from '@/components/common/Loading'
 import PageBanner from '@/components/common/PageBanner'
 import { ORDER_STATUS_LABEL_KEYS } from '@/constants/orderStatus'
 import { ROUTES, orderSuccessPath } from '@/constants/routes'
+import { useAuth } from '@/hooks/useAuth'
 import { useFetch } from '@/hooks/useFetch'
-import { lookupOrders } from '@/services/orderService'
+import { getMyOrders, lookupOrders } from '@/services/orderService'
 import type { Order, OrderLookupQuery } from '@/types/order'
 import { formatPrice } from '@/utils/formatPrice'
+import { getAccessRole } from '@/utils/roles'
 import { isValidEmail, isValidPhone } from '@/utils/validators'
 import '@/styles/pages/buyer/OrderLookup.css'
 
@@ -50,7 +52,54 @@ function LookupResult({ order }: { order: Order }) {
   )
 }
 
-function OrderLookup() {
+function LookupResults({
+  orders,
+  loading,
+  error,
+  placeholder,
+  notFound,
+}: {
+  orders?: Order[]
+  loading: boolean
+  error?: string
+  placeholder?: string
+  notFound: string
+}) {
+  const { t } = useTranslation()
+
+  return (
+    <section className="order-lookup__results" aria-live="polite">
+      {placeholder && <p className="order-lookup__placeholder">{placeholder}</p>}
+      {loading && <Loading />}
+      {error && <p className="text-error">{error}</p>}
+      {orders && orders.length === 0 && <p className="order-lookup__placeholder">{notFound}</p>}
+      {orders?.map((order) => <LookupResult key={order.id} order={order} />)}
+
+      <Link to={ROUTES.CART} className="order-lookup__back">
+        <Icon name="chevron-left" size={12} /> {t('common.backToCart')}
+      </Link>
+    </section>
+  )
+}
+
+function MyOrders({ email }: { email: string }) {
+  const { t } = useTranslation()
+  const { data: orders, loading, error } = useFetch(getMyOrders)
+
+  return (
+    <div className="order-lookup__layout order-lookup__layout--single">
+      <header className="order-lookup__mine">
+        <h2 className="order-lookup__title">
+          <Icon name="search" size={14} /> {t('orderLookup.myOrdersTitle')}
+        </h2>
+        <p className="order-lookup__hint">{t('orderLookup.myOrdersHint', { email })}</p>
+      </header>
+      <LookupResults orders={orders} loading={loading} error={error} notFound={t('orderLookup.myOrdersEmpty')} />
+    </div>
+  )
+}
+
+function GuestLookup() {
   const { t } = useTranslation()
   const [method, setMethod] = useState<LookupMethod>('phone')
   const [value, setValue] = useState('')
@@ -76,6 +125,70 @@ function OrderLookup() {
   }
 
   return (
+    <div className="order-lookup__layout">
+      <form className="order-lookup__form" onSubmit={handleSubmit} noValidate>
+        <h2 className="order-lookup__title">
+          <Icon name="search" size={14} /> {t('orderLookup.title')}
+        </h2>
+
+        <fieldset className="order-lookup__methods">
+          <legend>{t('orderLookup.methodsLegend')}</legend>
+          {(
+            [
+              ['phone', 'orderLookup.methodPhone'],
+              ['email', 'orderLookup.methodEmail'],
+            ] as const
+          ).map(([key, labelKey]) => (
+            <label key={key} className="order-lookup__method">
+              <input
+                type="radio"
+                name="lookup-method"
+                checked={method === key}
+                onChange={() => {
+                  setMethod(key)
+                  setValue('')
+                  setInputError('')
+                }}
+              />
+              {t(labelKey)}
+            </label>
+          ))}
+        </fieldset>
+
+        <Input
+          label={method === 'phone' ? t('common.phone') : t('common.email')}
+          type={method === 'phone' ? 'tel' : 'email'}
+          placeholder={
+            method === 'phone' ? t('orderLookup.phonePlaceholder') : t('orderLookup.emailPlaceholder')
+          }
+          value={value}
+          error={inputError}
+          onChange={(event) => setValue(event.target.value)}
+        />
+
+        <p className="order-lookup__hint">{t('orderLookup.hint')}</p>
+        <Button type="submit" className="order-lookup__submit">
+          {t('orderLookup.submit')}
+        </Button>
+      </form>
+
+      <LookupResults
+        orders={orders}
+        loading={loading}
+        error={error}
+        placeholder={query ? undefined : t('orderLookup.placeholder')}
+        notFound={t('orderLookup.notFound')}
+      />
+    </div>
+  )
+}
+
+function OrderLookup() {
+  const { t } = useTranslation()
+  const { user } = useAuth()
+  const isBuyer = user !== null && getAccessRole(user) === 'buyer'
+
+  return (
     <div className="order-lookup">
       <PageBanner title={t('orderLookup.pageTitle')} />
 
@@ -87,67 +200,7 @@ function OrderLookup() {
           ]}
         />
 
-        <div className="order-lookup__layout">
-          <form className="order-lookup__form" onSubmit={handleSubmit} noValidate>
-            <h2 className="order-lookup__title">
-              <Icon name="search" size={14} /> {t('orderLookup.title')}
-            </h2>
-
-            <fieldset className="order-lookup__methods">
-              <legend>{t('orderLookup.methodsLegend')}</legend>
-              {(
-                [
-                  ['phone', 'orderLookup.methodPhone'],
-                  ['email', 'orderLookup.methodEmail'],
-                ] as const
-              ).map(([key, labelKey]) => (
-                <label key={key} className="order-lookup__method">
-                  <input
-                    type="radio"
-                    name="lookup-method"
-                    checked={method === key}
-                    onChange={() => {
-                      setMethod(key)
-                      setValue('')
-                      setInputError('')
-                    }}
-                  />
-                  {t(labelKey)}
-                </label>
-              ))}
-            </fieldset>
-
-            <Input
-              label={method === 'phone' ? t('common.phone') : t('common.email')}
-              type={method === 'phone' ? 'tel' : 'email'}
-              placeholder={
-                method === 'phone' ? t('orderLookup.phonePlaceholder') : t('orderLookup.emailPlaceholder')
-              }
-              value={value}
-              error={inputError}
-              onChange={(event) => setValue(event.target.value)}
-            />
-
-            <p className="order-lookup__hint">{t('orderLookup.hint')}</p>
-            <Button type="submit" className="order-lookup__submit">
-              {t('orderLookup.submit')}
-            </Button>
-          </form>
-
-          <section className="order-lookup__results" aria-live="polite">
-            {!query && <p className="order-lookup__placeholder">{t('orderLookup.placeholder')}</p>}
-            {loading && <Loading />}
-            {error && <p className="text-error">{error}</p>}
-            {orders && orders.length === 0 && (
-              <p className="order-lookup__placeholder">{t('orderLookup.notFound')}</p>
-            )}
-            {orders?.map((order) => <LookupResult key={order.id} order={order} />)}
-
-            <Link to={ROUTES.CART} className="order-lookup__back">
-              <Icon name="chevron-left" size={12} /> {t('common.backToCart')}
-            </Link>
-          </section>
-        </div>
+        {isBuyer ? <MyOrders email={user.email} /> : <GuestLookup />}
       </div>
     </div>
   )

@@ -1,5 +1,8 @@
 const { getPool } = require('../config/db');
-const { generateId } = require('../utils/helpers');
+const YarnColor = require('./YarnColor');
+const { generateId, generateOrderCode } = require('../utils/helpers');
+
+const MAX_ORDER_CODE_RETRIES = 5;
 
 const ORDER_STATUSES = ['placed', 'crafting', 'shipping', 'delivered', 'cancelled'];
 const PAYMENT_METHODS = ['momo', 'zalopay', 'cod'];
@@ -148,44 +151,55 @@ const create = async (data) => {
   try {
     await client.query('BEGIN');
 
-    const { rows: codeRows } = await client.query(`SELECT 'Y' || nextval('order_code_seq') AS code`);
-    const code = codeRows[0].code;
     const id = generateId();
-
-    const { rows } = await client.query(
-      `INSERT INTO orders (
-         id, code, status, buyer_id, carrier_id,
-         shipping_email, shipping_full_name, shipping_phone, shipping_address,
-         shipping_province, shipping_district, shipping_ward,
-         note, payment_method, subtotal, shipping_fee, total, estimated_delivery, tracking_code
-       ) VALUES (
-         $1, $2, 'placed', $3, $4,
-         $5, $6, $7, $8,
-         $9, $10, $11,
-         $12, $13, $14, $15, $16, $17, $18
-       )
-       RETURNING *, (SELECT name FROM carriers WHERE id = $4) AS carrier_name`,
-      [
-        id,
-        code,
-        data.buyerId ?? null,
-        data.carrierId,
-        data.shipping.email,
-        data.shipping.fullName,
-        data.shipping.phone,
-        data.shipping.address,
-        data.shipping.province,
-        data.shipping.district,
-        data.shipping.ward,
-        data.note ?? '',
-        data.paymentMethod,
-        data.subtotal,
-        data.shippingFee,
-        data.total,
-        data.estimatedDelivery,
-        data.trackingCode ?? null,
-      ],
-    );
+    let rows;
+    for (let attempt = 0; attempt < MAX_ORDER_CODE_RETRIES; attempt++) {
+      const code = generateOrderCode();
+      try {
+        const result = await client.query(
+          `INSERT INTO orders (
+             id, code, status, buyer_id, carrier_id,
+             shipping_email, shipping_full_name, shipping_phone, shipping_address,
+             shipping_province, shipping_district, shipping_ward,
+             note, payment_method, subtotal, shipping_fee, total, estimated_delivery, tracking_code
+           ) VALUES (
+             $1, $2, 'placed', $3, $4,
+             $5, $6, $7, $8,
+             $9, $10, $11,
+             $12, $13, $14, $15, $16, $17, $18
+           )
+           RETURNING *, (SELECT name FROM carriers WHERE id = $4) AS carrier_name`,
+          [
+            id,
+            code,
+            data.buyerId ?? null,
+            data.carrierId,
+            data.shipping.email,
+            data.shipping.fullName,
+            data.shipping.phone,
+            data.shipping.address,
+            data.shipping.province,
+            data.shipping.district,
+            data.shipping.ward,
+            data.note ?? '',
+            data.paymentMethod,
+            data.subtotal,
+            data.shippingFee,
+            data.total,
+            data.estimatedDelivery,
+            data.trackingCode ?? null,
+          ],
+        );
+        rows = result.rows;
+        break;
+      } catch (error) {
+        if (error.code === '23505' && attempt < MAX_ORDER_CODE_RETRIES - 1) continue;
+        throw error;
+      }
+    }
+    if (!rows) {
+      throw new Error('Could not generate unique order code');
+    }
 
     for (const item of data.items) {
       await client.query(
@@ -208,6 +222,10 @@ const create = async (data) => {
           item.customDesign ? JSON.stringify(item.customDesign) : null,
         ],
       );
+    }
+
+    for (const deduction of data.yarnDeductions ?? []) {
+      await YarnColor.decrementStock(client, deduction.colorId, deduction.sellerId, deduction.quantity);
     }
 
     await client.query('COMMIT');

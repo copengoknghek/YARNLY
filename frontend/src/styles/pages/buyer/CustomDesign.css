@@ -2,6 +2,12 @@
   padding-bottom: 0;
 }
 
+.custom-design__empty {
+  padding: var(--space-8);
+  text-align: center;
+  color: var(--color-green);
+}
+
 .custom-design__workspace {
   display: grid;
   grid-template-columns: minmax(0, 610px) minmax(0, 450px);

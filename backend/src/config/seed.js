@@ -1,6 +1,8 @@
 const Carrier = require('../models/Carrier');
 const Product = require('../models/Product');
 const User = require('../models/User');
+const YarnColor = require('../models/YarnColor');
+const env = require('./env');
 const { hashPasswordSync } = require('../utils/password');
 const logger = require('../utils/logger');
 
@@ -8,10 +10,44 @@ const DEMO_STAFF_EMAIL = 'staff@yarnly.vn';
 const DEMO_STAFF_PASSWORD = 'yarnly-staff';
 const DEMO_SELLER_PASSWORD = 'yarnly-seller';
 
+const DEFAULT_SELLER_ADDRESS = {
+  address: '12 Trần Phú',
+  province: 'Đà Nẵng',
+  district: 'Hải Châu',
+  ward: 'Hải Châu 1',
+};
+
 const SELLERS = [
-  { id: 'seller-demo', name: 'Xưởng len Đà Nẵng', email: 'seller@yarnly.vn', phone: '0901234567' },
-  { id: 'seller-hoi-an', name: 'Hoa len Hội An', email: 'hoa.len@yarnly.vn', phone: '0902345678' },
-  { id: 'seller-sg', name: 'Thú len Sài Gòn', email: 'thu.len@yarnly.vn', phone: '0903456789' },
+  {
+    id: 'seller-demo',
+    name: 'Xưởng len Đà Nẵng',
+    email: 'seller@yarnly.vn',
+    phone: '0901234567',
+    address: '45 Lê Duẩn',
+    province: 'Đà Nẵng',
+    district: 'Hải Châu',
+    ward: 'Hải Châu 1',
+  },
+  {
+    id: 'seller-hoi-an',
+    name: 'Hoa len Hội An',
+    email: 'hoa.len@yarnly.vn',
+    phone: '0902345678',
+    address: '78 Nguyễn Phí Ích',
+    province: 'Quảng Nam',
+    district: 'Hội An',
+    ward: 'Minh An',
+  },
+  {
+    id: 'seller-sg',
+    name: 'Thú len Sài Gòn',
+    email: 'thu.len@yarnly.vn',
+    phone: '0903456789',
+    address: '12 Nguyễn Huệ',
+    province: 'TP. Hồ Chí Minh',
+    district: 'Quận 1',
+    ward: 'Bến Nghé',
+  },
 ];
 
 const CARRIERS = [
@@ -195,6 +231,25 @@ const CATALOG = [
   },
 ];
 
+const buildSellerPalette = (sellerId) => [
+  { id: `yc-${sellerId}-01`, name: 'Hồng phấn', hex: '#f4a6b8', stock: 15 },
+  { id: `yc-${sellerId}-02`, name: 'Đỏ hồng', hex: '#d9587a', stock: 10 },
+  { id: `yc-${sellerId}-03`, name: 'Vàng pastel', hex: '#ffe373', stock: 12 },
+  { id: `yc-${sellerId}-04`, name: 'Xanh mint', hex: '#7ec8a8', stock: 8 },
+  { id: `yc-${sellerId}-05`, name: 'Xanh navy', hex: '#2f4a6b', stock: 6 },
+  { id: `yc-${sellerId}-06`, name: 'Tím lavender', hex: '#b8a0d9', stock: 9 },
+  { id: `yc-${sellerId}-07`, name: 'Kem', hex: '#f5e6d3', stock: 14 },
+  { id: `yc-${sellerId}-08`, name: 'Cam đất', hex: '#e89b6c', stock: 7 },
+  { id: `yc-${sellerId}-09`, name: 'Xanh dương', hex: '#5b9bd5', stock: 5 },
+  { id: `yc-${sellerId}-10`, name: 'Xám len', hex: '#9e9e9e', stock: 0 },
+];
+
+const seedYarnColors = async () => {
+  for (const seller of SELLERS) {
+    await YarnColor.seedColorsForSeller(seller.id, buildSellerPalette(seller.id));
+  }
+};
+
 const seedUsers = async () => {
   await User.seedUser({
     id: 'admin-demo',
@@ -214,6 +269,10 @@ const seedUsers = async () => {
       passwordHash: hashPasswordSync(DEMO_SELLER_PASSWORD),
       role: 'user',
       userType: 'seller',
+      address: seller.address,
+      province: seller.province,
+      district: seller.district,
+      ward: seller.ward,
     });
   }
 };
@@ -232,39 +291,35 @@ const seedProducts = async () => {
 };
 
 const seed = async ({ force = false } = {}) => {
+  await seedCarriers();
+
+  const shouldSeedDemo = force || env.seedDemo;
+  if (!shouldSeedDemo) {
+    logger.info('Demo seed skipped (set SEED_DEMO=true to create demo users and catalog)');
+    return;
+  }
+
+  await User.backfillSellerAddresses(SELLERS, DEFAULT_SELLER_ADDRESS);
+
   const admin = await User.findByEmail(DEMO_STAFF_EMAIL);
   if (admin && !force) {
-    logger.info('Seed skipped (database already initialized)');
+    await seedYarnColors();
+    logger.info('Seed skipped (demo database already initialized)');
     return;
   }
 
   if (force) {
     const { getPool } = require('./db');
     await getPool().query(
-      'TRUNCATE order_items, orders, products, shipping_rates, carriers, users RESTART IDENTITY CASCADE',
+      'TRUNCATE yarn_colors, order_items, orders, products, shipping_rates, carriers, users RESTART IDENTITY CASCADE',
     );
-    await getPool().query("SELECT setval('order_code_seq', 1001, false)");
+    await seedCarriers();
   }
 
   await seedUsers();
-  await seedCarriers();
+  await seedYarnColors();
   await seedProducts();
-  await syncOrderCodeSequence();
   logger.info('Seed data ready');
-};
-
-const syncOrderCodeSequence = async () => {
-  const { getPool } = require('./db');
-  await getPool().query(`
-    SELECT setval(
-      'order_code_seq',
-      GREATEST(
-        COALESCE((SELECT MAX(CAST(SUBSTRING(code FROM 2) AS INTEGER)) FROM orders), 1000),
-        COALESCE((SELECT last_value FROM order_code_seq), 1000)
-      ),
-      TRUE
-    )
-  `);
 };
 
 module.exports = seed;

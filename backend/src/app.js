@@ -6,7 +6,17 @@ const routes = require('./routes');
 
 const app = express();
 
-app.use(cors({ origin: env.clientUrl }));
+app.use(
+  cors({
+    origin(origin, callback) {
+      if (!origin || env.clientUrls.includes(origin)) {
+        callback(null, true);
+        return;
+      }
+      callback(null, false);
+    },
+  }),
+);
 app.use(express.json());
 
 app.use('/api', routes);

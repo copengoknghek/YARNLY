@@ -8,8 +8,14 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "vercel-build": "node scripts/migrate.js && node scripts/seed.js",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js",
     "test": "node --test --test-concurrency=1 \"tests/**/*.test.js\"",
     "db:cleanup-guest-orders": "node scripts/cleanup-guest-orders.js"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

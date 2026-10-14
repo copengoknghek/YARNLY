@@ -20,7 +20,7 @@ Chạy toàn bộ stack: PostgreSQL, backend và frontend. Lần đầu cần t�
 
 ```bash
 cp backend/.env.example backend/.env
-docker compose up --build --watch
+docker compose up -d --build
 ```
 
 | Dịch vụ | URL |
@@ -28,18 +28,15 @@ docker compose up --build --watch
 | Website | http://localhost:5173 |
 | API | http://localhost:5000/api |
 
-Dừng: `Ctrl+C` hoặc `docker compose down`.
+Dừng: `docker compose down`.
 
-Với `--watch`, container tự cập nhật khi bạn sửa code, không cần chạy lại lệnh:
+Chỉ cần chạy lệnh trên một lần. Các container có `restart: unless-stopped`, nên mỗi lần mở Docker Desktop chúng tự chạy lại. Thư mục code được gắn thẳng vào container, nên sửa code là container tự cập nhật, không cần chạy lại lệnh:
 
 | Khi sửa | Container làm gì |
 | ------- | ---------------- |
-| `backend/src`, `backend/scripts`, `frontend/src`, `frontend/public`, `index.html` | Đồng bộ file, backend tự khởi động lại, frontend tự reload |
-| `backend/.env` | Backend tự khởi động lại và đọc giá trị mới |
-| `backend/db` (migration), `vite.config.ts` | Khởi động lại container |
-| `package.json`, `package-lock.json`, `tsconfig*.json` | Build lại image (cài thư viện mới) |
-
-Nếu đã chạy `docker compose up` mà quên `--watch`, nhấn phím `w` trong terminal để bật. Không có watch thì container giữ nguyên code lúc build.
+| `backend/src`, `backend/scripts`, `backend/db`, `backend/.env` | Backend tự khởi động lại |
+| `frontend/src`, `frontend/public`, `index.html`, `vite.config.ts` | Frontend tự reload |
+| `package.json`, `package-lock.json` | Chạy lại `docker compose up -d --build` để cài thư viện mới |
 
 ### Cách 2 — Chỉ database bằng Docker, code chạy local
 
@@ -99,6 +96,9 @@ Sao chép `.cursor/mcp.example.json` thành `.cursor/mcp.json` rồi điền `FI
 | `frontend` | `npm run lint`  | Kiểm tra code với oxlint               |
 | `backend`  | `npm run dev`   | Chạy API với nodemon (tự restart)      |
 | `backend`  | `npm start`     | Chạy API ở chế độ production           |
+| `backend`  | `npm run vercel-build` | Migrate + seed (Vercel deploy)   |
+| `backend`  | `npm run db:migrate`   | Chạy migration SQL               |
+| `backend`  | `npm run db:seed`      | Chạy seed (carriers; demo nếu `SEED_DEMO=true`) |
 | `backend`  | `npm test`      | Chạy test với Node test runner         |
 
 ## Cấu trúc thư mục
@@ -190,3 +190,50 @@ Frontend dùng alias `@/` trỏ tới `frontend/src/`, ví dụ `import Button f
 - Dữ liệu lưu PostgreSQL (Docker). Email xác nhận đơn hàng gửi qua Gmail SMTP.
 
 Danh sách endpoint chi tiết xem tại [docs/api.md](docs/api.md).
+
+## Deploy lên Vercel (miễn phí)
+
+Stack $0: **Vercel Hobby** (một project, [Vercel Services](https://vercel.com/docs/services)), **Neon Postgres** (free tier qua Marketplace), **Gmail SMTP**, **Vercel Cron** (1 lần/ngày trên Hobby).
+
+Cấu hình monorepo nằm ở [vercel.json](vercel.json) gốc repo: service `backend` (Express) + `frontend` (Vite), routing công khai `/api/*` → backend, còn lại → frontend.
+
+```mermaid
+flowchart LR
+  Browser --> Domain["yarnly.vercel.app"]
+  Domain -->|"rewrite /api/*"| Backend["backend sin1"]
+  Domain -->|"rewrite /*"| Frontend["frontend static"]
+  Backend --> Neon["Neon Postgres"]
+  Backend --> Gmail["Gmail SMTP"]
+  Cron["Cron hàng ngày"] --> Backend
+```
+
+### Thiết lập project
+
+1. Import repo GitHub `copengoknghek/YARNLY` trên Vercel (**Root Directory:** repo gốc, không chọn `frontend` hay `backend`).
+2. Thêm integration **Neon** (region Singapore `ap-southeast-1`). Dùng connection string **pooled** có `sslmode=require`.
+3. **Environment variables** (Production, shared project):
+
+| Biến | Giá trị |
+| ---- | ------- |
+| `NODE_ENV` | `production` |
+| `JWT_SECRET` | Chuỗi ngẫu nhiên ≥ 32 ký tự |
+| `CRON_SECRET` | Chuỗi ngẫu nhiên (route cron kiểm tra `Authorization: Bearer …`) |
+| `CLIENT_URL` | `https://<tên-project>.vercel.app` (có thể thêm preview URL, phân tách bằng dấu phẩy) |
+| `SEED_DEMO` | `true` lần deploy đầu, sau đó `false` |
+| `SMTP_*` | Gmail App Password (xem [Email](#email-xác-nhận-đơn-hàng)) |
+
+4. Deploy. Service `backend` chạy `vercel-build` (migrate + seed); runtime tại `backend/api/index.js`.
+
+Kiểm tra: `https://<project>.vercel.app/api/health` và đăng nhập thử. Frontend không cần `VITE_API_URL` (axios dùng `/api` cùng domain).
+
+Dev local với routing giống production: `vercel dev` (hoặc `vercel dev -L`). Docker Compose / `npm run dev` vẫn dùng proxy Vite như trước.
+
+### Giới hạn free tier
+
+| Dịch vụ | Lưu ý |
+| ------- | ----- |
+| Vercel Hobby | 1 cron/ngày; function cold start |
+| Neon free | Giới hạn storage/compute; DB tạm dừng sau ~5 phút idle (request đầu chậm hơn) |
+| Gmail SMTP | ~500 email/ngày |
+
+Docker Compose vẫn dùng cho dev local; production không dùng `docker-compose.yml`.

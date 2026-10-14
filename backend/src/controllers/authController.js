@@ -6,8 +6,10 @@ const register = async (req, res) => {
 };
 
 const registerSeller = async (req, res) => {
-  const { name, phone, email, password } = req.body;
-  res.status(201).json({ data: await authService.registerSeller({ name, phone, email, password }) });
+  const { name, phone, email, password, address, province, district, ward } = req.body;
+  res.status(201).json({
+    data: await authService.registerSeller({ name, phone, email, password, address, province, district, ward }),
+  });
 };
 
 const login = async (req, res) => {

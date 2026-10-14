@@ -1,70 +1,56 @@
-import { useState, type ChangeEvent } from 'react'
+import { type ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CustomDesign, CustomDesignOptions } from '@/types/customDesign'
+import { applyColorSelection, findMaker, pickDefaultColors } from '@/utils/customDesign'
+import ColorSwatches from './ColorSwatches'
 import '@/styles/components/DesignForm.css'
 
 interface DesignFormProps {
   design: CustomDesign
   options: CustomDesignOptions
   onChange: (patch: Partial<CustomDesign>) => void
+  referenceImageUrl?: string
+  referenceImageError?: string
+  onReferenceImageChange: (file: File | null) => void
 }
 
-const HEX_PATTERN = /^#[0-9a-f]{6}$/i
-
-function ColorField({
-  id,
-  label,
-  value,
+function DesignForm({
+  design,
+  options,
   onChange,
-}: {
-  id: string
-  label: string
-  value: string
-  onChange: (value: string) => void
-}) {
-  const { t } = useTranslation()
-  const [draft, setDraft] = useState(value)
-  const [syncedValue, setSyncedValue] = useState(value)
-  if (value !== syncedValue) {
-    setSyncedValue(value)
-    setDraft(value)
-  }
-
-  return (
-    <div className="design-form__field">
-      <label htmlFor={id} className="design-form__label">
-        {label}
-      </label>
-      <div className="design-form__color">
-        <input
-          type="color"
-          aria-label={t('customDesign.pickColor', { label })}
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-        />
-        <input
-          id={id}
-          className="design-form__color-text"
-          value={draft.toUpperCase()}
-          maxLength={7}
-          onChange={(event) => {
-            const raw = event.target.value
-            const next = raw.startsWith('#') ? raw : `#${raw}`
-            setDraft(next)
-            if (HEX_PATTERN.test(next)) onChange(next.toLowerCase())
-          }}
-          onBlur={() => setDraft(value)}
-        />
-      </div>
-    </div>
-  )
-}
-
-function DesignForm({ design, options, onChange }: DesignFormProps) {
+  referenceImageUrl,
+  referenceImageError,
+  onReferenceImageChange,
+}: DesignFormProps) {
   const { t } = useTranslation()
 
   const handleFile = (event: ChangeEvent<HTMLInputElement>) => {
-    onChange({ referenceImageName: event.target.files?.[0]?.name })
+    const file = event.target.files?.[0] ?? null
+    onReferenceImageChange(file)
+    if (!file) event.target.value = ''
+  }
+
+  const clearReference = () => {
+    onReferenceImageChange(null)
+  }
+
+  const activeMaker = findMaker(options, design.sellerId)
+  const makerColors = activeMaker?.colors ?? []
+
+  const handleMakerChange = (sellerId: string) => {
+    const maker = findMaker(options, sellerId)
+    if (!maker) return
+    const { main, accent } = pickDefaultColors(maker)
+    if (!main || !accent) return
+    onChange({
+      sellerId,
+      mainColorId: main.id,
+      accentColorId: accent.id,
+      mainColor: main.hex,
+      accentColor: accent.hex,
+      mainColorName: main.name,
+      accentColorName: accent.name,
+    })
   }
 
   return (
@@ -96,6 +82,29 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
       <section className="design-form__step">
         <span className="design-form__step-number">02</span>
         <div>
+          <h2 className="design-form__step-title">{t('customDesign.makerStepTitle')}</h2>
+          <p className="design-form__step-hint">{t('customDesign.makerStepHint')}</p>
+        </div>
+      </section>
+      <div className="design-form__makers" role="radiogroup" aria-label={t('customDesign.makerLabel')}>
+        {options.makers.map((maker) => (
+          <button
+            key={maker.id}
+            type="button"
+            role="radio"
+            aria-checked={design.sellerId === maker.id}
+            className={`design-form__maker ${design.sellerId === maker.id ? 'design-form__maker--active' : ''}`}
+            onClick={() => handleMakerChange(maker.id)}
+          >
+            <span className="design-form__maker-name">{maker.name}</span>
+            <span className="design-form__maker-province">{maker.province}</span>
+          </button>
+        ))}
+      </div>
+
+      <section className="design-form__step">
+        <span className="design-form__step-number">03</span>
+        <div>
           <h2 className="design-form__step-title">{t('customDesign.step2Title')}</h2>
           <p className="design-form__step-hint">{t('customDesign.step2Hint')}</p>
         </div>
@@ -120,11 +129,18 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
           </select>
         </div>
 
-        <ColorField
-          id="design-main-color"
+        <ColorSwatches
           label={t('customDesign.mainColorLabel')}
-          value={design.mainColor}
-          onChange={(mainColor) => onChange({ mainColor })}
+          colors={makerColors}
+          value={design.mainColorId}
+          onChange={(color) => onChange(applyColorSelection(color, 'main'))}
+        />
+
+        <ColorSwatches
+          label={t('customDesign.accentColorLabel')}
+          colors={makerColors}
+          value={design.accentColorId}
+          onChange={(color) => onChange(applyColorSelection(color, 'accent'))}
         />
 
         <div className="design-form__field">
@@ -144,13 +160,6 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
             ))}
           </select>
         </div>
-
-        <ColorField
-          id="design-accent-color"
-          label={t('customDesign.accentColorLabel')}
-          value={design.accentColor}
-          onChange={(accentColor) => onChange({ accentColor })}
-        />
 
         <div className="design-form__field">
           <label htmlFor="design-text" className="design-form__label">
@@ -177,6 +186,20 @@ function DesignForm({ design, options, onChange }: DesignFormProps) {
             accept="image/*"
             onChange={handleFile}
           />
+          {referenceImageError && <p className="text-error design-form__file-error">{referenceImageError}</p>}
+          {referenceImageUrl && (
+            <div className="design-form__reference-preview">
+              <img src={referenceImageUrl} alt="" className="design-form__reference-img" />
+              <div className="design-form__reference-meta">
+                {design.referenceImageName && (
+                  <span className="design-form__reference-name">{design.referenceImageName}</span>
+                )}
+                <button type="button" className="design-form__reference-remove" onClick={clearReference}>
+                  {t('customDesign.referenceRemove')}
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="design-form__field design-form__field--full">

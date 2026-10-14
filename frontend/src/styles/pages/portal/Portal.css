@@ -111,11 +111,38 @@
   gap: var(--space-2);
 }
 
+.portal-yarn-swatch {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  margin-right: var(--space-2);
+  vertical-align: middle;
+  border: 1px solid rgb(74 10 10 / 20%);
+  border-radius: var(--radius-full);
+}
+
 .portal-form {
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
   max-width: 560px;
+}
+
+.portal-form--inline {
+  margin-top: var(--space-6);
+}
+
+.portal-form__title {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+}
+
+.portal-form__color {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray);
 }
 
 .portal-form__field label {

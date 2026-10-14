@@ -27,7 +27,7 @@ const register = async ({ name, phone, email, password }) => {
   return buildAuthResponse(user);
 };
 
-const registerSeller = async ({ name, phone, email, password }) => {
+const registerSeller = async ({ name, phone, email, password, address, province, district, ward }) => {
   const normalizedEmail = email.trim().toLowerCase();
   if (await User.findByEmail(normalizedEmail)) {
     throw new AppError(409, 'Email đã được sử dụng cho tài khoản người bán');
@@ -40,6 +40,10 @@ const registerSeller = async ({ name, phone, email, password }) => {
     passwordHash: await hashPassword(password),
     role: 'user',
     userType: 'seller',
+    address: address.trim(),
+    province: province.trim(),
+    district: district.trim(),
+    ward: ward.trim(),
   });
 
   return buildAuthResponse(user);

@@ -3,14 +3,12 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import { initReactI18next } from 'react-i18next'
 import en from './locales/en.json'
 import vi from './locales/vi.json'
-import zh from './locales/zh.json'
 
 export const LANG_STORAGE_KEY = 'yarnly_lang'
 
 const INTL_LOCALE_MAP = {
   vi: 'vi-VN',
   en: 'en-US',
-  zh: 'zh-CN',
 } as const
 
 type SupportedLang = keyof typeof INTL_LOCALE_MAP
@@ -27,10 +25,9 @@ i18n
     resources: {
       vi: { translation: vi },
       en: { translation: en },
-      zh: { translation: zh },
     },
     fallbackLng: 'vi',
-    supportedLngs: ['vi', 'en', 'zh'],
+    supportedLngs: ['vi', 'en'],
     interpolation: { escapeValue: false },
     detection: {
       order: ['localStorage', 'navigator'],

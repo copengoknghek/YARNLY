@@ -82,5 +82,7 @@ describe('Products API', () => {
     assert.equal(res.status, 200);
     assert.ok(body.data.baseProducts.length > 0);
     assert.ok(body.data.styles.length > 0);
+    assert.ok(Array.isArray(body.data.makers));
+    assert.ok(body.data.makers.length > 0);
   });
 });

@@ -8,6 +8,7 @@ const productRoutes = require('./productRoutes');
 const sellerRoutes = require('./sellerRoutes');
 const shippingRoutes = require('./shippingRoutes');
 const userRoutes = require('./userRoutes');
+const cronRoutes = require('./cronRoutes');
 
 const router = Router();
 
@@ -24,5 +25,6 @@ router.use('/shipping', shippingRoutes);
 router.use('/seller', sellerRoutes);
 router.use('/admin', adminRoutes);
 router.use('/users', userRoutes);
+router.use('/cron', cronRoutes);
 
 module.exports = router;

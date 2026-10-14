@@ -16,6 +16,7 @@ export const ROUTES = {
   SELLER_NEW_PRODUCT: '/seller/products/new',
   SELLER_EDIT_PRODUCT: '/seller/products/:id/edit',
   SELLER_INVENTORY: '/seller/inventory',
+  SELLER_COLORS: '/seller/colors',
   ADMIN: '/admin',
   ADMIN_APPROVALS: '/admin/approvals',
   ADMIN_ORDERS: '/admin/orders',
