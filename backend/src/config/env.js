@@ -16,25 +16,35 @@ if (nodeEnv === 'production') {
 }
 
 const DEFAULT_LOCAL_DB_URI = 'postgresql://yarnly:yarnly@localhost:5432/yarnly';
-const dbUri = process.env.DB_URI || process.env.DATABASE_URL || DEFAULT_LOCAL_DB_URI;
+const configuredDbUri = (
+  process.env.DB_URI ||
+  process.env.DATABASE_URL ||
+  process.env.POSTGRES_URL ||
+  ''
+).trim();
+const dbUri = configuredDbUri || DEFAULT_LOCAL_DB_URI;
 
-if (
-  nodeEnv === 'production' &&
-  process.env.VERCEL &&
-  !process.env.DB_URI &&
-  !process.env.DATABASE_URL
-) {
+const getDbHost = (uri) => {
+  try {
+    return new URL(uri).hostname;
+  } catch {
+    return '';
+  }
+};
+const LOCAL_DB_HOSTS = new Set(['localhost', '127.0.0.1', '::1', '[::1]', 'postgres']);
+const isLocalDb = LOCAL_DB_HOSTS.has(getDbHost(dbUri));
+
+const isServerless = Boolean(process.env.VERCEL);
+
+const isVercelDeployment = isServerless && process.env.VERCEL_ENV !== 'development';
+
+if (isVercelDeployment && (!configuredDbUri || isLocalDb)) {
   throw new Error(
-    'DATABASE_URL is not set. Add the Neon Postgres integration (or set DB_URI) on the Vercel project.',
+    'DATABASE_URL is missing or points to a local database. Set it to the Neon connection string on the Vercel project and remove any localhost DB_URI.',
   );
 }
 
-const isServerless = process.env.VERCEL === '1';
-const dbNeedsSsl =
-  isServerless ||
-  /neon\.tech/i.test(dbUri) ||
-  /sslmode=require/i.test(dbUri) ||
-  /supabase\.co/i.test(dbUri);
+const dbNeedsSsl = !isLocalDb && !/sslmode=disable/i.test(dbUri);
 
 const env = {
   nodeEnv,
