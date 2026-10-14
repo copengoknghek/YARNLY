@@ -9,7 +9,10 @@ const ensureDatabase = async (req, res, next) => {
       await migrate();
       await connectDB();
       await seed();
-    })();
+    })().catch((error) => {
+      dbReady = undefined;
+      throw error;
+    });
   }
   try {
     await dbReady;
