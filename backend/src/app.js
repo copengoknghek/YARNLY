@@ -1,10 +1,13 @@
 const cors = require('cors');
 const express = require('express');
 const env = require('./config/env');
+const { ensureDatabase } = require('./middleware/ensureDatabase');
 const { errorHandler, notFound } = require('./middleware/errorHandler');
 const routes = require('./routes');
 
 const app = express();
+
+app.use(ensureDatabase);
 
 app.use(
   cors({
