@@ -42,6 +42,11 @@ const runMigrations = async (client) => {
 const migrate = async () => {
   if (migrationDone) return;
 
+  const sslmode = new URLSearchParams(env.dbUri.split('?')[1] || '').get('sslmode') || 'none';
+  logger.info(
+    `Connecting to PostgreSQL: source=${env.dbUriSource} host=${env.dbHost || 'unparsed'} ssl=${env.dbSsl} sslmode=${sslmode}`,
+  );
+
   const bootstrap = new Pool(buildPoolConfig());
   const client = await bootstrap.connect();
   try {

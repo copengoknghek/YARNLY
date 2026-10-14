@@ -16,12 +16,9 @@ if (nodeEnv === 'production') {
 }
 
 const DEFAULT_LOCAL_DB_URI = 'postgresql://yarnly:yarnly@localhost:5432/yarnly';
-const configuredDbUri = (
-  process.env.DB_URI ||
-  process.env.DATABASE_URL ||
-  process.env.POSTGRES_URL ||
-  ''
-).trim();
+const DB_URI_VARS = ['DB_URI', 'DATABASE_URL', 'POSTGRES_URL'];
+const dbUriSource = DB_URI_VARS.find((name) => process.env[name]?.trim()) || 'default';
+const configuredDbUri = dbUriSource === 'default' ? '' : process.env[dbUriSource].trim();
 const dbUri = configuredDbUri || DEFAULT_LOCAL_DB_URI;
 
 const getDbHost = (uri) => {
@@ -51,6 +48,8 @@ const env = {
   port: Number(process.env.PORT) || 5000,
   clientUrls: parseClientUrls(process.env.CLIENT_URL),
   dbUri,
+  dbUriSource,
+  dbHost: getDbHost(dbUri),
   dbSsl: dbNeedsSsl,
   isServerless,
   jwtSecret,
