@@ -42,9 +42,14 @@ const runMigrations = async (client) => {
 const migrate = async () => {
   if (migrationDone) return;
 
-  const sslmode = new URLSearchParams(env.dbUri.split('?')[1] || '').get('sslmode') || 'none';
+  let envPath;
+  try {
+    envPath = require.resolve('./env');
+  } catch (error) {
+    envPath = `unresolved (${error.code})`;
+  }
   logger.info(
-    `Connecting to PostgreSQL: source=${env.dbUriSource} host=${env.dbHost || 'unparsed'} ssl=${env.dbSsl} sslmode=${sslmode}`,
+    `Connecting to PostgreSQL: envPath=${envPath} envType=${typeof env} envKeys=${Object.keys(env || {}).join(',')} source=${env.dbUriSource} host=${env.dbHost} ssl=${env.dbSsl}`,
   );
 
   const bootstrap = new Pool(buildPoolConfig());
