@@ -1,0 +1,240 @@
+[
+  {
+    "id": "p-azure-bloom-satchel",
+    "name": "Túi đeo hoa xanh Azure",
+    "nameEn": "Azure Bloom Satchel",
+    "description": "Chiếc túi len thủ công xinh xắn với phong cách lấy cảm hứng từ hoa. Phù hợp để mang theo khi đi chơi hằng ngày hoặc làm món quà dễ thương.",
+    "descriptionEn": "A charming handmade yarn satchel with a soft floral-inspired look. A lovely accessory for everyday outings or as a thoughtful gift.",
+    "price": 350000,
+    "category": "fashion",
+    "images": [
+      "/images/products/azure-bloom-satchel.jpg"
+    ]
+  },
+  {
+    "id": "p-bear-eyeglass-tray",
+    "name": "Khay đựng kính hình gấu",
+    "nameEn": "Bear eyeglass tray",
+    "description": "Khay thủ công hình gấu đáng yêu giúp bạn cất kính gọn gàng và dễ tìm. Sản phẩm cũng là món đồ trang trí xinh xắn cho bàn làm việc hoặc tab đầu giường.",
+    "descriptionEn": "A cute bear-themed handmade tray for keeping your glasses in one easy-to-find place. It also makes a sweet decorative accent for your desk or bedside table.",
+    "price": 200000,
+    "category": "decoration",
+    "images": [
+      "/images/products/bear-eyeglass-tray.jpg"
+    ]
+  },
+  {
+    "id": "p-blue-sky-blossom",
+    "name": "Hoa Nở Trời Xanh",
+    "nameEn": "Blue Sky Blossom",
+    "description": "Sản phẩm len lấy cảm hứng từ những đóa hoa dưới bầu trời xanh trong. Phong cách nhẹ nhàng, tươi vui giúp không gian thêm màu sắc và ấm áp.",
+    "descriptionEn": "A delicate yarn creation inspired by blossoms beneath a clear blue sky. Its gentle, cheerful style brings a little colour and warmth to any space.",
+    "price": 350000,
+    "category": "decoration",
+    "images": [
+      "/images/products/blue-sky-blossom.jpg"
+    ]
+  },
+  {
+    "id": "p-bonnet-duckie-plush",
+    "name": "Thú bông vịt đội mũ",
+    "nameEn": "Bonnet Duckie Plush",
+    "description": "Thú bông vịt nhỏ đáng yêu đội chiếc mũ xinh xắn. Sản phẩm thích hợp để trang trí kệ, bàn làm việc hoặc làm quà tặng cho người yêu thích đồ thủ công dễ thương.",
+    "descriptionEn": "An adorable duckie plush wearing a little bonnet. A sweet companion for your shelf, desk, or gift box, perfect for anyone who loves cute handmade pieces.",
+    "price": 250000,
+    "category": "decoration",
+    "images": [
+      "/images/products/bonnet-duckie-plush.jpg"
+    ]
+  },
+  {
+    "id": "p-caramel-bear-eyeglasses-tray",
+    "name": "Khay đựng kính gấu màu caramel",
+    "nameEn": "Caramel bear eyeglasses tray",
+    "description": "Khay đựng kính hình gấu với tông màu caramel ấm áp, giúp bạn có một nơi cất kính gọn gàng. Vừa tiện dụng vừa đáng yêu khi đặt trên bàn làm việc hoặc tab đầu giường.",
+    "descriptionEn": "A warm caramel-toned bear eyeglass tray that gives your glasses a cosy little home. A practical and adorable addition to your bedside table or workspace.",
+    "price": 200000,
+    "category": "decoration",
+    "images": [
+      "/images/products/caramel-bear-eyeglasses-tray.jpg"
+    ]
+  },
+  {
+    "id": "p-cat-eyeglasses-tray",
+    "name": "Khay đựng kính hình mèo",
+    "nameEn": "Cat eyeglasses tray",
+    "description": "Khay đựng kính lấy cảm hứng từ hình mèo tinh nghịch, giúp bạn luôn để kính trong tầm tay. Nét thủ công đáng yêu khiến vật dụng hằng ngày trở nên đặc biệt hơn.",
+    "descriptionEn": "A playful cat-themed tray designed to keep your glasses close at hand. Its cute handmade character makes an everyday essential feel more special.",
+    "price": 200000,
+    "category": "decoration",
+    "images": [
+      "/images/products/cat-eyeglasses-tray.jpg"
+    ]
+  },
+  {
+    "id": "p-cherry-kiss",
+    "name": "Nụ Hôn Anh Đào",
+    "nameEn": "Cherry kiss",
+    "description": "Sản phẩm len mang tên gọi ngọt ngào, lãng mạn lấy cảm hứng từ quả cherry. Đây là món quà nhỏ xinh dành tặng người đặc biệt hoặc bổ sung đáng yêu cho bộ sưu tập của bạn.",
+    "descriptionEn": "A sweet, romantic yarn creation with a cherry-inspired name and a playful feel. A lovely little gift for someone special or a charming addition to your collection.",
+    "price": 300000,
+    "category": "decoration",
+    "images": [
+      "/images/products/cherry-kiss.jpg"
+    ]
+  },
+  {
+    "id": "p-chinese-wisteria-wall-hanging",
+    "name": "Tranh treo tường hoa tử đằng",
+    "nameEn": "Chinese wisteria wall-hanging",
+    "description": "Đồ treo tường thủ công lấy cảm hứng từ những chùm hoa tử đằng mềm mại. Sản phẩm mang nét thiên nhiên dịu dàng đến phòng ngủ, góc đọc sách hoặc góc nhỏ ấm cúng.",
+    "descriptionEn": "A handmade wall-hanging inspired by the graceful cascades of Chinese wisteria. It adds a soft botanical touch to a bedroom, reading nook, or cosy corner.",
+    "price": 300000,
+    "category": "decoration",
+    "images": [
+      "/images/products/chinese-wisteria-wall-hanging.jpg"
+    ]
+  },
+  {
+    "id": "p-cotton-candy-bloom",
+    "name": "Hoa Nở Kẹo Bông",
+    "nameEn": "Cotton Candy Bloom",
+    "description": "Sản phẩm lấy cảm hứng từ hoa với cảm giác ngọt ngào như kẹo bông. Mang đến nét mơ mộng, vui tươi cho không gian hoặc trở thành món quà thủ công đầy tinh tế.",
+    "descriptionEn": "A soft, whimsical floral-inspired piece with a sweet cotton-candy mood. It brings a dreamy, playful touch to your décor or makes a thoughtful handmade gift.",
+    "price": 300000,
+    "category": "decoration",
+    "images": [
+      "/images/products/cotton-candy-bloom.jpg"
+    ]
+  },
+  {
+    "id": "p-daffodil-wall-hanging",
+    "name": "Đồ treo tường hoa thủy tiên",
+    "nameEn": "Daffodil wall-hanging",
+    "description": "Đồ trang trí treo tường thủ công lấy cảm hứng từ hoa thủy tiên, mang cảm giác tươi sáng và tràn đầy sức sống cho căn phòng. Phù hợp để trang trí nhà hoặc làm quà cho người yêu thiên nhiên.",
+    "descriptionEn": "A daffodil-inspired handmade wall decoration that brings a fresh, sunny feeling to your room. A cheerful accent for a cosy home or a nature-loving friend's gift.",
+    "price": 350000,
+    "category": "decoration",
+    "images": [
+      "/images/products/daffodil-wall-hanging.jpg"
+    ]
+  },
+  {
+    "id": "p-balloon-wall-hanging",
+    "name": "Đồ treo tường hình bóng bay",
+    "nameEn": "Balloon wall-hanging",
+    "description": "Đồ treo tường thủ công lấy cảm hứng từ những quả bóng bay vui mắt và không khí lễ hội. Sản phẩm tạo điểm nhấn sinh động cho phòng ngủ, góc sáng tạo hoặc khu vực trưng bày quà tặng.",
+    "descriptionEn": "A cheerful handmade wall-hanging inspired by balloons and a sense of celebration. It adds a playful touch to a bedroom, craft corner, or gift display.",
+    "price": 300000,
+    "category": "decoration",
+    "images": []
+  },
+  {
+    "id": "p-daisy-flora-bag",
+    "name": "Túi hoa cúc Daisy",
+    "nameEn": "Daisy Flora Bag",
+    "description": "Chiếc túi thủ công lấy cảm hứng từ hoa cúc, mang phong cách tươi tắn và ngọt ngào. Dễ phối với trang phục thường ngày, thích hợp để đựng những vật dụng nhỏ cần thiết.",
+    "descriptionEn": "A floral-inspired handmade bag with a fresh, sweet style. Easy to pair with casual outfits and lovely for carrying small everyday essentials.",
+    "price": 300000,
+    "category": "fashion",
+    "images": [
+      "/images/products/daisy-flora-bag.jpg"
+    ]
+  },
+  {
+    "id": "p-hexie-dragon",
+    "name": "Rồng Hexie",
+    "nameEn": "Hexie Dragon",
+    "description": "Sản phẩm thủ công mang hình tượng rồng độc đáo với phong cách kỳ ảo vui nhộn. Là lựa chọn thú vị cho người sưu tầm, yêu thích rồng hoặc mê những món đồ len khác biệt.",
+    "descriptionEn": "A distinctive handmade dragon-themed piece with a playful fantasy feel. A fun choice for collectors, dragon lovers, or anyone who enjoys unique yarn creations.",
+    "price": 250000,
+    "category": "decoration",
+    "images": [
+      "/images/products/hexie-dragon.jpg"
+    ]
+  },
+  {
+    "id": "p-hibiscus-wall-hanging",
+    "name": "Đồ treo tường hoa dâm bụt",
+    "nameEn": "Hibiscus wall-hanging",
+    "description": "Đồ trang trí treo tường thủ công lấy cảm hứng từ hoa dâm bụt. Chủ đề hoa lá giúp không gian sống thêm tươi sáng và gần gũi với thiên nhiên.",
+    "descriptionEn": "A handmade wall decoration inspired by the hibiscus flower. Its floral theme brings a bright, nature-inspired accent to your living space.",
+    "price": 350000,
+    "category": "decoration",
+    "images": [
+      "/images/products/hibiscus-wall-hanging.jpg"
+    ]
+  },
+  {
+    "id": "p-lily-bouquet",
+    "name": "Bó hoa loa kèn",
+    "nameEn": "Lily bouquet",
+    "description": "Bó hoa loa kèn thủ công là lựa chọn lưu giữ lâu dài thay cho hoa tươi. Phù hợp làm quà sinh nhật, quà dịp đặc biệt hoặc món bất ngờ nhỏ dành cho người bạn quý mến.",
+    "descriptionEn": "A handmade lily bouquet that offers a lasting alternative to fresh flowers. A thoughtful choice for birthdays, celebrations, or a simple surprise for someone you care about.",
+    "price": 250000,
+    "category": "decoration",
+    "images": [
+      "/images/products/lily-bouquet.jpg"
+    ]
+  },
+  {
+    "id": "p-lotus-wall-hanging",
+    "name": "Đồ treo tường hoa sen",
+    "nameEn": "Lotus wall-hanging",
+    "description": "Đồ treo tường thủ công lấy cảm hứng từ hoa sen, mang vẻ đẹp thanh nhã và nhẹ nhàng. Sản phẩm tạo điểm nhấn ý nghĩa cho một góc bình yên trong nhà.",
+    "descriptionEn": "A lotus-inspired handmade wall-hanging with a calm, graceful feel. It makes a meaningful decorative accent for a peaceful corner of your home.",
+    "price": 300000,
+    "category": "decoration",
+    "images": [
+      "/images/products/lotus-wall-hanging.jpg"
+    ]
+  },
+  {
+    "id": "p-ocean-breeze-bouquet",
+    "name": "Bó hoa Gió Biển",
+    "nameEn": "Ocean Breeze Bouquet",
+    "description": "Bó hoa thủ công lấy cảm hứng từ làn gió biển mát lành. Đây là món quà hoa độc đáo cho dịp kỷ niệm, ngày đặc biệt hoặc đơn giản là để khiến ai đó vui hơn.",
+    "descriptionEn": "A handmade bouquet inspired by the refreshing feeling of an ocean breeze. A unique floral gift for celebrations, special occasions, or simply brightening someone's day.",
+    "price": 350000,
+    "category": "decoration",
+    "images": [
+      "/images/products/ocean-breeze-bouquet.jpg"
+    ]
+  },
+  {
+    "id": "p-ocean-jelly-drift",
+    "name": "Sứa Trôi Giữa Đại Dương",
+    "nameEn": "Ocean Jelly Drift",
+    "description": "Sản phẩm thủ công lấy cảm hứng từ hình ảnh sứa nhẹ nhàng trôi giữa đại dương. Món đồ trang trí mơ mộng dành cho người yêu sinh vật biển và nghệ thuật thủ công dễ thương.",
+    "descriptionEn": "An ocean-inspired handmade creation with a dreamy, drifting jellyfish theme. A whimsical decorative piece for anyone who loves marine life and cute handmade art.",
+    "price": 350000,
+    "category": "decoration",
+    "images": [
+      "/images/products/ocean-jelly-drift.jpg"
+    ]
+  },
+  {
+    "id": "p-rabbit-eyeglass-tray",
+    "name": "Khay đựng kính hình thỏ",
+    "nameEn": "Rabbit eyeglass tray",
+    "description": "Khay đựng kính hình thỏ dễ thương giúp bạn đặt kính ngăn nắp và dễ tìm. Thiết kế xinh xắn phù hợp với tab đầu giường, bàn làm việc hoặc làm quà tặng nhỏ.",
+    "descriptionEn": "A sweet rabbit-themed tray that gives your glasses a neat, easy-to-find spot. Its cute design is ideal for a bedside table, desk, or small gift.",
+    "price": 200000,
+    "category": "decoration",
+    "images": [
+      "/images/products/rabbit-eyeglass-tray.jpg"
+    ]
+  },
+  {
+    "id": "p-sunflower-bouquet",
+    "name": "Bó hoa hướng dương",
+    "nameEn": "Sunflower bouquet",
+    "description": "Bó hoa hướng dương thủ công mang vẻ tươi vui và rạng rỡ. Đây là món quà lưu giữ lâu dài để kỷ niệm dịp đặc biệt hoặc gửi một chút niềm vui đến ai đó.",
+    "descriptionEn": "A handmade sunflower bouquet full of cheerful, sunny charm. It is a lasting gift to celebrate a special moment or send a little happiness to someone.",
+    "price": 300000,
+    "category": "decoration",
+    "images": [
+      "/images/products/sunflower-bouquet.jpg"
+    ]
+  }
+]
