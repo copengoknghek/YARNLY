@@ -20,6 +20,8 @@ export interface Product {
   id: string
   name: string
   description: string
+  nameEn?: string
+  descriptionEn?: string
   price: number
   category: ProductCategory
   images: string[]

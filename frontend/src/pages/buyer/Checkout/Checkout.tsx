@@ -19,6 +19,7 @@ import { getShippingQuotes } from '@/services/shippingService'
 import type { PaymentMethod, ShippingInfo, ShippingQuote } from '@/types/order'
 import { describeItemOptions } from '@/utils/cartItem'
 import { formatPrice } from '@/utils/formatPrice'
+import { getProductName } from '@/utils/productText'
 import { isValidEmail, isValidPhone } from '@/utils/validators'
 import '@/styles/pages/buyer/Checkout.css'
 
@@ -37,7 +38,7 @@ const validate = (shipping: ShippingInfo): CheckoutErrors => {
 }
 
 function Checkout() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { items, totalPrice, note, setNote, clearCart } = useCart()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -229,7 +230,7 @@ function Checkout() {
               title={t('checkout.orderSummaryTitle', { count: itemCount })}
               lines={items.map((item) => ({
                 key: item.key,
-                name: item.product.name,
+                name: getProductName(item.product, i18n.language),
                 image: item.product.images[0],
                 quantity: item.quantity,
                 price: item.product.price,

@@ -16,6 +16,7 @@ import { getProductById } from '@/services/productService'
 import type { SelectedOptions } from '@/types/cart'
 import type { Product } from '@/types/product'
 import { formatPrice } from '@/utils/formatPrice'
+import { getProductDescription, getProductName } from '@/utils/productText'
 import '@/styles/pages/buyer/ProductDetail.css'
 
 const RATING = 4
@@ -27,7 +28,7 @@ const initialOptions = (product: Product): SelectedOptions => ({
 })
 
 function ProductInfo({ product }: { product: Product }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { addItem } = useCart()
   const navigate = useNavigate()
   const [quantity, setQuantity] = useState(1)
@@ -36,9 +37,9 @@ function ProductInfo({ product }: { product: Product }) {
   const outOfStock = product.stock === 0
 
   const addToCart = () => {
-    const { id, name, price, category, images } = product
+    const { id, name, nameEn, price, category, images } = product
     const selectedOptions = Object.values(options).some(Boolean) ? options : undefined
-    addItem({ id, name, price, category, images }, quantity, { selectedOptions })
+    addItem({ id, name, nameEn, price, category, images }, quantity, { selectedOptions })
   }
 
   const pickers: { key: keyof SelectedOptions; labelKey: string; values?: string[] }[] = [
@@ -49,7 +50,7 @@ function ProductInfo({ product }: { product: Product }) {
 
   return (
     <div className="product-info">
-      <h1 className="display-title product-info__name">{product.name}</h1>
+      <h1 className="display-title product-info__name">{getProductName(product, i18n.language)}</h1>
       <div className="product-info__meta">
         <span className="product-info__price">{formatPrice(product.price)}</span>
         <span className="product-info__rating" aria-label={t('productDetail.rating', { rating: RATING })}>
@@ -58,7 +59,7 @@ function ProductInfo({ product }: { product: Product }) {
           ))}
         </span>
       </div>
-      <p className="product-info__description">{product.description}</p>
+      <p className="product-info__description">{getProductDescription(product, i18n.language)}</p>
       <p className="product-info__seller">{t('productDetail.seller', { name: product.sellerName })}</p>
 
       {pickers.map(
@@ -118,7 +119,7 @@ function ProductInfo({ product }: { product: Product }) {
 }
 
 function ProductDetail() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { id = '' } = useParams()
   const fetchProduct = useCallback(() => getProductById(id), [id])
   const { data: product, loading, error } = useFetch(fetchProduct)
@@ -130,7 +131,7 @@ function ProductDetail() {
           items={[
             { label: t('common.breadcrumb.home'), to: ROUTES.HOME },
             { label: t('common.breadcrumb.products'), to: ROUTES.PRODUCTS },
-            { label: product?.name ?? t('common.loadingEllipsis') },
+            { label: product ? getProductName(product, i18n.language) : t('common.loadingEllipsis') },
           ]}
         />
 
@@ -139,7 +140,7 @@ function ProductDetail() {
         {product && (
           <>
             <div className="product-detail__main">
-              <ProductGallery key={product.id} images={product.images} name={product.name} />
+              <ProductGallery key={product.id} images={product.images} name={getProductName(product, i18n.language)} />
               <ProductInfo key={product.id} product={product} />
             </div>
             <ProductTabs key={`tabs-${product.id}`} details={product.details} />

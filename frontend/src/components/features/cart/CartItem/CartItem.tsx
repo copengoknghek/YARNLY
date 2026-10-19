@@ -7,12 +7,14 @@ import { useCart } from '@/hooks/useCart'
 import type { CartItem as CartItemType } from '@/types/cart'
 import { describeItemOptions } from '@/utils/cartItem'
 import { formatPrice } from '@/utils/formatPrice'
+import { getProductName } from '@/utils/productText'
 import '@/styles/components/CartItem.css'
 
 function CartItem({ item }: { item: CartItemType }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { updateQuantity, removeItem } = useCart()
   const { product } = item
+  const name = getProductName(product, i18n.language)
   const isCustom = product.category === 'custom'
   const optionsText = describeItemOptions(item.selectedOptions, item.customDesign)
 
@@ -22,10 +24,10 @@ function CartItem({ item }: { item: CartItemType }) {
         <img src={product.images[0]} alt="" className="cart-item__image" />
         <div>
           {isCustom ? (
-            <p className="cart-item__name">{product.name}</p>
+            <p className="cart-item__name">{name}</p>
           ) : (
             <Link to={productDetailPath(product.id)} className="cart-item__name">
-              {product.name}
+              {name}
             </Link>
           )}
           {optionsText && <p className="cart-item__options">{optionsText}</p>}
@@ -36,12 +38,12 @@ function CartItem({ item }: { item: CartItemType }) {
         <QuantityInput
           value={item.quantity}
           onChange={(quantity) => updateQuantity(item.key, quantity)}
-          label={t('cart.itemQuantity', { name: product.name })}
+          label={t('cart.itemQuantity', { name })}
         />
         <button
           type="button"
           className="cart-item__remove"
-          aria-label={t('cart.removeItem', { name: product.name })}
+          aria-label={t('cart.removeItem', { name })}
           onClick={() => removeItem(item.key)}
         >
           <Icon name="trash" size={18} />

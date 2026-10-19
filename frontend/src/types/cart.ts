@@ -2,7 +2,7 @@ import type { CustomDesign } from './customDesign'
 import type { Product, ProductCategory } from './product'
 
 /** Minimal product snapshot stored in the cart and in orders. */
-export type CartProduct = Pick<Product, 'id' | 'name' | 'price' | 'images'> & {
+export type CartProduct = Pick<Product, 'id' | 'name' | 'nameEn' | 'price' | 'images'> & {
   category: ProductCategory | 'custom'
 }
 

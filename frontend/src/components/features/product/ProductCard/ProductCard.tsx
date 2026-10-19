@@ -5,10 +5,11 @@ import { CATEGORY_LABEL_KEYS } from '@/constants/categories'
 import { productDetailPath } from '@/constants/routes'
 import type { Product } from '@/types/product'
 import { formatPrice } from '@/utils/formatPrice'
+import { getProductName } from '@/utils/productText'
 import '@/styles/components/ProductCard.css'
 
 function ProductCard({ product }: { product: Product }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const detailPath = productDetailPath(product.id)
 
   return (
@@ -20,7 +21,7 @@ function ProductCard({ product }: { product: Product }) {
       <div className="product-card__body">
         <p className="product-card__category">{t(CATEGORY_LABEL_KEYS[product.category])}</p>
         <h3 className="product-card__name">
-          <Link to={detailPath}>{product.name}</Link>
+          <Link to={detailPath}>{getProductName(product, i18n.language)}</Link>
         </h3>
         <p className="product-card__seller">{t('products.card.seller', { name: product.sellerName })}</p>
         <div className="product-card__footer">

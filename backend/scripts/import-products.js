@@ -16,7 +16,7 @@ const run = async () => {
   if (sellers.length === 0) throw new Error('No seller accounts found');
 
   const now = Date.now();
-  for (const [index, { nameEn, descriptionEn, ...product }] of products.entries()) {
+  for (const [index, product] of products.entries()) {
     if (await Product.findById(product.id)) {
       console.log(`skip   ${product.id} (already exists)`);
       continue;
@@ -31,6 +31,7 @@ const run = async () => {
     });
     console.log(`insert ${product.id} -> ${seller.name}`);
   }
+  await Product.backfillTranslations(products);
 
   await closeDB();
 };

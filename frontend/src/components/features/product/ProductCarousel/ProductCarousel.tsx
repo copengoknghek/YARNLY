@@ -6,12 +6,13 @@ import { CATEGORY_LABEL_KEYS } from '@/constants/categories'
 import { productDetailPath } from '@/constants/routes'
 import type { Product } from '@/types/product'
 import { formatPrice } from '@/utils/formatPrice'
+import { getProductName } from '@/utils/productText'
 import '@/styles/components/ProductCarousel.css'
 
 const VISIBLE = 3
 
 function ProductCarousel({ products }: { products: Product[] }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const [offset, setOffset] = useState(0)
   const count = products.length
   if (count === 0) return null
@@ -32,7 +33,9 @@ function ProductCarousel({ products }: { products: Product[] }) {
       </button>
 
       <div className="product-carousel__track">
-        {visible.map((product, index) => (
+        {visible.map((product, index) => {
+          const name = getProductName(product, i18n.language)
+          return (
           <Link
             key={`${product.id}-${index}`}
             to={productDetailPath(product.id)}
@@ -40,12 +43,13 @@ function ProductCarousel({ products }: { products: Product[] }) {
           >
             <span className="product-carousel__price">{formatPrice(product.price)}</span>
             <span className="product-carousel__media">
-              <img src={product.images[0]} alt={product.name} loading="lazy" />
+              <img src={product.images[0]} alt={name} loading="lazy" />
             </span>
             <span className="product-carousel__category">{t(CATEGORY_LABEL_KEYS[product.category])}</span>
-            <span className="product-carousel__name">{product.name}</span>
+            <span className="product-carousel__name">{name}</span>
           </Link>
-        ))}
+          )
+        })}
       </div>
 
       <button

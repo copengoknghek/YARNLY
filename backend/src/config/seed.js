@@ -99,6 +99,9 @@ const CATALOG = [
     id: 'p-001',
     sellerId: 'seller-demo',
     name: 'Móc khóa hươu cao cổ',
+    nameEn: 'Giraffe keychain',
+    descriptionEn:
+      'A hand-crocheted giraffe keychain made from soft cotton yarn. Small enough to hang on a backpack or keys, and a sweet little gift.',
     description:
       'Móc khóa hươu cao cổ được móc thủ công từ sợi cotton mềm, nhỏ gọn để treo balo, chìa khóa hoặc làm quà tặng.',
     price: 149000,
@@ -113,6 +116,9 @@ const CATALOG = [
     id: 'p-002',
     sellerId: 'seller-demo',
     name: 'Set quà ngày của Mẹ',
+    nameEn: "Mother's Day gift set",
+    descriptionEn:
+      'A gift set with a yarn flower bouquet, a handwritten card and decorative accessories, packed in a lovely gift box for Mum.',
     description:
       'Set quà gồm bó hoa len, thiệp viết tay và phụ kiện trang trí, gói sẵn trong hộp quà xinh xắn dành tặng mẹ.',
     price: 250000,
@@ -127,6 +133,9 @@ const CATALOG = [
     id: 'p-003',
     sellerId: 'seller-demo',
     name: 'Mũ đầu lân',
+    nameEn: 'Lion dance hat',
+    descriptionEn:
+      'A vibrant lion-head yarn hat that keeps little ones warm for Tết and the Mid-Autumn Festival. Choose your colour, size and making time.',
     description:
       'Mũ len hình đầu lân rực rỡ, ấm áp cho bé dịp Tết và Trung thu. Có thể chọn màu sắc, kích cỡ và thời gian làm.',
     price: 300000,
@@ -152,6 +161,9 @@ const CATALOG = [
     id: 'p-004',
     sellerId: 'seller-hoi-an',
     name: 'Hộp quà bí ẩn',
+    nameEn: 'Mystery gift box',
+    descriptionEn:
+      'A random little yarn animal wrapped in a mystery gift box, a surprise waiting to be opened.',
     description: 'Một bé thú len ngẫu nhiên được gói trong hộp quà bí ẩn, mở ra là bất ngờ.',
     price: 179000,
     category: 'blindbox',
@@ -165,6 +177,9 @@ const CATALOG = [
     id: 'p-005',
     sellerId: 'seller-hoi-an',
     name: 'Giỏ hoa tặng bạn thân',
+    nameEn: 'Flower basket for a best friend',
+    descriptionEn:
+      'A colourful yarn flower basket with sunflowers, tulips and green leaves that never wilt.',
     description: 'Giỏ hoa len nhiều màu với hướng dương, tulip và lá xanh, giữ mãi không tàn.',
     price: 149000,
     category: 'decoration',
@@ -178,6 +193,9 @@ const CATALOG = [
     id: 'p-006',
     sellerId: 'seller-hoi-an',
     name: 'Bó hoa tặng bạn thân',
+    nameEn: 'Flower bouquet for a best friend',
+    descriptionEn:
+      'A pastel yarn bouquet wrapped in pretty paper, a small gift for your dearest friends.',
     description: 'Bó hoa len pastel gói giấy xinh, món quà nhỏ cho những người bạn thân thương.',
     price: 99000,
     category: 'decoration',
@@ -191,6 +209,9 @@ const CATALOG = [
     id: 'bb-basic',
     sellerId: 'seller-sg',
     name: 'Blind Box Cơ bản',
+    nameEn: 'Basic Blind Box',
+    descriptionEn:
+      'One random mini yarn animal from the current collection.',
     description: 'Một bé thú len mini ngẫu nhiên trong bộ sưu tập hiện tại.',
     price: 179000,
     category: 'blindbox',
@@ -204,6 +225,9 @@ const CATALOG = [
     id: 'bb-couple',
     sellerId: 'seller-sg',
     name: 'Blind Box Cặp đôi',
+    nameEn: 'Couple Blind Box',
+    descriptionEn:
+      'Two matching secret characters for best friends or couples.',
     description: 'Hai nhân vật bí mật đồng điệu dành cho cặp bạn thân hoặc các cặp đôi.',
     price: 329000,
     category: 'blindbox',
@@ -217,6 +241,9 @@ const CATALOG = [
     id: 'bb-rare',
     sellerId: 'seller-sg',
     name: 'Blind box bộ sưu tập hiếm',
+    nameEn: 'Rare collection blind box',
+    descriptionEn:
+      'A premium seasonal gift box with a higher chance of rare items.',
     description: 'Hộp quà theo mùa cao cấp với tỉ lệ xuất hiện vật phẩm hiếm cao hơn.',
     price: 499000,
     category: 'blindbox',
@@ -292,6 +319,7 @@ const seedProducts = async () => {
 
 const seed = async ({ force = false } = {}) => {
   await seedCarriers();
+  await Product.backfillTranslations(CATALOG);
 
   const shouldSeedDemo = force || env.seedDemo;
   if (!shouldSeedDemo) {

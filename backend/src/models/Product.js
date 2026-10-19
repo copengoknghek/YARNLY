@@ -22,6 +22,8 @@ const mapProduct = (row) => ({
   id: row.id,
   name: row.name,
   description: row.description,
+  nameEn: row.name_en ?? undefined,
+  descriptionEn: row.description_en ?? undefined,
   price: row.price,
   category: row.category,
   images: row.images,
@@ -48,7 +50,8 @@ const findAll = async ({ category, search, status, bestSeller, sort, sellerId, a
     params.push(category);
   }
   if (search?.trim()) {
-    conditions.push(`LOWER(p.name) LIKE $${index++}`);
+    conditions.push(`(LOWER(p.name) LIKE $${index} OR LOWER(COALESCE(p.name_en, '')) LIKE $${index})`);
+    index++;
     params.push(`%${search.trim().toLowerCase()}%`);
   }
   if (status === 'in-stock') {
@@ -205,8 +208,8 @@ const seedProduct = async (product) => {
   const { rows } = await getPool().query(
     `INSERT INTO products (
        id, seller_id, name, description, price, category, images, stock,
-       is_best_seller, approval_status, options, details, created_at
-     ) VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12::jsonb, $13::timestamptz)
+       is_best_seller, approval_status, options, details, created_at, name_en, description_en
+     ) VALUES ($1, $2, $3, $4, $5, $6, $7::jsonb, $8, $9, $10, $11::jsonb, $12::jsonb, $13::timestamptz, $14, $15)
      RETURNING *, (SELECT name FROM users WHERE id = $2) AS seller_name`,
     [
       product.id,
@@ -222,9 +225,27 @@ const seedProduct = async (product) => {
       product.options ? JSON.stringify(product.options) : null,
       JSON.stringify(product.details ?? { material: 'Sợi Milk Cotton', ...DEFAULT_DETAILS }),
       product.createdAt,
+      product.nameEn ?? null,
+      product.descriptionEn ?? null,
     ],
   );
   return mapProduct(rows[0]);
+};
+
+const backfillTranslations = async (products) => {
+  const translations = products
+    .filter(({ nameEn, descriptionEn }) => nameEn || descriptionEn)
+    .map(({ id, nameEn, descriptionEn }) => ({ id, name_en: nameEn, description_en: descriptionEn }));
+  if (translations.length === 0) return;
+
+  await getPool().query(
+    `UPDATE products p
+     SET name_en = COALESCE(p.name_en, t.name_en),
+         description_en = COALESCE(p.description_en, t.description_en)
+     FROM jsonb_to_recordset($1::jsonb) AS t (id TEXT, name_en TEXT, description_en TEXT)
+     WHERE p.id = t.id AND (p.name_en IS NULL OR p.description_en IS NULL)`,
+    [JSON.stringify(translations)],
+  );
 };
 
 module.exports = {
@@ -243,4 +264,5 @@ module.exports = {
   reject,
   countBySeller,
   seedProduct,
+  backfillTranslations,
 };

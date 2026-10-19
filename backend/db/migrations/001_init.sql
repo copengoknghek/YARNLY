@@ -33,6 +33,9 @@ CREATE TABLE IF NOT EXISTS products (
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+ALTER TABLE products ADD COLUMN IF NOT EXISTS name_en TEXT;
+ALTER TABLE products ADD COLUMN IF NOT EXISTS description_en TEXT;
+
 CREATE INDEX IF NOT EXISTS idx_products_seller ON products (seller_id);
 CREATE INDEX IF NOT EXISTS idx_products_category ON products (category);
 CREATE INDEX IF NOT EXISTS idx_products_approval ON products (approval_status);
