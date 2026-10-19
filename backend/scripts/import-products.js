@@ -1,7 +1,7 @@
 require('dotenv').config();
 const { connectDB, closeDB, getPool, migrate } = require('../src/config/db');
 const Product = require('../src/models/Product');
-const products = require('./data/imported-products.json');
+const products = require('../db/data/imported-products.json');
 
 const pick = (items) => items[Math.floor(Math.random() * items.length)];
 const randomStock = () => 10 + Math.floor(Math.random() * 21);
