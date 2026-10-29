@@ -36,10 +36,6 @@ CREATE TABLE IF NOT EXISTS products (
 ALTER TABLE products ADD COLUMN IF NOT EXISTS name_en TEXT;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS description_en TEXT;
 
-DELETE FROM products WHERE category NOT IN ('decoration', 'fashion', 'combo');
-ALTER TABLE products DROP CONSTRAINT IF EXISTS products_category_check;
-ALTER TABLE products ADD CONSTRAINT products_category_check CHECK (category IN ('decoration', 'fashion', 'combo'));
-
 CREATE INDEX IF NOT EXISTS idx_products_seller ON products (seller_id);
 CREATE INDEX IF NOT EXISTS idx_products_category ON products (category);
 CREATE INDEX IF NOT EXISTS idx_products_approval ON products (approval_status);

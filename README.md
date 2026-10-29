@@ -222,7 +222,7 @@ flowchart LR
 | `SEED_DEMO` | `true` lần deploy đầu, sau đó `false` |
 | `SMTP_*` | Gmail App Password (xem [Email](#email-xác-nhận-đơn-hàng)) |
 
-4. Deploy. **Bắt buộc** gán `DATABASE_URL` (Neon) cho môi trường Production (và Preview nếu cần). Migrate + seed chạy lần đầu khi API cold start (`backend/api/index.js`); tùy chọn chạy sớm bằng `npm run vercel-build` khi CI có `DATABASE_URL`.
+4. Deploy. **Bắt buộc** gán `DATABASE_URL` (Neon) cho môi trường Production (và Preview nếu cần). Migration chạy **một lần** theo bảng `schema_migrations` (cold start sau đó chỉ connect DB, không replay toàn bộ SQL). Seed demo chỉ khi `SEED_DEMO=true`. Tùy chọn chạy sớm bằng `npm run vercel-build` khi CI có `DATABASE_URL`.
 
 Kiểm tra: `https://<project>.vercel.app/api/health` và đăng nhập thử. Frontend không cần `VITE_API_URL` (axios dùng `/api` cùng domain).
 

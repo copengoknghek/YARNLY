@@ -5,6 +5,7 @@ const env = require('./env');
 const logger = require('../utils/logger');
 
 const MIGRATION_LOCK_KEY = 915_062_028;
+const MIGRATIONS_DIR = path.join(__dirname, '../../db/migrations');
 
 let pool;
 let migrationDone;
@@ -28,12 +29,58 @@ const getPool = () => {
   return pool;
 };
 
+const listMigrationFiles = () =>
+  fs
+    .readdirSync(MIGRATIONS_DIR)
+    .filter((name) => name.endsWith('.sql'))
+    .sort();
+
+const ensureMigrationTable = async (client) => {
+  await client.query(`
+    CREATE TABLE IF NOT EXISTS schema_migrations (
+      name TEXT PRIMARY KEY,
+      applied_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    )
+  `);
+};
+
+const bootstrapExistingDatabase = async (client, applied) => {
+  if (applied.size > 0) return;
+
+  const { rows } = await client.query(
+    `SELECT 1
+     FROM information_schema.tables
+     WHERE table_schema = 'public' AND table_name = 'users'
+     LIMIT 1`,
+  );
+  if (rows.length === 0) return;
+
+  const initName = '001_init.sql';
+  await client.query('INSERT INTO schema_migrations (name) VALUES ($1) ON CONFLICT DO NOTHING', [
+    initName,
+  ]);
+  applied.add(initName);
+  logger.info('Marked 001_init.sql as applied (existing database)');
+};
+
 const runMigrations = async (client) => {
-  const migrationPath = path.join(__dirname, '../../db/migrations/001_init.sql');
-  const sql = fs.readFileSync(migrationPath, 'utf8');
   await client.query('SELECT pg_advisory_lock($1)', [MIGRATION_LOCK_KEY]);
   try {
-    await client.query(sql);
+    await ensureMigrationTable(client);
+
+    const { rows: appliedRows } = await client.query('SELECT name FROM schema_migrations');
+    const applied = new Set(appliedRows.map((row) => row.name));
+
+    await bootstrapExistingDatabase(client, applied);
+
+    for (const file of listMigrationFiles()) {
+      if (applied.has(file)) continue;
+
+      const sql = fs.readFileSync(path.join(MIGRATIONS_DIR, file), 'utf8');
+      logger.info(`Applying migration ${file}`);
+      await client.query(sql);
+      await client.query('INSERT INTO schema_migrations (name) VALUES ($1)', [file]);
+    }
   } finally {
     await client.query('SELECT pg_advisory_unlock($1)', [MIGRATION_LOCK_KEY]);
   }

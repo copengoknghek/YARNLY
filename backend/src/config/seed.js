@@ -252,14 +252,14 @@ const seedProducts = async () => {
 };
 
 const seed = async ({ force = false } = {}) => {
-  await seedCarriers();
-  await Product.backfillTranslations([...CATALOG, ...IMPORTED_PRODUCTS]);
-
   const shouldSeedDemo = force || env.seedDemo;
   if (!shouldSeedDemo) {
     logger.info('Demo seed skipped (set SEED_DEMO=true to create demo users and catalog)');
     return;
   }
+
+  await seedCarriers();
+  await Product.backfillTranslations([...CATALOG, ...IMPORTED_PRODUCTS]);
 
   await User.backfillSellerAddresses(SELLERS, DEFAULT_SELLER_ADDRESS);
 
