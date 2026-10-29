@@ -101,6 +101,9 @@ function AuthPage({ mode }: { mode: AuthMode }) {
   const isLogin = mode === 'login'
   const isStaff = audience === 'staff'
   const showRegisterTab = !isStaff
+  const audienceSearch = audience === 'buyer' ? '' : `?as=${audience}`
+  const loginLink = { pathname: ROUTES.LOGIN, search: audienceSearch }
+  const registerLink = { pathname: ROUTES.REGISTER, search: audienceSearch }
   const districts = values.province ? Object.keys(LOCATIONS[values.province] ?? {}) : []
   const wards =
     values.province && values.district ? (LOCATIONS[values.province]?.[values.district] ?? []) : []
@@ -196,7 +199,7 @@ function AuthPage({ mode }: { mode: AuthMode }) {
         {showRegisterTab ? (
           <nav className="auth-page__tabs" aria-label={t('auth.tabsLabel')}>
             <Link
-              to={ROUTES.LOGIN}
+              to={loginLink}
               state={location.state}
               className={`auth-page__tab ${isLogin ? 'auth-page__tab--active' : ''}`}
               aria-current={isLogin ? 'page' : undefined}
@@ -204,7 +207,7 @@ function AuthPage({ mode }: { mode: AuthMode }) {
               {t('auth.loginTab')}
             </Link>
             <Link
-              to={ROUTES.REGISTER}
+              to={registerLink}
               state={location.state}
               className={`auth-page__tab ${!isLogin ? 'auth-page__tab--active' : ''}`}
               aria-current={!isLogin ? 'page' : undefined}
@@ -226,6 +229,7 @@ function AuthPage({ mode }: { mode: AuthMode }) {
             {t('auth.sellerHint', { email: DEMO_SELLER_EMAIL, password: DEMO_SELLER_PASSWORD })}
           </p>
         )}
+        {audience === 'seller' && !isLogin && <p className="auth-page__hint">{t('auth.sellerRegisterHint')}</p>}
 
         <form className="auth-page__form" onSubmit={handleSubmit} noValidate>
           <h1 className="visually-hidden">
@@ -349,11 +353,11 @@ function AuthPage({ mode }: { mode: AuthMode }) {
           <div className="auth-page__footer">
             {showRegisterTab &&
               (isLogin ? (
-                <Link to={ROUTES.REGISTER} state={location.state} className="auth-page__link">
+                <Link to={registerLink} state={location.state} className="auth-page__link">
                   {t('auth.createAccount')}
                 </Link>
               ) : (
-                <Link to={ROUTES.LOGIN} state={location.state} className="auth-page__link">
+                <Link to={loginLink} state={location.state} className="auth-page__link">
                   {t('auth.hasAccount')}
                 </Link>
               ))}
