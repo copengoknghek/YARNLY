@@ -154,7 +154,7 @@ const create = async (data) => {
     const id = generateId();
     let rows;
     for (let attempt = 0; attempt < MAX_ORDER_CODE_RETRIES; attempt++) {
-      const code = generateOrderCode();
+      const code = generateOrderCode(data.carrierId);
       try {
         const result = await client.query(
           `INSERT INTO orders (

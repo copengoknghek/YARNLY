@@ -58,6 +58,18 @@ describe('Orders API', () => {
     assert.ok(data.carrierName);
   });
 
+  it('POST /orders prefixes the order code by carrier', async () => {
+    const ghn = await createOrder({ carrierId: 'carrier-ghn' });
+    const ghnBody = await ghn.json();
+    assert.equal(ghn.status, 201);
+    assert.match(ghnBody.data.code, /^GHN-\d{6}-[A-HJ-NP-Z2-9]{6}$/);
+
+    const viettel = await createOrder({ carrierId: 'carrier-viettel' });
+    const viettelBody = await viettel.json();
+    assert.equal(viettel.status, 201);
+    assert.match(viettelBody.data.code, /^VP-\d{6}-[A-HJ-NP-Z2-9]{6}$/);
+  });
+
   it('POST /orders validates product options', async () => {
     const valid = await createOrder({
       items: [
