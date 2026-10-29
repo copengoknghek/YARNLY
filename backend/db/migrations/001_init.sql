@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS products (
   name TEXT NOT NULL,
   description TEXT NOT NULL,
   price INTEGER NOT NULL CHECK (price >= 0),
-  category TEXT NOT NULL CHECK (category IN ('decoration', 'fashion', 'combo', 'blindbox')),
+  category TEXT NOT NULL CHECK (category IN ('decoration', 'fashion', 'combo')),
   images JSONB NOT NULL DEFAULT '[]'::jsonb,
   stock INTEGER NOT NULL DEFAULT 0 CHECK (stock >= 0),
   is_best_seller BOOLEAN NOT NULL DEFAULT FALSE,
@@ -35,6 +35,10 @@ CREATE TABLE IF NOT EXISTS products (
 
 ALTER TABLE products ADD COLUMN IF NOT EXISTS name_en TEXT;
 ALTER TABLE products ADD COLUMN IF NOT EXISTS description_en TEXT;
+
+DELETE FROM products WHERE category NOT IN ('decoration', 'fashion', 'combo');
+ALTER TABLE products DROP CONSTRAINT IF EXISTS products_category_check;
+ALTER TABLE products ADD CONSTRAINT products_category_check CHECK (category IN ('decoration', 'fashion', 'combo'));
 
 CREATE INDEX IF NOT EXISTS idx_products_seller ON products (seller_id);
 CREATE INDEX IF NOT EXISTS idx_products_category ON products (category);

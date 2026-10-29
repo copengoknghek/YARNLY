@@ -3,14 +3,12 @@ import { ROUTES } from './routes'
 export const MAIN_NAV = [
   { to: ROUTES.PRODUCTS, labelKey: 'nav.products' },
   { to: ROUTES.CUSTOM_DESIGN, labelKey: 'nav.customDesign' },
-  { to: ROUTES.BLIND_BOX, labelKey: 'nav.blindBox' },
   { to: ROUTES.ORDER_LOOKUP, labelKey: 'nav.orderLookup' },
 ] as const
 
 export const FOOTER_EXPLORE = [
   { to: ROUTES.PRODUCTS, labelKey: 'nav.products' },
   { to: ROUTES.CUSTOM_DESIGN, labelKey: 'nav.customDesign' },
-  { to: ROUTES.BLIND_BOX, labelKey: 'nav.blindBox' },
 ] as const
 
 export const FOOTER_CONTACT_KEYS = [

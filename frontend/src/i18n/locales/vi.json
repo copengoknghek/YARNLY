@@ -39,7 +39,6 @@
   "nav": {
     "products": "Sản phẩm",
     "customDesign": "Thiết kế riêng",
-    "blindBox": "Blind box",
     "orderLookup": "Tra cứu đơn hàng"
   },
   "header": {
@@ -150,7 +149,6 @@
     "decoration": "Trang trí & lưu niệm",
     "fashion": "Phụ kiện & thời trang",
     "combo": "Combo quà tặng",
-    "blindbox": "Blind box",
     "custom": "Thiết kế riêng"
   },
   "filters": {
@@ -324,6 +322,7 @@
     "staffTitle": "Đăng nhập nhân viên",
     "staffHint": "Tài khoản mẫu: {{email}} / {{password}}",
     "sellerHint": "Người bán mẫu: {{email}} / {{password}}",
+    "sellerRegisterHint": "Bạn đang đăng ký tài khoản người bán. Vui lòng điền thông tin xưởng len để bắt đầu bán hàng.",
     "loginHeading": "Đăng nhập",
     "registerHeading": "Đăng ký tài khoản",
     "nameLabel": "Họ và tên *",
@@ -352,58 +351,6 @@
       "provinceRequired": "Vui lòng chọn tỉnh/thành",
       "districtRequired": "Vui lòng chọn quận/huyện",
       "wardRequired": "Vui lòng chọn phường/xã"
-    }
-  },
-  "blindBox": {
-    "pageTitle": "Blind box",
-    "howEyebrow": "Cách hoạt động",
-    "howTitle": "Mỗi chiếc hộp là một câu chuyện mới",
-    "packagesEyebrow": "Chọn điều bất ngờ",
-    "packagesTitle": "Các gói blind box",
-    "addedToCart": "Đã thêm “{{name}}” vào giỏ hàng.",
-    "buyButton": "Mua hộp bí mật",
-    "steps": {
-      "choose": {
-        "title": "Chọn bộ sưu tập",
-        "description": "Chọn chủ đề và thể loại quà bạn yêu thích"
-      },
-      "prepare": {
-        "title": "Yarnly chuẩn bị bí mật",
-        "description": "Yarnly đóng gói cho bạn một món quà ngẫu nhiên theo chủ đề bạn chọn"
-      },
-      "open": {
-        "title": "Mở hộp người bạn mới",
-        "description": "Khám phá nhân vật thường, hiếm hoặc phiên bản theo mùa"
-      }
-    },
-    "packages": {
-      "basic": {
-        "name": "Blind Box Cơ bản",
-        "description": "Một bé thú len mini ngẫu nhiên trong bộ sưu tập hiện tại.",
-        "features": [
-          "1 nhân vật ngẫu nhiên",
-          "Cơ hội nhận bản hiếm",
-          "Thẻ nhân vật sưu tầm"
-        ]
-      },
-      "couple": {
-        "name": "Blind Box Cặp đôi",
-        "description": "Hai nhân vật bí mật đồng điệu dành cho cặp bạn thân hoặc các cặp đôi.",
-        "features": [
-          "2 nhân vật theo cặp",
-          "Cơ hội nhận phiên bản hiếm",
-          "Thiệp nhắn riêng"
-        ]
-      },
-      "rare": {
-        "name": "Blind box bộ sưu tập hiếm",
-        "description": "Hộp quà theo mùa cao cấp với tỉ lệ xuất hiện vật phẩm hiếm cao hơn.",
-        "features": [
-          "6 nhân vật thường và 2 nhân vật hiếm",
-          "Tỉ lệ bản hiếm cao",
-          "Phụ kiện theo mùa"
-        ]
-      }
     }
   },
   "customDesign": {

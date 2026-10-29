@@ -1,7 +1,7 @@
 const { getPool } = require('../config/db');
 const { generateId } = require('../utils/helpers');
 
-const CATEGORIES = ['decoration', 'fashion', 'combo', 'blindbox'];
+const CATEGORIES = ['decoration', 'fashion', 'combo'];
 const APPROVAL_STATUSES = ['pending', 'approved', 'rejected'];
 const LOW_STOCK_THRESHOLD = 5;
 

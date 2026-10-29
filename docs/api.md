@@ -23,7 +23,7 @@ Query của `GET /products` (đều không bắt buộc):
 
 | Query        | Giá trị                                                   |
 | ------------ | --------------------------------------------------------- |
-| `category`   | `decoration`, `fashion`, `combo`, `blindbox`              |
+| `category`   | `decoration`, `fashion`, `combo`                          |
 | `search`     | Từ khóa theo tên sản phẩm                                 |
 | `status`     | `in-stock`, `out-of-stock`                                |
 | `sort`       | `newest`, `price-asc`, `price-desc`, `name`               |

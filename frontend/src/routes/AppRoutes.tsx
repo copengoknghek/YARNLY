@@ -8,7 +8,6 @@ import AdminDashboard from '@/pages/admin/Dashboard'
 import AdminOrders from '@/pages/admin/Orders'
 import Account from '@/pages/buyer/Account'
 import { Login, Register } from '@/pages/buyer/Auth'
-import BlindBox from '@/pages/buyer/BlindBox'
 import Cart from '@/pages/buyer/Cart'
 import Checkout from '@/pages/buyer/Checkout'
 import CustomDesign from '@/pages/buyer/CustomDesign'
@@ -33,7 +32,6 @@ function AppRoutes() {
         <Route path={ROUTES.PRODUCTS} element={<Products />} />
         <Route path={ROUTES.PRODUCT_DETAIL} element={<ProductDetail />} />
         <Route path={ROUTES.CUSTOM_DESIGN} element={<CustomDesign />} />
-        <Route path={ROUTES.BLIND_BOX} element={<BlindBox />} />
         <Route path={ROUTES.CART} element={<Cart />} />
         <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
         <Route path={ROUTES.ORDER_SUCCESS} element={<OrderSuccess />} />

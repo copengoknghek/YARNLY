@@ -1,4 +1,4 @@
-export type ProductCategory = 'decoration' | 'fashion' | 'combo' | 'blindbox'
+export type ProductCategory = 'decoration' | 'fashion' | 'combo'
 
 export type ProductSort = 'newest' | 'price-asc' | 'price-desc' | 'name'
 

@@ -183,7 +183,7 @@ Frontend dùng alias `@/` trỏ tới `frontend/src/`, ví dụ `import Button f
 
 ## Trạng thái hiện tại
 
-- Trang người mua đã chạy được: trang chủ, sản phẩm (lọc, sắp xếp, phân trang), chi tiết sản phẩm (chọn màu, size, thời gian làm), thiết kế riêng, blind box, giỏ hàng (lưu ở trình duyệt), thanh toán, đặt hàng thành công, tra cứu đơn hàng theo số điện thoại hoặc email.
+- Trang người mua đã chạy được: trang chủ, sản phẩm (lọc, sắp xếp, phân trang), chi tiết sản phẩm (chọn màu, size, thời gian làm), thiết kế riêng, giỏ hàng (lưu ở trình duyệt), thanh toán, đặt hàng thành công, tra cứu đơn hàng theo số điện thoại hoặc email.
 - Phí vận chuyển theo 3 đơn vị (Yarnly Express, GHN, Viettel Post) và khu vực: Đà Nẵng (local), Huế/Quảng Nam (nearby), còn lại (national). Giá thiết kế riêng được backend tính lại khi đặt hàng.
 - Sản phẩm hiển thị người bán; 3 tài khoản seller mẫu trong seed (`seller@yarnly.vn`, `hoa.len@yarnly.vn`, `thu.len@yarnly.vn`, mật khẩu `yarnly-seller`).
 - Chưa triển khai (API trả về 501): đăng ký/đăng nhập social, mã giảm giá, thanh toán MoMo/ZaloPay trực tuyến.

@@ -39,7 +39,6 @@
   "nav": {
     "products": "Products",
     "customDesign": "Custom design",
-    "blindBox": "Blind box",
     "orderLookup": "Order lookup"
   },
   "header": {
@@ -150,7 +149,6 @@
     "decoration": "Decor & souvenirs",
     "fashion": "Accessories & fashion",
     "combo": "Gift combos",
-    "blindbox": "Blind box",
     "custom": "Custom design"
   },
   "filters": {
@@ -324,6 +322,7 @@
     "staffTitle": "Staff login",
     "staffHint": "Demo account: {{email}} / {{password}}",
     "sellerHint": "Demo seller: {{email}} / {{password}}",
+    "sellerRegisterHint": "You are creating a seller account. Fill in your workshop details to start selling.",
     "loginHeading": "Log in",
     "registerHeading": "Create account",
     "nameLabel": "Full name *",
@@ -352,58 +351,6 @@
       "provinceRequired": "Please select a province/city",
       "districtRequired": "Please select a district",
       "wardRequired": "Please select a ward"
-    }
-  },
-  "blindBox": {
-    "pageTitle": "Blind box",
-    "howEyebrow": "How it works",
-    "howTitle": "Every box tells a new story",
-    "packagesEyebrow": "Choose your surprise",
-    "packagesTitle": "Blind box packages",
-    "addedToCart": "Added “{{name}}” to cart.",
-    "buyButton": "Buy mystery box",
-    "steps": {
-      "choose": {
-        "title": "Pick a collection",
-        "description": "Choose a theme and gift style you love"
-      },
-      "prepare": {
-        "title": "Yarnly prepares the surprise",
-        "description": "Yarnly packs a random gift based on your chosen theme"
-      },
-      "open": {
-        "title": "Meet your new friend",
-        "description": "Discover common, rare, or seasonal characters"
-      }
-    },
-    "packages": {
-      "basic": {
-        "name": "Basic Blind Box",
-        "description": "One random mini yarn character from the current collection.",
-        "features": [
-          "1 random character",
-          "Chance for a rare edition",
-          "Collectible character card"
-        ]
-      },
-      "couple": {
-        "name": "Couple Blind Box",
-        "description": "Two matching mystery characters for best friends or couples.",
-        "features": [
-          "2 matching characters",
-          "Chance for a rare edition",
-          "Personal message card"
-        ]
-      },
-      "rare": {
-        "name": "Rare collection blind box",
-        "description": "Premium seasonal box with higher rare-item odds.",
-        "features": [
-          "6 common and 2 rare characters",
-          "Higher rare drop rate",
-          "Seasonal accessories"
-        ]
-      }
     }
   },
   "customDesign": {
